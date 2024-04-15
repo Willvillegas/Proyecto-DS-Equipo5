@@ -1,12 +1,12 @@
 # ¿Cómo trabajar en el código?
 ## Tecnologías a usar en este proyecto:
-+ Node-JS
++ Nodejs
 + Vitejs
 + MS-SQL
 ## Librerías a usar
-+ Express
-+ NodeMailer
-+ Tailwind
++ express
++ nodemailer
++ tailwind
 
 ## Servicio de la nube a usar:
 + Netlify
@@ -37,7 +37,7 @@ git clone https://github.com/Willvillegas/Proyecto-DS-Equipo5.git
 > Por defecto, en el proyecto no están instaladas las dependencias. Entonces hay que instalarlas
 
 #### ¿cómo hacerlo?
-vamos al directorio del proyecto por medio de consola y escribimos el siguiente comando:
+vamos al directorio del proyecto por medio de consola, accede a la carpeta de interés ya sea Client o Server, escribimos el siguiente comando:
 ```sh
 npm install 
 ```
@@ -48,9 +48,9 @@ Existen muchas formas de como ejecutarlo tales como:
 ```sh
 npm run dev
 ```
-También está la ejecución personalizada de archivos (sólo backend)
+También está la ejecución personalizada de archivos (sólo backend o server)
 ```sh
-node <archivo.js> --watch 
+node --watch <archivo.js>  
 ```
 
 
