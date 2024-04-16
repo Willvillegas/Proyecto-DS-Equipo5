@@ -26,7 +26,7 @@ Si no lo tienes instalado Node.js puede descargarlo por acá: [Nodejs](https://n
 > [!NOTE]
 > Recuerde que para usar comandos git debe de tener instalado y configurado el git con su usuario.
 
-Para clonar el repositorio, debemos de abrir consola o CMD y luego buscar la ubicación en donde desea guardarlo. a continuación escriba el siguiente comando:
+Para clonar el repositorio, debemos de abrir consola o CMD y luego buscar la ubicación en donde desea guardarlo. A continuación escriba el siguiente comando:
 ```sh
 git clone https://github.com/Willvillegas/Proyecto-DS-Equipo5.git
 ```
@@ -37,7 +37,7 @@ git clone https://github.com/Willvillegas/Proyecto-DS-Equipo5.git
 > Por defecto, en el proyecto no están instaladas las dependencias. Entonces hay que instalarlas
 
 #### ¿cómo hacerlo?
-vamos al directorio del proyecto por medio de consola, accede a la carpeta de interés ya sea Client o Server, escribimos el siguiente comando:
+Vamos al directorio del proyecto por medio de consola, accede a la carpeta de interés ya sea Client o Server, escribimos el siguiente comando:
 ```sh
 npm install 
 ```
@@ -59,12 +59,12 @@ node --watch <archivo.js>
 ### ¿El repo está actualizado?
 Ya sea si es la primera vez que va a empezar a codificar o va a continuar codificando. Verifica si los demás han hecho cambios para evitar conflictos.
 #### ¿Cómo hacerlo?
-ejecuta el siguiente comando en consola, ubicado en la carpeta raíz del proyecto:
+Ejecuta el siguiente comando en consola, ubicado en la carpeta raíz del proyecto:
 ```shell
 git checkout main
 git pull origin main
 ```
-con lo anterior se mantiene actulizado de los últimos cambios.
+Con lo anterior se mantiene actulizado de los últimos cambios.
 
 
 ## Quiero subir lo que he realizado ¿Cómo lo hago?
