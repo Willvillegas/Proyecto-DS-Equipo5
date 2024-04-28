@@ -55,8 +55,18 @@ node --watch <archivo.js>
 
 
 
-## Antes de codificar,  verifica si.....
-### ¿El repo está actualizado?
+## Antes de subir los cambios,  verifica si.....
+### 1- Hice commit de los cambios?
+Para subir los nuevos archivos o cambios, puede hacerlo de 2 formas:
+#### 1.1- Usando VScode.
+La extensión git cuenta funcionalidades que facilitan la carga de archivos al repo. Revise tutoriales en internet o youtube, no es complicado. :-)
+#### 1.2- Usando consola (forma complicada)
+Tiene que escribir los siguientes comandos en la carpeta raiz del proyecto:
+```shell
+git add .
+git commit -m "Mensaje descriptivo de tus cambios"
+```
+### 2- ¿El repo está actualizado?
 Ya sea si es la primera vez que va a empezar a codificar o va a continuar codificando. Verifica si los demás han hecho cambios para evitar conflictos.
 #### ¿Cómo hacerlo?
 Ejecuta el siguiente comando en consola, ubicado en la carpeta raíz del proyecto:
@@ -65,19 +75,19 @@ git checkout main
 git pull origin main
 ```
 Con lo anterior se mantiene actulizado de los últimos cambios.
+### 3-Rebasa tu rama con la rama principal (opcional)
+ Si hay cambios en la rama principal desde que creaste tu rama, es posible que desees rebasar tu rama con la rama principal para integrar esos cambios. Puedes hacerlo ejecutando: 
+ ```shell
+ git rebase main
+ ``` 
+ mientras estás en tu rama.
 
-
-## Quiero subir lo que he realizado ¿Cómo lo hago?
-Para subir los nuevos archivos o cambios, puede hacerlo de 2 formas:
-### 1- Usando VScode.
-La extensión git cuenta funcionalidades que facilitan la carga de archivos al repo. Revise tutoriales en internet o youtube, no es complicado. :-)
-### 2- Usando consola (forma complicada)
-Tiene que escribir los siguientes comandos en la carpeta raiz del proyecto:
+### 4-Sube tus cambios: 
+Una vez que estés listo para subir tus cambios al repositorio remoto, puedes hacerlo ejecutando 
 ```shell
-git add .
-git commit -m "Mensaje descriptivo de tus cambios"
-git push origin main
+git push origin nombre-de-tu-rama
 ```
+Esto enviará tus cambios a GitHub en tu rama específica.
 
 ## Necesito instalar un paquete ¿Cómo lo hago?
 Se necesita buscarlo en la página principal de [npm](https://www.npmjs.com/), ya que ahí aparece el comando que debe de escribir para  instalarlo, luego abre consola y en la carpeta raiz del proyecto, escribirmos:
