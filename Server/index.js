@@ -2,7 +2,11 @@
 const express = require('express');
 const cors = require('cors');
 const  app = express();
+const cokieParser = require('cookie-parser');
+
 app.use(cors());
+app.use(json());
+app.use(cookieParser());
 
 //prueba de hola mundo
 app.get('/', (req, res) => {
