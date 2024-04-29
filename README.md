@@ -34,7 +34,7 @@
 | RF30 | El plan de trabajo del sistema deberá cubrir un itinerario de actividades durante las 16 semanas lectivas del período. |
 | RF31 | El sistema deberá respetar las restricciones y formatos establecidos para la información de las bases de datos de profesores y asistentes administrativas. |
 
-## Requerimientos No Funcionales..
+## Requerimientos No Funcionales.....
 
 | ID  | Descripción  |
 |----|--------------|
