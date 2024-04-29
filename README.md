@@ -1,4 +1,51 @@
-# ¿Cómo trabajar en el código?
+# Proyecto DS Grupo #5
+## Requerimientos funcionales
+| ID  | Descripción  |
+|----|--------------|
+| RF01 | El sistema deberá permitir iniciar sesión con correo electrónico y contraseña, previamente registrados en la base de datos. |
+| RF02 | El sistema deberá permitir a los usuarios cambiar su contraseña en caso de olvidarla. |
+| RF03 | El sistema deberá encriptar la contraseña actualizada y almacenarla en la base de datos. |
+| RF04 | El sistema deberá establecer relaciones con las bases de datos de profesores guías activos, asistentes administrativas de cada campus y estudiantes. |
+| RF05 | El sistema deberá permitir el acceso según el rol del usuario (profesor guía, profesor coordinador, asistente administrativa, estudiante), restringiendo el acceso a usuarios registrados previamente en las bases de datos. |
+| RF06 | La contraseña del sistema debe tener 8 dígitos numéricos. |
+| RF07 | El sistema deberá permitir a las asistentes administrativas realizar funciones específicas, como cambiar el profesor guía del equipo, modificar la información del profesor guía y dar de baja a un profesor guía. |
+| RF08 | El sistema deberá permitir a las asistentes administrativas asignar profesores guía a un equipo por medio de una lista de los profesores de la sede correspondiente. |
+| RF09 | El sistema deberá permitir a las asistentes administrativas consultar el plan de trabajo completo y ver el detalle de la próxima actividad a realizarse del equipo de profesores guía (sin comentarios) de acuerdo con el plan y considerando la fecha del sistema. |
+| RF10 | El sistema deberá permitir únicamente a la asistente administrativa de Cartago asignar un único coordinador en cada equipo de trabajo. |
+| RF11 (Revisar) | El sistema deberá brindar una hoja en Excel con la información básica de contacto de los estudiantes de primer ingreso que se matricularon en la sede a la que pertenece la asistente. |
+| RF12 | El sistema no deberá permitir la eliminación de información de profesores ni la modificación de sus códigos. |
+| RF13 | El sistema no deberá permitir la modificación de profesores guías de otras sedes por parte de asistentes administrativas que no pertenezcan a dichas sedes. |
+| RF14 | El sistema deberá permitir a los profesores guías activos modificar sus datos. |
+| RF15 |El sistema deberá permitir a los profesores guías activos obtener detalles del equipo guía al que pertenecen. |
+| RF16 | El sistema deberá permitir a los profesores guías activos registrar observaciones y comentarios a una actividad del plan de trabajo. |
+| RF17 | El sistema deberá permitir la generación de un archivo Excel con la lista de estudiantes, organizados por campus, para los profesores guías activos. |
+| RF18 | El sistema deberá permitir a los profesores guías activos modificar alguna información particular de un estudiante en específico si y sólo si pertenece a su sede.  |
+| RF19 | El sistema deberá permitir a los profesores guías activos visualizar el plan de trabajo registrado por el coordinador tanto con comentarios o sin ellos.  |
+| RF20 | El sistema deberá permitir al profesor coordinador del equipo la definición del plan de trabajo por semanas. |
+| RF21 | El sistema deberá permitir al profesor coordinador del equipo la activación de la publicidad de la actividad. |
+| RF22 | El sistema deberá permitir al profesor coordinador del equipo la cancelación de una actividad o marcar una actividad como realizada. |
+| RF23 | El sistema deberá permitir clasificar las actividades según su índole como Orientadoras, Motivacionales, Apoyo a la vida estudiantil, Orden técnico o Recreación. |
+| RF24 | El sistema deberá permitir el registro de actividades con la información como semana (1-16), tipo y nombre, fecha y hora, responsables (1-N), fecha de publicación, fecha de recordatorios, presencial o remota, enlace y afiche (PDF o JPG). |
+| RF25 | El sistema deberá permitir la asignación de un estado a las actividades (planeada, notificada, realizada o cancelada). |
+| RF26 | El sistema deberá permitir la publicación de actividades a los estudiantes. |
+| RF27 | El sistema deberá permitir la inserción de evidencias en actividades realizadas. |
+| RF28 | El sistema deberá permitir la réplica o respuesta a comentarios de actividades, creando un historial. |
+| RF29 | El sistema deberá permitir agregar una observación a la actividad y dejar el registro de la fecha en caso de cancelación de la actividad. |
+| RF30 | El plan de trabajo del sistema deberá cubrir un itinerario de actividades durante las 16 semanas lectivas del período. |
+| RF31 | El sistema deberá respetar las restricciones y formatos establecidos para la información de las bases de datos de profesores y asistentes administrativas. |
+
+## Requerimientos No Funcionales..
+
+| ID  | Descripción  |
+|----|--------------|
+| RNF01 | El sistema deberá garantizar la seguridad de los datos sensibles por medio de la encriptación adecuada. |
+| RNF02 | Para el sistema deberá ser posible agregar nuevas funcionalidades y expandir el sistema sin afectar su estabilidad. |
+| RNF03 | El sistema deberá ser compatible con diferentes navegadores web. |
+| RNF04 | El sistema deberá estar disponible en todo momento, con un tiempo de inactividad mínimo planificado para mantenimiento o actualizaciones. |
+| RNF05 | El sistema deberá tener tiempos de respuesta rápidos para garantizar una experiencia de usuario fluida. |
+| RNF06 | La interfaz de usuario deberá ser intuitiva y fácil de usar para todos los tipos de usuarios. |
+
+
 ## Tecnologías a usar en este proyecto:
 + Nodejs
 + Vitejs
