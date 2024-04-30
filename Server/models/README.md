@@ -30,7 +30,8 @@ Atributos:
 * codigoUnico:String
 * nombre: String
 * apellidos : String
-* numeroTelefonicoOficina: String
+* numeroTelefonicoOficina: int
+* numeroTelefonicoCelular: int
 * rol: String (Si son de tipo enumeration)
 * activo: boolean
 * sede: String (Si son de tipo enumeration)
