@@ -6,7 +6,7 @@ Contiene los Data Access Objects, que se encargan de interactuar directamente co
 
 
 # Métodos por implementar en las clases
-* getByID
+* getById
 * getAll
 * create
 * update
