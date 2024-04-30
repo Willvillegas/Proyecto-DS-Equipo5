@@ -16,3 +16,5 @@ TO-DO
 `ActividadController.js`: Archivo que gestiona las solicitudes HTTP y llama a los métodos del modelo Actividad 
 
 `ComentarioController`: Archivo que gestiona las solicitudes HTTP para el modelo Comentario
+
+`MainController.js`: Archivo que gestiona las solicitudes HTTP y llama a los métodos del controlador principal
