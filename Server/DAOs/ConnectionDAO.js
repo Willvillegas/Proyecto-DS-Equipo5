@@ -2,23 +2,28 @@
 const sql = require('mssql');
 //export default
 class ConnectionDAO{
-    
+
     constructor(){
         if (!ConnectionDAO.instance) {
-            const confing = {
-                user: 'tu_usuario',
-                password: 'tu_contraseña',
-                server: 'tu_servidor', // Puede ser 'localhost\\nombre_instancia' para SQL Server en tu máquina local
-                database: 'tu_base_de_datos',
+            const config = {
+                user: 'adminds',
+                password: 'ProyectoDS2024',
+                server: 'proyecto-ds-grupo5.database.windows.net', // Puede ser 'localhost\\nombre_instancia' para SQL Server en tu máquina local
+                database: 'proyecto-ds-grupo5',
+                pool: {
+                    max: 10,
+                    min: 0,
+                    idleTimeoutMillis: 30000,
+                },
                 options: {
-                  encrypt: true, // Si estás usando una conexión segura SSL
+                    encrypt: true,
+                    trustServerCertificate: true,
                 },
             };
-            this.connection = new sql.ConnectionPool(confing);
+            this.connection = new sql.ConnectionPool(config);
             this.connected = false;
             ConnectionDAO.instance = this;
         }
-        return ConnectionDAO.instance;
     }
     //method to connect to the database
     async connect(){
@@ -32,8 +37,15 @@ class ConnectionDAO{
             console.log('Error connecting to database: ', error);
         }
     }
+    static async getInstance() {
+        if (!ConnectionDAO.instance) {
+            ConnectionDAO.instance = new ConnectionDAO();
+        }
+        return ConnectionDAO.instance;
+    }
+
     //method to disconnect from the database
-    async disconnect(){
+    static async disconnect(){
         try {
             if (this.connected) {
                 await this.connection.close();
@@ -58,7 +70,28 @@ class ConnectionDAO{
         }
     }
     //method to execute a stored procedure to the database
-    
+    async executeProcedures(procedure, params){
+        try {
+            if (this.connected) {
+                const request = this.connection.request();
+
+                for (const key in params) {
+                    // Revisamos si no es undefined y si es de salida
+                    if (params[key]!==undefined && params[key].direction === "OUTPUT") {
+                        request.output(key, sql.Int); 
+                    } else {
+                        request.input(key, params[key]);
+                    }
+                }
+
+                const result = await request.execute(procedure);
+                return result.recordset;
+            }
+        } catch (error) {
+            console.log('Error executing query: ', error);
+            throw error;
+        }
+    }
 }
 
-module.exports = ConnectionDAO;
+module.exports = {ConnectionDAO};

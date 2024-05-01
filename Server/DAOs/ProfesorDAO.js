@@ -6,61 +6,127 @@ const profesorModel = require('../models/Profesor.js');
 class ProfesorDAO{
 
     static async getAll(){
-        const connection = new ConnectionDAO();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const query = ''/**'SELECT * FROM Profesor'*/;
-            const result = await connection.executeQuery(query);
+            const result = await connection.executeProcedures("BuscarProfesores", {
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result)  
             return result;
         } catch (error) {
             console.log('Error getting profesores: ', error);
             throw error;
         } finally {
-            await connection.disconnect();
+            await ConnectionDAO.disconnect();
         }
     }
     static async getById(id){
-        const connection = new ConnectionDAO();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const query = ''/*`SELECT * FROM Profesor WHERE id = ${id}`*/;
-            const result = await connection.executeQuery(query);
+            const result = await connection.executeProcedures("BuscarProfesorId", {
+                id: id, //Se para el id del profesor o usuario
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result)
             return result;
         } catch (error) {
-            console.log('Error getting profesor by id: ', error);
+            console.log('Error getting profesor by id: ', error); 
             throw error;
         }finally{
-            await connection.disconnect();
+            await ConnectionDAO.disconnect();
         }
     }
     static async create(profesor){
-        const connection = new ConnectionDAO();
+        const connection = new ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const query = ''/*`INSERT INTO Profesor VALUES ('${profesor.nombre}', '${profesor.apellido}', '${profesor.correo}')`*/;
-            const result = await connection.executeQuery(query);
+            const result = await connection.executeProcedures("CrearProfesor", {
+                correo: profesor.correo,
+	            contra: profesor.contrasenna,
+	            nombre: profesor.nombre,
+	            apellidos: profesor.apellidos,
+	            oficina: profesor.oficina,
+	            personal: profesor.personal,
+	            sede: profesor.sede, //Nombre de la cede
+	            codigo: profesor.codigo, // Codigo en forma de CA- o SJ-
+                foto: profesor.foto,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result)
             return result;
         } catch (error) {
             console.log('Error creating profesor: ', error);
             throw error;
         }finally{
-            await connection.disconnect();
+            await ConnectionDAO.disconnect();
         }
     }
-    static async update(profesor){
-        const connection = new ConnectionDAO();
+    static async update(profesor, id, idAsistente){
+        const connection = new ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const query = ''/*`UPDATE Profesor SET nombre = '${profesor.nombre}', apellido = '${profesor.apellido}', correo = '${profesor.correo}' WHERE id = ${profesor.id}`*/;
-            const result = await connection.executeQuery(query);
+            const result = await connection.executeProcedures("ModificarProfesorId", {
+                idAsistente: idAsistente,
+                idProfesor: id, //Se pasa el id del profesor o usuario
+                correo: profesor.correo,
+	            contra: profesor.contrasenna,
+	            nombre: profesor.nombre,
+	            apellidos: profesor.apellidos,
+	            oficina: profesor.oficina,
+	            personal: profesor.personal,
+	            sede: profesor.sede, //Nombre de la cede
+                foto: profesor.foto,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result)
             return result;
         } catch (error) {
             console.log('Error updating profesor: ', error);
             throw error;
         }finally{
-            await connection.disconnect();
+            await ConnectionDAO.disconnect();
         }
     }
+    static async delete(id, idAsistente){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("EliminarProfesor", {
+                idAsistente: idAsistente,
+                idProfesor: id, //Se pasa el id del profesor o usuario
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result)
+            return result;
+        } catch (error) {
+            console.log('Error deleting profesor ', error); 
+            throw error;
+        }finally{
+            await ConnectionDAO.disconnect();
+        }
+    }
+    static async changeRol(rol, id, idAsistente){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("ModificarRolProfesor", {
+                idAsistente: idAsistente,
+                idProfesor: id, //Se pasa el id del profesor o usuario
+                rol: rol, // Se pasa el nombre del rol
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result)
+            return result;
+        } catch (error) {
+            console.log('Error deleting profesor ', error); 
+            throw error;
+        }finally{
+            await ConnectionDAO.disconnect();
+        }
+    }
+
 }
 
 module.exports = ProfesorDAO;
