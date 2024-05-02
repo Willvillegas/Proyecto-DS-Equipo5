@@ -7,81 +7,96 @@ class EquipoGuiaDAO{
 
     //method to get all the equipos guia from the database
     static async getAll(){
-        const connection = new ConnectionDAO();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const query = ''/*'SELECT * FROM EquipoGuia'*/;
-            const result = await connection.executeQuery(query);
+            const result = await connection.executeProcedures("BuscarEquipos", {
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result)  
             return result;
         } catch (error) {
             console.log('Error getting equipos guia: ', error);
             throw error;
         } finally {
-            await connection.disconnect();
+            await ConnectionDAO.disconnect();
         }
     }
 
     //method to get an equipo guia by id from the database
     static async getById(id){
-        const connection = new ConnectionDAO();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const query = ''/*`SELECT * FROM EquipoGuia WHERE id = ${id}`*/;
-            const result = await connection.executeQuery(query);
+            const result = await connection.executeProcedures("BuscarEquipoId", {
+                id: id, // Id del equipo
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result) 
             return result;
         } catch (error) {
             console.log('Error getting equipo guia by id: ', error);
             throw error;
         }finally{
-            await connection.disconnect();
+            await ConnectionDAO.disconnect();
         }
     }
 
     //method to create an equipo guia in the database
     static async create(equipoGuia){
-        const connection = new ConnectionDAO();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const query ='' /*`INSERT INTO EquipoGuia VALUES ('${equipoGuia.nombre}', '${equipoGuia.apellido}', '${equipoGuia.correo}')`*/;
-            const result = await connection.executeQuery(query);
+            const result = await connection.executeProcedures("CrearEquipo", {
+                generacion: equipoGuia.generacion,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result) 
             return result;
         } catch (error) {
             console.log('Error creating equipo guia: ', error);
             throw error;
         }finally{
-            await connection.disconnect();
+            await ConnectionDAO.disconnect();
         }
     }
 
     //method to update an equipo guia in the database
-    static async update(equipoGuia){
-        const connection = new ConnectionDAO();
+    static async update(id, equipoGuia){
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const query = ''/*`UPDATE EquipoGuia SET nombre = '${equipoGuia.nombre}', apellido = '${equipoGuia.apellido}', correo = '${equipoGuia.correo}' WHERE id = ${equipoGuia.id}`*/;
-            const result = await connection.executeQuery(query);
+            const result = await connection.executeProcedures("ModificarEquipo", {
+                id: id, // Id del equipo
+                generacion: equipoGuia.generacion,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result) 
             return result;
         } catch (error) {
             console.log('Error updating equipo guia: ', error);
             throw error;
         }finally{
-            await connection.disconnect();
+            await ConnectionDAO.disconnect()
         }
     }
 
     //method to delete an equipo guia in the database
     static async delete(id){
-        const connection = new Connection
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const query = ''/*`DELETE FROM EquipoGuia WHERE id = ${id}`*/;
-            const result = await connection.executeQuery(query);
+            const result = await connection.executeProcedures("EliminarEquipo", {
+                id: id, // Id del equipo
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result)
             return result;
         } catch (error) {
             console.log('Error deleting equipo guia: ', error);
             throw error;
         }finally{
-            await connection.disconnect();
+            await ConnectionDAO.disconnect()
         }
     }
     //method to get list of  profesores in equipo guia
@@ -91,36 +106,78 @@ class EquipoGuiaDAO{
      * @returns on success, it returns a list of profesores that are part of an equipo guia
      */
     static async getAllProfesor(Id){
-        const connection = new ConnectionDAO();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const query = ''/*'SELECT * FROM Profesor'***involucra joins*/;
-            const result = await connection.executeQuery(query);
+            const result = await connection.executeProcedures("BuscarEquipoProfesores", {
+                id: id, // Id del equipo
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
             return result;
         } catch (error) {
             console.log('Error getting profesores: ', error);
             throw error;
         } finally {
-            await connection.disconnect();
+            await ConnectionDAO.disconnect()
         }
     }
+    static async createTeamProfesor(id, idProfesor){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("CrearEquipoProfesor", {
+                id: id, // Id del equipo
+                idProfesor, idProfesor,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            return result;
+        } catch (error) {
+            console.log('Error getting profesores: ', error);
+            throw error;
+        } finally {
+            await ConnectionDAO.disconnect()
+        }
+    }
+    static async deleteTeamProfesor(id, idProfesor){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("EliminarEquipoProfesor", {
+                id: id, // Id del equipo
+                idProfesor, idProfesor,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            return result;
+        } catch (error) {
+            console.log('Error getting profesores: ', error);
+            throw error;
+        } finally {
+            await ConnectionDAO.disconnect()
+        }
+    }
+
+    //// No estan implementados ////
+
     /**
      * This method gets all asistente that is part of an equipo guia
      * @param {number} Id - the Id of the equipo guia
      * @returns on success, it returns a list of asistentes that are part of an equipo guia
      */
-    static async getAllAsistente(Id){
-        const connection = new ConnectionDAO();
+    static async getAllAsistente(id){
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const query = ''/*'SELECT * FROM Asistente'***involucra joins*/;
-            const result = await connection.executeQuery(query);
+            const result = await connection.executeProcedures("BuscarEquipoAsistentes", {
+                id: id, // Id del equipo
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            console.log(result) 
             return result;
         } catch (error) {
             console.log('Error getting asistentes: ', error);
             throw error;
         } finally {
-            await connection.disconnect();
+            await ConnectionDAO.disconnect()
         }
     }
     /**
@@ -129,5 +186,39 @@ class EquipoGuiaDAO{
      * @returns on success, it returns a list of Actividades that are part of an equipo guia
      * tobe......
      */
+    static async createTeamAsistente(id, idAsistente){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("CrearEquipoAsistente", {
+                id: id, // Id del equipo
+                idAsistente, idAsistente,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            return result;
+        } catch (error) {
+            console.log('Error getting profesores: ', error);
+            throw error;
+        } finally {
+            await ConnectionDAO.disconnect()
+        }
+    }
+    static async deleteTeamProfesor(id, idAsistente){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("EliminarEquipoAsistente", {
+                id: id, // Id del equipo
+                idAsistente, idAsistente,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            return result;
+        } catch (error) {
+            console.log('Error getting profesores: ', error);
+            throw error;
+        } finally {
+            await ConnectionDAO.disconnect()
+        }
+    }
 }
 module.exports = EquipoGuiaDAO;
