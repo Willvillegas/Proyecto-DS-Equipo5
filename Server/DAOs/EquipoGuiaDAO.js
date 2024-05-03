@@ -105,7 +105,7 @@ class EquipoGuiaDAO{
      * @param {number} Id - the id of the equipo guia
      * @returns on success, it returns a list of profesores that are part of an equipo guia
      */
-    static async getAllProfesor(Id){
+    static async getAllProfesor(id){
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
