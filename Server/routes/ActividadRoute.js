@@ -1,11 +1,14 @@
 const express = require('express');
-const ActividadRouter = express.Router();
-const MainController = require('../controllers/MainController');
+const router = express.Router();
+const ActividadController = require('../controllers/ActividadController');
 
-// Rutas para actividades
-/**TO DO: AGREGAR RUTA O MODIFICAR HANDLER*/
-ActividadRouter.get('/', MainController.getAllActividades);
-ActividadRouter.post('/', MainController.createActividad);
-ActividadRouter.put('/:id', MainController.updateActividad);
+//Rutas
+router.get('/', ActividadController.getAll);
+router.get('/:id', ActividadController.getById);
+router.post('/', ActividadController.create);
+router.put('/:id', ActividadController.update);
+router.delete('/:id/:observacion', ActividadController.delete);
+router.put('/finish/:id', ActividadController.finish);
 
-module.exports = ActividadRouter;
+module.exports = router;
+

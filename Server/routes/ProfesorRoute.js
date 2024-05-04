@@ -1,11 +1,13 @@
 const express = require('express');
-const ProfesorRouter = express.Router();
-const MainController = require('../controllers/MainController');
+const router = express.Router();
+const ProfesorController = require('../controllers/ProfesorController');
 
-// Rutas para profesores
-/** TO DO: AGREGAR RUTA O MODIFICAR HANDLER*/
-ProfesorRouter.get('/', MainController.getAllProfesores);
-ProfesorRouter.get('/:id', MainController.getProfesorById);
-ProfesorRouter.put('/:id', MainController.updateProfesor);
+//Rutas
+router.get('/profesores', ProfesorController.getAllProfesores);
+router.get('/profesores/:id', ProfesorController.getProfesorById);
+router.post('/profesores', ProfesorController.createProfesor);
+router.put('/profesores/:id', ProfesorController.updateProfesor);
+router.delete('/profesores/:id', ProfesorController.deleteProfesor);
+router.patch('/profesores/:id/rol', ProfesorController.changeProfesorRol);
 
-module.exports = ProfesorRouter;
+module.exports = router;

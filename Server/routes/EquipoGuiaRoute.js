@@ -1,12 +1,22 @@
 const express = require('express');
-const EquipoGuiaRouter = express.Router();
-const MainController = require('../controllers/MainController');
+const router = express.Router();
+const EquipoGuiaController = require('../controllers/EquipoGuiaController');
 
-// Rutas para equipos guía
-/** TO DO: AGREGAR RUTA O MODIFICAR HANDLER*/
-EquipoGuiaRouter.get('/', MainController.getAllEquiposGuia);
-EquipoGuiaRouter.post('/', MainController.createEquipoGuia);
-EquipoGuiaRouter.put('/:id', MainController.updateEquipoGuia);
-EquipoGuiaRouter.delete('/:id', MainController.deleteEquipoGuia);
+//Rutas
+router.get('/', EquipoGuiaController.getAll);
+router.get('/:id', EquipoGuiaController.getById);
+router.post('/', EquipoGuiaController.create);
+router.put('/:id', EquipoGuiaController.update);
+router.delete('/:id', EquipoGuiaController.delete);
 
-module.exports = EquipoGuiaRouter;
+//Rutas profesores en equipos guía
+router.get('/:id/profesores', EquipoGuiaController.getAllProfesor);
+router.post('/:id/profesores/:idProfesor', EquipoGuiaController.createTeamProfesor);
+router.delete('/:id/profesores/:idProfesor', EquipoGuiaController.deleteTeamProfesor);
+
+//Rutas asistentes en equipos guía
+router.get('/:id/asistentes', EquipoGuiaController.getAllAsistente);
+router.post('/:id/asistentes/:idAsistente', EquipoGuiaController.createTeamAsistente);
+router.delete('/:id/asistentes/:idAsistente', EquipoGuiaController.deleteTeamAsistente);
+
+module.exports = router;
