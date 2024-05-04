@@ -1,63 +1,106 @@
-const { ActividadDAO } = require('../DAOs/ActividadDAO');
-
 class ActividadModel {
-  constructor(id, semana, nombre, fechaHora, listaProfesores, diasPublicar, diasRecordar, invitadosEspeciales, ubicacion, estado, comentario, nombreAfiche) {
-    this.id = id;
-    this.semana = semana;
-    this.nombre = nombre;
-    this.fechaHora = fechaHora;
-    this.listaProfesores = listaProfesores;
-    this.diasPublicar = diasPublicar;
-    this.diasRecordar = diasRecordar;
-    this.invitadosEspeciales = invitadosEspeciales;
-    this.ubicacion = ubicacion;
-    this.estado = estado;
-    this.comentario = comentario;
-    this.nombreAfiche = nombreAfiche;
+  constructor(id, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, responsables, tipo, modalidad, idPlan) {
+      this.id = id;
+      this.semana = semana;
+      this.fecha = fecha;
+      this.previos = previos;
+      this.publicacion = publicacion;
+      this.recordatorios = recordatorios;
+      this.enlace = enlace;
+      this.afiche = afiche;
+      this.responsables = responsables;
+      this.tipo = tipo;
+      this.modalidad = modalidad;
+      this.idPlan = idPlan;
   }
 
-  // Métodos estáticos para interactuar con la base de datos a través del DAO
-  static async getAll() {
-    try {
-      const actividades = await ActividadDAO.getAll();
-      return actividades;
-    } catch (error) {
-      throw new Error('Error al obtener todas las actividades');
-    }
+  getSemana() {
+      return this.semana;
   }
 
-  static async getById(id) {
-    try {
-      const actividad = await ActividadDAO.getById(id);
-      return actividad;
-    } catch (error) {
-      throw new Error('Error al obtener la actividad por su ID');
-    }
+  setSemana(semana) {
+      this.semana = semana;
   }
 
-  async create() {
-    try {
-      await ActividadDAO.create(this);
-    } catch (error) {
-      throw new Error('Error al crear la actividad');
-    }
+  getFecha() {
+      return this.fecha;
   }
 
-  async update() {
-    try {
-      await ActividadDAO.update(this);
-    } catch (error) {
-      throw new Error('Error al actualizar la actividad');
-    }
+  setFecha(fecha) {
+      this.fecha = fecha;
   }
 
-  async delete() {
-    try {
-      await ActividadDAO.delete(this.id);
-    } catch (error) {
-      throw new Error('Error al eliminar la actividad');
-    }
+  getPrevios() {
+      return this.previos;
+  }
+
+  setPrevios(previos) {
+      this.previos = previos;
+  }
+
+  getPublicacion() {
+      return this.publicacion;
+  }
+
+  setPublicacion(publicacion) {
+      this.publicacion = publicacion;
+  }
+
+  getRecordatorios() {
+      return this.recordatorios;
+  }
+
+  setRecordatorios(recordatorios) {
+      this.recordatorios = recordatorios;
+  }
+
+  getEnlace() {
+      return this.enlace;
+  }
+
+  setEnlace(enlace) {
+      this.enlace = enlace;
+  }
+
+  getAfiche() {
+      return this.afiche;
+  }
+
+  setAfiche(afiche) {
+      this.afiche = afiche;
+  }
+
+  getResponsables() {
+      return this.responsables;
+  }
+
+  setResponsables(responsables) {
+      this.responsables = responsables;
+  }
+
+  getTipo() {
+      return this.tipo;
+  }
+
+  setTipo(tipo) {
+      this.tipo = tipo;
+  }
+
+  getModalidad() {
+      return this.modalidad;
+  }
+
+  setModalidad(modalidad) {
+      this.modalidad = modalidad;
+  }
+
+  getIdPlan() {
+      return this.idPlan;
+  }
+
+  setIdPlan(idPlan) {
+      this.idPlan = idPlan;
   }
 }
 
-module.exports = ActividadModel;
+module.exports = { ActividadModel };

@@ -1,56 +1,43 @@
-const EstudianteDAO = require('../DAOs/Estudiante');
-
 class EstudianteModel {
-    constructor(carnet, nombre, apellido1, apellido2, sede, correo, numeroCelular) {
-        this.carnet = carnet;
+    constructor(id, nombre, apellido, correo) {
+        this.id = id;
         this.nombre = nombre;
-        this.apellido1 = apellido1;
-        this.apellido2 = apellido2;
-        this.sede = sede;
+        this.apellido = apellido;
         this.correo = correo;
-        this.numeroCelular = numeroCelular;
     }
 
-    // Métodos estáticos para interactuar con la base de datos a través del DAO
-    static async getAll() {
-        try {
-            return await EstudianteDAO.getAll();
-        } catch (error) {
-            throw new Error('Error al obtener todos los estudiantes');
-        }
+    getId() {
+        return this.id;
     }
 
-    static async getById(id) {
-        try {
-            return await EstudianteDAO.getById(id);
-        } catch (error) {
-            throw new Error('Error al obtener el estudiante por ID');
-        }
+    setId(id) {
+        this.id = id;
     }
 
-    static async create(estudiante) {
-        try {
-            return await EstudianteDAO.create(estudiante);
-        } catch (error) {
-            throw new Error('Error al crear el estudiante');
-        }
+    getNombre() {
+        return this.nombre;
     }
 
-    static async update(estudiante) {
-        try {
-            return await EstudianteDAO.update(estudiante);
-        } catch (error) {
-            throw new Error('Error al actualizar el estudiante');
-        }
+    setNombre(nombre) {
+        this.nombre = nombre;
     }
 
-    static async delete(id) {
-        try {
-            return await EstudianteDAO.delete(id);
-        } catch (error) {
-            throw new Error('Error al eliminar el estudiante');
-        }
+    getApellido() {
+        return this.apellido;
     }
+
+    setApellido(apellido) {
+        this.apellido = apellido;
+    }
+
+    getCorreo() {
+        return this.correo;
+    }
+
+    setCorreo(correo) {
+        this.correo = correo;
+    }
+
 }
 
 module.exports = EstudianteModel;

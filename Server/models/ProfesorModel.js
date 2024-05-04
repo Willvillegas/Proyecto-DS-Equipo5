@@ -1,70 +1,87 @@
-const ProfesorDAO = require('../DAOs/ProfesorDAO');
-
 class ProfesorModel {
-  constructor(codigoUnico, nombre, apellidos, numeroTelefonicoOficina, numeroTelefonicoCelular, rol, activo, sede) {
-    this.codigoUnico = codigoUnico;
-    this.nombre = nombre;
-    this.apellidos = apellidos;
-    this.numeroTelefonicoOficina = numeroTelefonicoOficina;
-    this.numeroTelefonicoCelular = numeroTelefonicoCelular;
-    this.rol = rol;
-    this.activo = activo;
-    this.sede = sede;
+  constructor(id,correo, contrasenna, nombre, apellidos, oficina, personal, sede, codigo, foto) {
+      this._id = id;  
+      this._correo = correo;
+      this._contrasenna = contrasenna;
+      this._nombre = nombre;
+      this._apellidos = apellidos;
+      this._oficina = oficina;
+      this._personal = personal;
+      this._sede = sede;
+      this._codigo = codigo;
+      this._foto = foto;
   }
 
-  // Métodos para interactuar con los datos de los profesores en la base de datos
-
-  static async getAll() {
-    try {
-      const profesores = await ProfesorDAO.getAll();
-      return profesores;
-    } catch (error) {
-      throw new Error('Error al obtener todos los profesores');
-    }
+  get correo() {
+      return this._correo;
   }
 
-  static async getById(id) {
-    try {
-      const profesor = await ProfesorDAO.getById(id);
-      return profesor;
-    } catch (error) {
-      throw new Error('Error al obtener el profesor por ID');
-    }
+  get contrasenna() {
+      return this._contrasenna;
   }
 
-
-  static async create(profesor) {
-    try {
-      await ProfesorDAO.create(profesor);
-    } catch (error) {
-      throw new Error('Error al crear el profesor');
-    }
+  get nombre() {
+      return this._nombre;
   }
 
-
-  static async update(id, profesor) {
-    try {
-      await ProfesorDAO.update(profesor, id);
-    } catch (error) {
-      throw new Error('Error al actualizar el profesor');
-    }
+  get apellidos() {
+      return this._apellidos;
   }
 
-  static async delete(id) {
-    try {
-      await ProfesorDAO.delete(id);
-    } catch (error) {
-      throw new Error('Error al eliminar el profesor');
-    }
+  get oficina() {
+      return this._oficina;
   }
 
+  get personal() {
+      return this._personal;
+  }
 
-  static async changeRol(id, rol) {
-    try {
-      await ProfesorDAO.changeRol(rol, id);
-    } catch (error) {
-      throw new Error('Error al cambiar el rol del profesor');
-    }
+  get sede() {
+      return this._sede;
+  }
+
+  get codigo() {
+      return this._codigo;
+  }
+
+  get foto() {
+      return this._foto;
+  }
+
+  set correo(correo) {
+      this._correo = correo;
+  }
+
+  set contrasenna(contrasenna) {
+      this._contrasenna = contrasenna;
+  }
+
+  set nombre(nombre) {
+      this._nombre = nombre;
+  }
+
+  set apellidos(apellidos) {
+      this._apellidos = apellidos;
+  }
+
+  set oficina(oficina) {
+      this._oficina = oficina;
+  }
+
+  set personal(personal) {
+      this._personal = personal;
+  }
+
+  set sede(sede) {
+      this._sede = sede;
+  }
+
+  set codigo(codigo) {
+      this._codigo = codigo;
+  }
+
+  set foto(foto) {
+      this._foto = foto;
   }
 }
 
