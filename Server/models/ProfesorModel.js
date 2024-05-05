@@ -1,16 +1,40 @@
+const profesorDAO = require('../DAOs/ProfesorDAO.js');
 class ProfesorModel {
-  constructor(id,correo, contrasenna, nombre, apellidos, oficina, personal, sede, codigo, foto) {
-      this._id = id;  
-      this._correo = correo;
-      this._contrasenna = contrasenna;
+  constructor( nombre, apellidos, codigo, oficina, personal, sede, tipo, correo, contrasenna) {
       this._nombre = nombre;
       this._apellidos = apellidos;
+      this._codigo = codigo;
       this._oficina = oficina;
       this._personal = personal;
       this._sede = sede;
-      this._codigo = codigo;
-      this._foto = foto;
+      this._tipo = tipo
+      this._correo = correo;
+      this._contrasenna = contrasenna;
   }
+  static async getById(id) {
+    try{
+        const profesorData = await profesorDAO.getById(id);
+        // the profesorData is an array of objects
+        // we need to convert the object to a ProfesorModel object
+        // we use the map function to iterate over the array of objects
+        const profesor = profesorData.map(profesorData => new ProfesorModel(profesorData.nombre, profesorData.apellidos, profesorData.codigo, profesorData.telOficina, profesorData.telPersonal, profesorData.Sede, profesorData.Tipo, profesorData.correo, profesorData.contrasenna));
+        if (profesor.length > 0){
+            return profesor[0];
+        }else{
+            return null;
+        }
+    }catch (error){
+        throw error;
+    }
+  }
+    static async getAll() {
+        try{
+            const profesoresData = await profesorDAO.getAll();
+            return profesoresData.map(profesorData => new ProfesorModel(profesorData.id, profesorData.correo, profesorData.contrasenna, profesorData.nombre, profesorData.apellidos, profesorData.oficina, profesorData.personal, profesorData.sede, profesorData.codigo, profesorData.foto));
+        }catch (error){
+            throw error;
+        }
+    }
 
   get correo() {
       return this._correo;
