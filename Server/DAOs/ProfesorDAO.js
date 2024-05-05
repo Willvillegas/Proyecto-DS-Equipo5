@@ -29,7 +29,7 @@ class ProfesorDAO{
                 id: id, //Se para el id del profesor o usuario
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
-            console.log(result)
+            //console.log(result)
             return result;
         } catch (error) {
             console.log('Error getting profesor by id: ', error); 
