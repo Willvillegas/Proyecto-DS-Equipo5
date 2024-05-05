@@ -17,33 +17,3 @@ TO-DO
 `ActividadModel.js`: Archivo que contiene la representación y comportamientos del modelo Actividad. Llama al DAO para la interacción en la base de datos. 
 
 `ComentarioModel.js`: Archivo que contiene la representación y comportamientos del modelo Comentario. Llama al DAO para la interacción en la base de datos. . 
-
-(Actualización 30/04/24)
-Se necesita implementar los esquemas de los datos que contiene las entidades de la aplicación, esto se logra viendo el diagrama lógico (cómo se estructura y sus tipos de datos)
-[Link del diagrama](https://drive.google.com/file/d/1pcFyfyDL1DzV_WjK7x1FPDm5p0ZLC07W/view?usp=sharing)
-
-
-lista de archivos:
-
-`Profesor.js`
-Atributos:
-* codigoUnico:String
-* nombre: String
-* apellidos : String
-* numeroTelefonicoOficina: int
-* numeroTelefonicoCelular: int
-* rol: String (Si son de tipo enumeration)
-* activo: boolean
-* sede: String (Si son de tipo enumeration)
-
-y asi con las demás entidades...
-
-`Asistente.js`
-
-`EquipoGuia.js`
-
-`Estudiante.js`
-
-`Actividad.js`
-
-`Comentario.js`
