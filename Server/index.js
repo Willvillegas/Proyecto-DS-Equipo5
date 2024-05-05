@@ -4,10 +4,15 @@ const express = require('express');
 const cors = require('cors');
 const  app = express();
 const cookieParser = require('cookie-parser');
+const usuarioRoute = require('./routes/UsuarioRoute.js');
 
+app.use(express.urlencoded({extended: false}));
 app.use(cors());
-app.use(json());
+app.use(express.json());
 app.use(cookieParser());
+app.disable('x-powered-by');
+
+app.use('/api', usuarioRoute);
 
 //prueba de hola mundo
 app.get('/', (req, res) => {
