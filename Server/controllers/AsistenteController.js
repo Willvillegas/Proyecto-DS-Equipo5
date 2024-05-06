@@ -24,27 +24,25 @@ class AsistenteController {
     }
 
     static async createAsistente(req, res) {
-        const asistenteData = req.body;
+        const { nombre, apellido, sede } = req.body;
+        const asistente = new AsistenteModel(null, nombre, apellido, sede);
         try {
-            const newAsistente = new AsistenteModel(asistenteData.nombre, asistenteData.apellido, asistenteData.correo);
-            const result = await AsistenteDAO.create(newAsistente);
-            res.status(201).json(result);
+            const result = await AsistenteDAO.create(asistente);
+            res.status(201).json({ message: 'Asistente created successfully', result });
         } catch (error) {
-            console.log('Error creating asistente: ', error);
-            res.status(500).json({ error: 'Error al crear un nuevo asistente.' });
+            res.status(500).json({ error: 'Error creating asistente' });
         }
     }
 
     static async updateAsistente(req, res) {
-        const asistenteData = req.body;
+        const id = req.params.id;
+        const { nombre, apellido, sede } = req.body;
+        const asistente = new AsistenteModel(id, nombre, apellido, sede);
         try {
-            const updatedAsistente = new AsistenteModel(asistenteData.nombre, asistenteData.apellido, asistenteData.correo);
-            updatedAsistente.id = asistenteData.id;
-            const result = await AsistenteDAO.update(updatedAsistente);
-            res.status(200).json(result);
+            const result = await AsistenteDAO.update(asistente);
+            res.status(200).json({ message: 'Asistente updated successfully', result });
         } catch (error) {
-            console.log('Error updating asistente: ', error);
-            res.status(500).json({ error: 'Error al actualizar el asistente.' });
+            res.status(500).json({ error: 'Error updating asistente' });
         }
     }
 }

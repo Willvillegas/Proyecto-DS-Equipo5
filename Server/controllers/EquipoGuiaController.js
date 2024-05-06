@@ -1,7 +1,7 @@
 const EquipoGuiaDAO = require('../DAOs/EquipoGuiaDAO');
 
 class EquipoGuiaController {
-    static async getAll(req, res, next) {
+    static async getAllEquipoGuia(req, res, next) {
         try {
             const equiposGuia = await EquipoGuiaDAO.getAll();
             res.status(200).json(equiposGuia);
@@ -10,7 +10,7 @@ class EquipoGuiaController {
         }
     }
 
-    static async getById(req, res, next) {
+    static async getEquipoGuiaById(req, res, next) {
         const { id } = req.params;
         try {
             const equipoGuia = await EquipoGuiaDAO.getById(id);
@@ -19,29 +19,30 @@ class EquipoGuiaController {
             next(error);
         }
     }
-
-    static async create(req, res, next) {
-        const equipoGuiaData = req.body;
+    static async createEquipoGuia(req, res) {
+        const { generacion, estado } = req.body;
+        const equipoGuia = new EquipoGuiaModel(null, generacion, estado);
         try {
-            const result = await EquipoGuiaDAO.create(equipoGuiaData);
-            res.status(201).json(result);
+            const result = await EquipoGuiaDAO.create(equipoGuia);
+            res.status(201).json({ message: 'Equipo guía created successfully', result });
         } catch (error) {
-            next(error);
+            res.status(500).json({ error: 'Error creating equipo guía' });
         }
     }
 
-    static async update(req, res, next) {
-        const { id } = req.params;
-        const equipoGuiaData = req.body;
+    static async updateEquipoGuia(req, res) {
+        const id = req.params.id;
+        const { generacion, estado } = req.body;
+        const equipoGuia = new EquipoGuiaModel(id, generacion, estado);
         try {
-            const result = await EquipoGuiaDAO.update(id, equipoGuiaData);
-            res.status(200).json(result);
+            const result = await EquipoGuiaDAO.update(equipoGuia);
+            res.status(200).json({ message: 'Equipo guía updated successfully', result });
         } catch (error) {
-            next(error);
+            res.status(500).json({ error: 'Error updating equipo guía' });
         }
     }
 
-    static async delete(req, res, next) {
+    static async deleteEquipoGuia(req, res, next) {
         const { id } = req.params;
         try {
             const result = await EquipoGuiaDAO.delete(id);
@@ -51,7 +52,7 @@ class EquipoGuiaController {
         }
     }
 
-    static async getAllProfesor(req, res, next) {
+    static async getAllProfesorEquipoGuia(req, res, next) {
         const { id } = req.params;
         try {
             const profesores = await EquipoGuiaDAO.getAllProfesor(id);
@@ -61,7 +62,7 @@ class EquipoGuiaController {
         }
     }
 
-    static async createTeamProfesor(req, res, next) {
+    static async createTeamProfesorEquipoGuia(req, res, next) {
         const { id, idProfesor } = req.params;
         try {
             const result = await EquipoGuiaDAO.createTeamProfesor(id, idProfesor);
@@ -71,7 +72,7 @@ class EquipoGuiaController {
         }
     }
 
-    static async deleteTeamProfesor(req, res, next) {
+    static async deleteTeamProfesorEquipoGuia(req, res, next) {
         const { id, idProfesor } = req.params;
         try {
             const result = await EquipoGuiaDAO.deleteTeamProfesor(id, idProfesor);
@@ -81,7 +82,7 @@ class EquipoGuiaController {
         }
     }
 
-    static async getAllAsistente(req, res, next) {
+    static async getAllAsistenteEquipoGuia(req, res, next) {
         const { id } = req.params;
         try {
             const asistentes = await EquipoGuiaDAO.getAllAsistente(id);
@@ -91,7 +92,7 @@ class EquipoGuiaController {
         }
     }
 
-    static async createTeamAsistente(req, res, next) {
+    static async createTeamAsistenteEquipoGuia(req, res, next) {
         const { id, idAsistente } = req.params;
         try {
             const result = await EquipoGuiaDAO.createTeamAsistente(id, idAsistente);
@@ -101,7 +102,7 @@ class EquipoGuiaController {
         }
     }
 
-    static async deleteTeamAsistente(req, res, next) {
+    static async deleteTeamAsistenteEquipoGuia(req, res, next) {
         const { id, idAsistente } = req.params;
         try {
             const result = await EquipoGuiaDAO.deleteTeamAsistente(id, idAsistente);

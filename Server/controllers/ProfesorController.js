@@ -21,23 +21,25 @@ class ProfesorController {
     }
 
     static async createProfesor(req, res) {
-        const profesorData = req.body;
+        const { codigo, nombre, apellidos, oficina, personal, sede, tipo } = req.body;
+        const profesor = new ProfesorModel(null, codigo, nombre, apellidos, oficina, personal, sede, tipo);
         try {
-            const result = await ProfesorDAO.create(profesorData);
-            res.status(201).json(result);
+            const result = await ProfesorDAO.create(profesor);
+            res.status(201).json({ message: 'Profesor created successfully', result });
         } catch (error) {
-            res.status(500).json({ error: 'Error al crear un nuevo profesor.' });
+            res.status(500).json({ error: 'Error creating profesor' });
         }
     }
 
     static async updateProfesor(req, res) {
-        const { id } = req.params;
-        const profesorData = req.body;
+        const id = req.params.id;
+        const { codigo, nombre, apellidos, oficina, personal, sede, tipo } = req.body;
+        const profesor = new ProfesorModel(id, codigo, nombre, apellidos, oficina, personal, sede, tipo);
         try {
-            const result = await ProfesorDAO.update(profesorData, id);
-            res.status(200).json(result);
+            const result = await ProfesorDAO.update(profesor);
+            res.status(200).json({ message: 'Profesor updated successfully', result });
         } catch (error) {
-            res.status(500).json({ error: 'Error al actualizar el profesor.' });
+            res.status(500).json({ error: 'Error updating profesor' });
         }
     }
 

@@ -2,7 +2,7 @@ const { ActividadDAO } = require('../DAOs/ActividadDAO');
 const ActividadModel = require('../models/ActividadModel');
 
 class ActividadController {
-    static async getAll(req, res) {
+    static async getAllActividades(req, res) {
         try {
             const actividades = await ActividadDAO.getAll(req.params.id);
             res.status(200).json(actividades);
@@ -12,7 +12,7 @@ class ActividadController {
         }
     }
 
-    static async getById(req, res) {
+    static async getActividadById(req, res) {
         try {
             const actividad = await ActividadDAO.getById(req.params.id);
             res.status(200).json(actividad);
@@ -22,31 +22,31 @@ class ActividadController {
         }
     }
 
-    static async create(req, res) {
-        const actividadData = req.body;
+    static async createActividad(req, res) {
+        const { semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables } = req.body;
+        const actividad = new ActividadModel(null, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables);
         try {
-            const actividad = new ActividadModel(actividadData);
             const result = await ActividadDAO.create(actividad);
-            res.status(201).json(result);
+            res.status(201).json({ message: 'Actividad created successfully', result });
         } catch (error) {
-            console.log('Error creating actividad: ', error);
-            res.status(500).json({ error: 'Error creando actividad.' });
+            res.status(500).json({ error: 'Error creating actividad' });
         }
     }
 
-    static async update(req, res) {
-        const actividadData = req.body;
+    static async updateActividad(req, res) {
+        const id = req.params.id;
+        const { semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables } = req.body;
+        const actividad = new ActividadModel(id, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables);
         try {
-            const actividad = new ActividadModel(actividadData);
             const result = await ActividadDAO.update(actividad);
-            res.status(200).json(result);
+            res.status(200).json({ message: 'Actividad updated successfully', result });
         } catch (error) {
-            console.log('Error updating actividad: ', error);
-            res.status(500).json({ error: 'Error actualizando actividad.' });
+            res.status(500).json({ error: 'Error updating actividad' });
         }
     }
 
-    static async delete(req, res) {
+
+    static async deleteActividad(req, res) {
         const { id, observacion } = req.params;
         try {
             const result = await ActividadDAO.delete(id, observacion);
@@ -57,7 +57,7 @@ class ActividadController {
         }
     }
 
-    static async finish(req, res) {
+    static async finishActividad(req, res) {
         const { id } = req.params;
         const datos = req.body;
         try {

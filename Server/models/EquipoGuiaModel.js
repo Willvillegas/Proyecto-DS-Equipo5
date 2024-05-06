@@ -1,7 +1,8 @@
 class EquipoGuiaModel {
-    constructor(id, generacion) {
+    constructor(id, generacion, estado) {
         this.id = id;
         this.generacion = generacion;
+        this.estado = estado;
     }
 
     getGeneracion() {
@@ -10,6 +11,14 @@ class EquipoGuiaModel {
 
     setGeneracion(generacion) {
         this.generacion = generacion;
+    }
+
+    getEstado() {
+        return this.estado;
+    }
+    
+    setEstado(estado) {
+        this.estado = estado;
     }
 }
 

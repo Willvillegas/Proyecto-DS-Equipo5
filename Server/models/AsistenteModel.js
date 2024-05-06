@@ -1,9 +1,9 @@
 class AsistenteModel {
-  constructor(nombre, apellido, correo, id) {
+  constructor(id, nombre, apellido, sede) {
+      this._id = id;  
       this._nombre = nombre;
       this._apellido = apellido;
-      this._correo = correo;
-      this._id = id;
+      this._sede = sede;
   }
 
   get nombre() {
@@ -14,8 +14,8 @@ class AsistenteModel {
       return this._apellido;
   }
 
-  get correo() {
-      return this._correo;
+  get sede() {
+      return this._sede;
   }
 
   get id() {
@@ -30,8 +30,8 @@ class AsistenteModel {
       this._apellido = apellido;
   }
 
-  set correo(correo) {
-      this._correo = correo;
+  set sede(sede) {
+      this._sede = sede;
   }
 
   set id(id) {

@@ -6,6 +6,6 @@ const AsistenteController = require('../controllers/AsistenteController');
 router.get('/', AsistenteController.getAllAsistentes);
 router.get('/:id', AsistenteController.getAsistenteById);
 router.post('/', AsistenteController.createAsistente);
-router.put('/', AsistenteController.updateAsistente);
+router.put('/:id', AsistenteController.updateAsistente);
 
 module.exports = router;

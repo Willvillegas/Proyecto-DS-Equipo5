@@ -1,88 +1,81 @@
 class ProfesorModel {
-  constructor(id,correo, contrasenna, nombre, apellidos, oficina, personal, sede, codigo, foto) {
-      this._id = id;  
-      this._correo = correo;
-      this._contrasenna = contrasenna;
+    constructor(id, codigo, nombre, apellidos, oficina, personal, sede, tipo) {
+      this._id = id;
+      this._codigo = codigo;
       this._nombre = nombre;
       this._apellidos = apellidos;
       this._oficina = oficina;
       this._personal = personal;
       this._sede = sede;
-      this._codigo = codigo;
-      this._foto = foto;
-  }
-
-  get correo() {
-      return this._correo;
-  }
-
-  get contrasenna() {
-      return this._contrasenna;
-  }
-
-  get nombre() {
-      return this._nombre;
-  }
-
-  get apellidos() {
-      return this._apellidos;
-  }
-
-  get oficina() {
-      return this._oficina;
-  }
-
-  get personal() {
-      return this._personal;
-  }
-
-  get sede() {
-      return this._sede;
-  }
-
-  get codigo() {
+      this._tipo = tipo;
+    }
+  
+    // Getters
+    get id() {
+      return this._id;
+    }
+  
+    get codigo() {
       return this._codigo;
+    }
+  
+    get nombre() {
+      return this._nombre;
+    }
+  
+    get apellidos() {
+      return this._apellidos;
+    }
+  
+    get oficina() {
+      return this._oficina;
+    }
+  
+    get personal() {
+      return this._personal;
+    }
+  
+    get sede() {
+      return this._sede;
+    }
+  
+    get tipo() {
+      return this._tipo;
+    }
+  
+    // Setters
+    set id(value) {
+      this._id = value;
+    }
+  
+    set codigo(value) {
+      this._codigo = value;
+    }
+  
+    set nombre(value) {
+      this._nombre = value;
+    }
+  
+    set apellidos(value) {
+      this._apellidos = value;
+    }
+  
+    set oficina(value) {
+      this._oficina = value;
+    }
+  
+    set personal(value) {
+      this._personal = value;
+    }
+  
+    set sede(value) {
+      this._sede = value;
+    }
+  
+    set tipo(value) {
+      this._tipo = value;
+    }
   }
-
-  get foto() {
-      return this._foto;
-  }
-
-  set correo(correo) {
-      this._correo = correo;
-  }
-
-  set contrasenna(contrasenna) {
-      this._contrasenna = contrasenna;
-  }
-
-  set nombre(nombre) {
-      this._nombre = nombre;
-  }
-
-  set apellidos(apellidos) {
-      this._apellidos = apellidos;
-  }
-
-  set oficina(oficina) {
-      this._oficina = oficina;
-  }
-
-  set personal(personal) {
-      this._personal = personal;
-  }
-
-  set sede(sede) {
-      this._sede = sede;
-  }
-
-  set codigo(codigo) {
-      this._codigo = codigo;
-  }
-
-  set foto(foto) {
-      this._foto = foto;
-  }
-}
-
-module.exports = ProfesorModel;
+  
+  module.exports = ProfesorModel;
+  

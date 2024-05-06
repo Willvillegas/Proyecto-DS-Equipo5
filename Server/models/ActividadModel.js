@@ -1,5 +1,5 @@
 class ActividadModel {
-  constructor(id, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, responsables, tipo, modalidad, idPlan) {
+  constructor(id, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables) {
       this.id = id;
       this.semana = semana;
       this.fecha = fecha;
@@ -8,10 +8,11 @@ class ActividadModel {
       this.recordatorios = recordatorios;
       this.enlace = enlace;
       this.afiche = afiche;
-      this.responsables = responsables;
       this.tipo = tipo;
       this.modalidad = modalidad;
+      this.estado = estado;
       this.idPlan = idPlan;
+      this.responsables = responsables;
   }
 
   getSemana() {
@@ -93,6 +94,14 @@ class ActividadModel {
   setModalidad(modalidad) {
       this.modalidad = modalidad;
   }
+
+  getEstado() {
+    return this.estado;
+}
+
+  setEstado(estado) {
+    this.estado = estado;
+}
 
   getIdPlan() {
       return this.idPlan;
