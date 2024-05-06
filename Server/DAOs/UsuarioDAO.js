@@ -4,18 +4,18 @@ const {ConnectionDAO} = require('./ConnectionDAO.js');
 class UsuarioDAO{
     //Method to get a user by id
     //using id= correo
-    static async getById(id){
+    static async getById(correo){
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            /*const result = await connection.executeProcedures("BuscarUsuarioId", {
-                id: id, //Se para el id del profesor o usuario
+            const result = await connection.executeProcedures("BuscarUsuarioCorreo", {
+                correo: correo,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
-            });*/
-            const result = await connection.executeQuery(`SELECT * FROM Usuario WHERE correo = '${id}'`);
+            });
+            console.log (result)
             return result;
         } catch (error) {
-            console.log('Error getting usuario by id: ', error); 
+            console.log('Error getting usuario by mail: ', error); 
             throw error;
         }finally{
             await ConnectionDAO.disconnect();
