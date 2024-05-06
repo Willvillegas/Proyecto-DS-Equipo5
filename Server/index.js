@@ -4,6 +4,7 @@ const express = require('express');
 const cors = require('cors');
 const  app = express();
 const cookieParser = require('cookie-parser');
+const XLSX = require('xlsx');
 
 app.use(express.urlencoded({extended: false}));
 app.use(cors());
@@ -21,6 +22,3 @@ const port = 3000;
 app.listen(port, () => {
     console.log(`Server is running on port http://localhost:${port}`);
 });
-
-
-

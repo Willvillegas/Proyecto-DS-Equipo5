@@ -6,7 +6,7 @@ Todo esto bajo lo posible a crearse ya que puede ser que se tenga que agregar ar
 
 TO-DO
 
-`UserMiddleware.js`: Archivo encargado en la validación de la sesión del usuario (profesor o asistente)
+`UsuarioMiddleware.js`: Archivo encargado en la validación de la sesión del usuario (profesor o asistente)
 
 `ProfesorMiddleware.js`: Archivo que contiene posibles validaciones del modelo Profesor (pueden ser validaciones de acceso o de validación de datos). 
 
