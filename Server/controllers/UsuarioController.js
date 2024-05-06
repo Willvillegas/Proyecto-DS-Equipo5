@@ -30,12 +30,13 @@ class UsuarioController {
             const usuario = await UsuarioDAO.getById(correo);
             //const contr= await bycrypt.hash(contrasenna, 10);
             const objUsuario = usuario[0];
-            const passwordCorrect = await bycrypt.compare(contrasenna, objUsuario.contrasenna);
+            //hago compare (contraseña de la base de datos, contraseña que me pasaron)
+            const passwordCorrect = await bycrypt.compare(objUsuario.contrasenna,contrasenna);
             if (!passwordCorrect) {
-                res.status(401).json({ error: 'Usuario o contranseña incorrecta' });
+                res.status(401).json({ error: 'Usuario o contraseña incorrecta' });
                 return;
             }
-            //generate token using jwt
+            //generate token using jwt expiresIn: 7 days
             const token = jwt.sign({ correo: usuario},'Proyecto-DS', {expiresIn: 60 * 60 * 24 * 7});
             res.cookie('token', token, {httpOnly: true});
             res.status(200).json({usuario, token});
