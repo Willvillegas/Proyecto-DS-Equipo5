@@ -22,8 +22,8 @@ class EstudianteController {
     }
 
     static async createEstudiante(req, res) {
-        const { nombre, apellido, correo } = req.body;
-        const estudiante = new EstudianteModel(nombre, apellido, correo);
+        const { carnet, nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo } = req.body;
+        const estudiante = new EstudianteModel(carnet, nombre,apellido1,apellido2, correo, telefono, sede, estado, equipo);
         try {
             const result = await EstudianteDAO.create(estudiante);
             res.status(201).json({ message: 'Estudiante created successfully', result });
@@ -34,8 +34,8 @@ class EstudianteController {
 
     static async updateEstudiante(req, res) {
         const id = req.params.id;
-        const { nombre, apellido, correo } = req.body;
-        const estudiante = new EstudianteModel(nombre, apellido, correo, id);
+        const { nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo } = req.body;
+        const estudiante = new EstudianteModel(id, nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo);
         try {
             const result = await EstudianteDAO.update(estudiante);
             res.status(200).json({ message: 'Estudiante updated successfully', result });
@@ -52,6 +52,15 @@ class EstudianteController {
         } catch (error) {
             res.status(500).json({ error: 'Error deleting estudiante' });
         }
+    }
+    /**
+     * Method to create an estudiante from xlsx file and save it in the database
+     * @param {*} req 
+     * @param {*} res 
+     * 
+     */
+    static async createEstudianteFromFile(req, res) {
+        /**Decide to handle excelfile here or other class for SRP (SOLID) */
     }
 }
 

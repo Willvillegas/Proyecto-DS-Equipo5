@@ -9,7 +9,7 @@ class EstudianteDAO{
         const connection = new ConnectionDAO();
         try {
             await connection.connect();
-            const query = ''/*'SELECT * FROM Estudiante'*/;
+            const query = 'SELECT * FROM Estudiante';
             const result = await connection.executeQuery(query);
             return result;
         } catch (error) {
@@ -24,7 +24,7 @@ class EstudianteDAO{
         const connection = new ConnectionDAO();
         try {
             await connection.connect();
-            const query =''/* `SELECT * FROM Estudiante WHERE id = ${id}`*/;
+            const query = `SELECT * FROM Estudiante WHERE id = ${id}`;
             const result = await connection.executeQuery(query);
             return result;
         } catch (error) {
@@ -40,6 +40,7 @@ class EstudianteDAO{
         try {
             await connection.connect();
             const query =''/*`INSERT INTO Estudiante VALUES ('${estudiante.nombre}', '${estudiante.apellido}', '${estudiante.correo}')`*/;
+            /*`INSERT INTO Estudiante VALUES ('${estudiante.carnet}', '${estudiante.nombre}', '${estudiante.apellido1}', '${estudiante.apellido2}', '${estudiante.correo}', '${estudiante.telefono}', '${estudiante.sede}', '${estudiante.estado}', '${estudiante.equipo}')`*/
             const result = await connection.executeQuery(query);
             return result;
         } catch (error) {
