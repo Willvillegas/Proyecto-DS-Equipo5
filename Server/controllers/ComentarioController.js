@@ -4,10 +4,21 @@ const ComentarioModel = require('../models/ComentarioModel');
 class ComentarioController {
     static async getAllComentarios(req, res) {
         try {
-            const comentarios = await ComentarioDAO.getAll();
+            const {idActividad} = req.body
+            const comentarios = await ComentarioDAO.getAll(idActividad);
             res.status(200).json(comentarios);
         } catch (error) {
             res.status(500).json({ error: 'Error getting comentarios' });
+        }
+    }
+
+    static async getAllRespuestas(req, res) {
+        try {
+            const {idComentario} = req.body
+            const respuestas = await ComentarioDAO.getAllRespuestas(idComentario);
+            res.status(200).json(respuestas);
+        } catch (error) {
+            res.status(500).json({ error: 'Error getting respuestas' });
         }
     }
 
