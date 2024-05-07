@@ -1,5 +1,6 @@
 const EstudianteDAO = require('../DAOs/EstudianteDAO');
 const EstudianteModel = require('../models/EstudianteModel');
+const XLSX = require('xlsx');
 
 class EstudianteController {
     static async getAllEstudiantes(req, res) {
@@ -61,7 +62,33 @@ class EstudianteController {
      */
     static async createEstudianteFromFile(req, res) {
         /**Decide to handle excelfile here or other class for SRP (SOLID) */
+        console.log(req.body);
+        if (!req.file) {
+            res.status(400).json({ error: 'No file uploaded' });
+            return;
+        }
+        try{
+            const file = req.file.buffer;
+            
+            const workbook = XLSX.read(file, { type: 'buffer' });
+            const sheetName = workbook.Sheets(workbook.SheetNames[0]);
+            const data = XLSX.utils.sheet_to_json(sheetName);
+            console.log(data);
+            //loop enter data to estudianteDAO one by one
+            data.forEach(async (estudiante) => {
+                const { carnet, nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo } = estudiante;
+                const estudianteModel = new EstudianteModel(carnet, nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo);
+                await EstudianteDAO.create(estudianteModel);
+            });
+            res.status(200).json({ message: 'Estudiantes created successfully' });
+        }catch (error){
+            console.error(error);
+            res.status(500).json({ error: 'Error reading file' });
+        }
+        
     }
+
+    
 }
 
 module.exports = EstudianteController;

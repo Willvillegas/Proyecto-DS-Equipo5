@@ -10,6 +10,6 @@ router.get('/:id', EstudianteController.getEstudianteById);
 router.post('/', EstudianteController.createEstudiante);
 router.put('/:id', EstudianteController.updateEstudiante);
 router.delete('/:id', EstudianteController.deleteEstudiante);
-router.post('estudiantes/upload', upload.single('file'), EstudianteController.createEstudianteFromFile);
+router.post('/estudiantes/upload', upload.single('file'), EstudianteController.createEstudianteFromFile);
 
 module.exports = router;
