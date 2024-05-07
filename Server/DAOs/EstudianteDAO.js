@@ -6,7 +6,7 @@ const {ConnectionDAO}   = require('./ConnectionDAO');
 class EstudianteDAO{
     //method to get all the estudiantes from the database
     static async getAll(idEquipo){
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("BuscarEstudiantes", {
@@ -23,7 +23,7 @@ class EstudianteDAO{
     }
     //method to get an estudiante by id from the database
     static async getById(id){
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("BuscarEstudianteId", {
@@ -40,7 +40,7 @@ class EstudianteDAO{
     }
     //method to create an estudiante in the database
     static async create(estudiante, idEquipo){
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("CrearEstudiante", {
@@ -65,7 +65,7 @@ class EstudianteDAO{
     }
     //method to update an estudiante in the database
     static async update(estudiante, id){
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("ModificarEstudiante", {
@@ -90,7 +90,7 @@ class EstudianteDAO{
     }
     //method to delete an estudiante from the database
     static async delete(id){
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("EliminarEstudiante", {

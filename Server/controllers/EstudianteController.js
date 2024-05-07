@@ -88,6 +88,44 @@ class EstudianteController {
         
     }
 
+    static async createFileFromEstudiantes(req, res){
+        try{
+            const {sede, modo} = req.body;
+            const estudiantes = await EstudianteDAO.getAll(1)
+            const workbook = XLSX.utils.book_new();
+            if (modo === 0) {
+                let listaFiltrados = []
+                estudiantes.forEach(async (estudiante) =>{
+                    const sedeEstudiante = estudiante.Sede
+                    if (sedeEstudiante == sede){
+                        listaFiltrados.push(estudiante)
+                    }
+                })
+                const worksheet = XLSX.utils.json_to_sheet(listaFiltrados);
+                XLSX.utils.book_append_sheet(workbook, worksheet, 'Estudiantes');
+                const excelBuffer = XLSX.writeFile(workbook, 'EstudiantesSede.xlsx');
+            }else{
+                const sedes = ['Cartago', 'Limon', 'San Jose', 'San Carlos', 'Alajuela'];
+                sedes.forEach(async (sedeFiltro) =>{
+                    let listaFiltrados = []
+                    estudiantes.forEach(async (estudiante) =>{
+                        const sedeEstudiante = estudiante.Sede
+                        if (sedeEstudiante == sedeFiltro){
+                            listaFiltrados.push(estudiante)
+                        }
+                    })
+                    const worksheet = XLSX.utils.json_to_sheet(listaFiltrados);
+                    XLSX.utils.book_append_sheet(workbook, worksheet, sedeFiltro);
+                })
+                const excelBuffer = XLSX.writeFile(workbook, 'Estudiantes.xlsx');
+            }
+            return excelBuffer
+            //res.status(200).json({ message: 'File created successfully' });
+        }catch (error){
+            console.error(error);
+            //res.status(500).json({ error: 'Error creating file' });
+        }
+    }
     
 }
 

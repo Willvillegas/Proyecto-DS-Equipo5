@@ -4,7 +4,7 @@ const { ConnectionDAO } = require('./ConnectionDAO');
 
 class ComentarioDAO {
     static async getAll(idActividad) {
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("BuscarComentarios", {
@@ -20,7 +20,7 @@ class ComentarioDAO {
         }
     }
     static async getAllRespuestas(idComentario){
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("BuscarRespuestas", {
@@ -36,7 +36,7 @@ class ComentarioDAO {
         }
     }
     static async getById(id) { //No es necesario, no esta implementado en base
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("BuscarComentarioId", {
@@ -52,7 +52,7 @@ class ComentarioDAO {
     }
 
     static async create(comentario) {
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("CrearComentario", {
@@ -73,7 +73,7 @@ class ComentarioDAO {
     }
 
     static async update(comentario) { //No es necesario, no esta implementado en base
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("ModificarComentario", {
@@ -95,7 +95,7 @@ class ComentarioDAO {
     }
 
     static async delete(id) { //No es necesario, no esta implementado en base
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("EliminarComentario", {
