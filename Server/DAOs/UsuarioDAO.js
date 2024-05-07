@@ -24,7 +24,7 @@ class UsuarioDAO{
     //Method to update a user
     //actualiza la contraseña
     static async update(usuario){
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("ModificarUsuario", {
