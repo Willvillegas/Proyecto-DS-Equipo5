@@ -3,11 +3,14 @@
 const { ConnectionDAO } = require('./ConnectionDAO');
 
 class ComentarioDAO {
-    static async getAll() {
+    static async getAll(idActividad) {
         const connection = new ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const result = await connection.executeProcedures("BuscarComentarios");
+            const result = await connection.executeProcedures("BuscarComentarios", {
+                idActividad: idActividad,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
             return result;
         } catch (error) {
             console.log('Error getting comentarios: ', error);
@@ -16,8 +19,23 @@ class ComentarioDAO {
             await ConnectionDAO.disconnect();
         }
     }
-
-    static async getById(id) {
+    static async getAllRespuestas(idComentario){
+        const connection = new ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("BuscarRespuestas", {
+                idMensaje: idComentario,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            return result;
+        } catch (error) {
+            console.log('Error getting respuestas: ', error);
+            throw error;
+        } finally {
+            await ConnectionDAO.disconnect();
+        }
+    }
+    static async getById(id) { //No es necesario, no esta implementado en base
         const connection = new ConnectionDAO.getInstance();
         try {
             await connection.connect();
@@ -38,11 +56,11 @@ class ComentarioDAO {
         try {
             await connection.connect();
             const result = await connection.executeProcedures("CrearComentario", {
-                titulo: comentario.titulo,
-                fecha: comentario.fecha,
-                cuerpo: comentario.cuerpo,
-                profesor: comentario.profesor,
-                actividad: comentario.actividad
+                idProfesor: comentario.profesor,
+	            idActividad: comentario.actividad,
+	            idRespuesta: comentario.respuesta, // Si no hay respuesta se pasa 0
+	            titulo: comentario.titulo,
+	            cuerpo: comentario.cuerpo,
             });
             console.log(result);
             return result;
@@ -54,7 +72,7 @@ class ComentarioDAO {
         }
     }
 
-    static async update(comentario) {
+    static async update(comentario) { //No es necesario, no esta implementado en base
         const connection = new ConnectionDAO.getInstance();
         try {
             await connection.connect();
@@ -76,7 +94,7 @@ class ComentarioDAO {
         }
     }
 
-    static async delete(id) {
+    static async delete(id) { //No es necesario, no esta implementado en base
         const connection = new ConnectionDAO.getInstance();
         try {
             await connection.connect();
