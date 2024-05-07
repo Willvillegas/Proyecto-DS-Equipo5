@@ -22,7 +22,7 @@ class EmailSender {
                 from: sender._from,
                 to: email,
                 subject: 'Recuperación de contraseña',
-                text: `Para restablecer tu contraseña, ingresa el siguiente token en la aplicación (expira en 2 horas): ${token}`
+                text: `Para restablecer tu contraseña, ingresa el siguiente token en la aplicación (expira en 15 minutos): ${token}`
             });
         } catch (error) {
             console.log('Error sending email recover password: ', error);
