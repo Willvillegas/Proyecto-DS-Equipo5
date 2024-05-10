@@ -38,7 +38,7 @@ class EstudianteController {
         const { nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo } = req.body;
         const estudiante = new EstudianteModel(id, nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo);
         try {
-            const result = await EstudianteDAO.update(estudiante);
+            const result = await EstudianteDAO.update(estudiante,1);
             res.status(200).json({ message: 'Estudiante updated successfully', result });
         } catch (error) {
             res.status(500).json({ error: 'Error updating estudiante' });
@@ -62,23 +62,26 @@ class EstudianteController {
      */
     static async createEstudianteFromFile(req, res) {
         /**Decide to handle excelfile here or other class for SRP (SOLID) */
-        console.log(req.body);
+        console.log(req.file);
         if (!req.file) {
-            res.status(400).json({ error: 'No file uploaded' });
-            return;
+            return res.status(400).json({ error: 'No file uploaded' });
+        }
+        //validate file extension excel
+        if (req.file.mimetype !== 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet') {
+            return res.status(400).json({ error: 'Invalid file type' });
         }
         try{
             const file = req.file.buffer;
             
             const workbook = XLSX.read(file, { type: 'buffer' });
-            const sheetName = workbook.Sheets(workbook.SheetNames[0]);
+            const sheetName = workbook.Sheets[workbook.SheetNames[0]];
             const data = XLSX.utils.sheet_to_json(sheetName);
             console.log(data);
             //loop enter data to estudianteDAO one by one
             data.forEach(async (estudiante) => {
-                const { carnet, nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo } = estudiante;
-                const estudianteModel = new EstudianteModel(carnet, nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo);
-                await EstudianteDAO.create(estudianteModel);
+                const { carnet, nombre, apellido1, apellido2, correo, telefono, sede } = estudiante;
+                const estudianteModel = new EstudianteModel(carnet, nombre, apellido1, apellido2, correo, telefono, sede, 1, 1);
+                await EstudianteDAO.create(estudianteModel,1);
             });
             res.status(200).json({ message: 'Estudiantes created successfully' });
         }catch (error){
@@ -93,6 +96,7 @@ class EstudianteController {
             const {sede, modo} = req.body;
             const estudiantes = await EstudianteDAO.getAll(1)
             const workbook = XLSX.utils.book_new();
+            let excelBuffer = null;
             if (modo === 0) {
                 let listaFiltrados = []
                 estudiantes.forEach(async (estudiante) =>{
@@ -103,7 +107,9 @@ class EstudianteController {
                 })
                 const worksheet = XLSX.utils.json_to_sheet(listaFiltrados);
                 XLSX.utils.book_append_sheet(workbook, worksheet, 'Estudiantes');
-                const excelBuffer = XLSX.writeFile(workbook, 'EstudiantesSede.xlsx');
+                excelBuffer = XLSX.write(workbook,  { bookType: 'xlsx', type: 'buffer' });
+                res.setHeader('Content-Disposition', 'attachment; filename=EstudiantesSede.xlsx');
+                
             }else{
                 const sedes = ['Cartago', 'Limon', 'San Jose', 'San Carlos', 'Alajuela'];
                 sedes.forEach(async (sedeFiltro) =>{
@@ -117,13 +123,17 @@ class EstudianteController {
                     const worksheet = XLSX.utils.json_to_sheet(listaFiltrados);
                     XLSX.utils.book_append_sheet(workbook, worksheet, sedeFiltro);
                 })
-                const excelBuffer = XLSX.writeFile(workbook, 'Estudiantes.xlsx');
+                excelBuffer = XLSX.write(workbook,  { bookType: 'xlsx', type: 'buffer' });
+                res.setHeader('Content-Disposition', 'attachment; filename=Estudiantes.xlsx');
+                
+
             }
-            return excelBuffer
-            //res.status(200).json({ message: 'File created successfully' });
+            res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            return res.send(excelBuffer);
+            
         }catch (error){
             console.error(error);
-            //res.status(500).json({ error: 'Error creating file' });
+            res.status(500).json({ error: 'Error creating file' });
         }
     }
     
