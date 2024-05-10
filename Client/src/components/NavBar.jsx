@@ -15,7 +15,16 @@ const links = [
     href: "assistant-menu", 
 },
 
+{
+    name: "EquipoGuiaAssistentPage",
+    href: "equipo-guia-page", 
+},
 
+
+{
+    name: "InfoProfesor",
+    href: "info-profesor",  
+},
 
 ];
 
