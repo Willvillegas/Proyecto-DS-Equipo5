@@ -9,7 +9,7 @@ class ConnectionDAO{
                 user: 'adminds',
                 password: 'ProyectoDS2024',
                 server: 'proyecto-ds-grupo5.database.windows.net', // Puede ser 'localhost\\nombre_instancia' para SQL Server en tu máquina local
-                database: 'proyecto-ds-grupo5',
+                database: 'ProyectoDSG5',
                 pool: {
                     max: 10,
                     min: 0,
