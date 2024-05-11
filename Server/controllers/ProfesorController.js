@@ -9,7 +9,7 @@ class ProfesorController {
             res.status(200).json(JSON.parse(profesores));
         } catch (error) {
             console.log(error)
-            res.status(500).json({ error: 'Error al obtener todos los profesores.' });
+            res.status(500).json({ error: error });
         }
     }
 
