@@ -17,7 +17,7 @@ const usuarioRoute = require('./routes/UsuarioRoute');
 app.use(express.urlencoded({extended: false}));
 app.use(cors(
     {
-        origin: [""],
+        origin: ["*"],
         methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true
     }
