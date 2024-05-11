@@ -12,6 +12,8 @@ class ProfesorDAO{
             const result = await connection.executeProcedures("BuscarProfesores", {
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
+            console.log("By Dao");
+            console.log(result);
             return result;
         } catch (error) {
             console.log('Error getting profesores: ', error);
