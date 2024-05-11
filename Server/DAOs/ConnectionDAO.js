@@ -85,8 +85,7 @@ class ConnectionDAO{
                     }
                 }
                 const result = await request.execute(procedure);
-                const txt = `Cantidad`
-                return txt;
+                return result.recordsets;
             }
         } catch (error) {
             console.log('Error executing query: ', error);
