@@ -8,11 +8,13 @@ import AssistantMenu from "./Pages/AssistantMenu";
 import ScrollToTop from "./components/ScrollToTop";
 import EquipoGuiaAssistentPage from "./Pages/EquipoGuiaAssistentPage";
 import InfoProfesor from "./Pages/InfoProfesor";
+import MostrarProfesorSede from "./Pages/MostrarProfesorSede";
 
 
 function App() {
     return(
     <Router>
+         <MostrarProfesorSede/>
         <LoginPage />
         <ForgotPasswordPage />
         <ResetPasswordPage />
@@ -26,6 +28,7 @@ function App() {
                 <Route path="/assistant-menu" element={<AssistantMenu/>}/>
                 <Route path="equipo-guia-page" element={<EquipoGuiaAssistentPage/>}/>
                 <Route path="info-profesor" element={<InfoProfesor/>}/>
+                <Route path="mostrar-profesor-sede" element={<MostrarProfesorSede/>}/>
                 </Routes>
             </Router> 
  

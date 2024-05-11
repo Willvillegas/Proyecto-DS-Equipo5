@@ -26,6 +26,14 @@ const links = [
     href: "info-profesor",  
 },
 
+
+
+{
+    name: "MostrarProfesorSede",
+    href: "info-profesor",  
+},
+
+
 ];
 
 const NavBar = () => {
