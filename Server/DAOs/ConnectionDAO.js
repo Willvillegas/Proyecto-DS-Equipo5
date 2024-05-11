@@ -85,7 +85,13 @@ class ConnectionDAO{
                 }
 
                 const result = await request.execute(procedure);
-                return result.recordset;
+                if (result.recordset && result.recordset.length > 0) {
+                    return result.recordset;
+                } else {
+                    // No hay datos disponibles, enviar mensaje
+                    console.log('No se encontraron datos.');
+                    return "no hay datos"; // O cualquier otra acción que necesites realizar cuando no hay datos
+                }
             }
         } catch (error) {
             console.log('Error executing query: ', error);
