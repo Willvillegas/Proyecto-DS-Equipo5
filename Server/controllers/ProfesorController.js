@@ -4,8 +4,11 @@ class ProfesorController {
     static async getAllProfesores(req, res) {
         try {
             const profesores = await ProfesorDAO.getAll();
-            res.status(200).json({profesores});
+            console.log("By Controller");
+            console.log(profesores);
+            res.status(200).json(JSON.parse(profesores));
         } catch (error) {
+            console.log(error)
             res.status(500).json({ error: 'Error al obtener todos los profesores.' });
         }
     }
