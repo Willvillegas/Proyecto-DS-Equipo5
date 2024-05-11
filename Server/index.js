@@ -15,7 +15,7 @@ const profesorRoute = require('./routes/ProfesorRoute');//
 const usuarioRoute = require('./routes/UsuarioRoute');
 const bodyParser = require('body-parser');
 
-app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: true}));
 app.use(cors(
     {
         origin: ["http://localhost:5173"],
