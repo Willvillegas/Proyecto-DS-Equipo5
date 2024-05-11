@@ -5,6 +5,7 @@ import NavBar from "./components/NavBar";
 const App = () => (
   <Router>
     <NavBar />
+    <div className="mt-9" />
     <RoutesPages />
   </Router>
 );

@@ -3,33 +3,19 @@ import { Link } from "react-router-dom";
 
 const links = [
 {
-    name: "ForgotPasswordPage",
-    href: "/forgot-password-page", 
-},
-{
-    name: "ResetPasswordPage",
-    href: "/reset-password-page", 
-},
-{
-    name: "AssistantMenu",
+    name: "Menu",
     href: "assistant-menu", 
 },
-
 {
-    name: "EquipoGuiaAssistentPage",
+    name: "Equipo Guia",
     href: "equipo-guia-page", 
 },
-
-
 {
-    name: "InfoProfesor",
+    name: "Estudiantes",
     href: "info-profesor",  
 },
-
-
-
 {
-    name: "MostrarProfesorSede",
+    name: "Plan de trabajo",
     href: "info-profesor",  
 },
 
@@ -38,11 +24,16 @@ const links = [
 
 const NavBar = () => {
     return (
-        <div>
+        <nav className={`bg-gray-900 fixed w-full top-0 z-20`}>
+        <div className="flex space-x-4 ">
             {links.map((x) => (
-            <Link to={x.href}>{x.name}</Link>
+                <div key={x.name} className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">
+                    <Link to={x.href}>{x.name}</Link>
+                </div>
             ))}
         </div>
+        </nav>
+        
     );
 };
 
