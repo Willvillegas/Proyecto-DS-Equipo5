@@ -86,7 +86,7 @@ class ConnectionDAO{
 
                 const result = await request.execute(procedure);
                 if (result.recordset && result.recordset.length > 0) {
-                    return result.recordset;
+                    return result.recordset.length;
                 } else {
                     // No hay datos disponibles, enviar mensaje
                     console.log('No se encontraron datos.');
