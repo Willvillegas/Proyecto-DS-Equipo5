@@ -1,4 +1,5 @@
 //singleton class to manage the connection to the database to mssql
+const { text } = require('body-parser');
 const sql = require('mssql');
 //export default
 class ConnectionDAO{
@@ -83,15 +84,8 @@ class ConnectionDAO{
                         request.input(key, params[key]);
                     }
                 }
-
-                const result = await request.execute(procedure);
-                if (result.recordset && result.recordset.length > 0) {
-                    return result.recordset.length;
-                } else {
-                    // No hay datos disponibles, enviar mensaje
-                    console.log('No se encontraron datos.');
-                    return "no hay datos"; // O cualquier otra acción que necesites realizar cuando no hay datos
-                }
+                const txt = `Cantidad${result.recordset.length}`
+                return txt;
             }
         } catch (error) {
             console.log('Error executing query: ', error);
