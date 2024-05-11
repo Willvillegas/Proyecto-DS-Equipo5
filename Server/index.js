@@ -17,7 +17,7 @@ const usuarioRoute = require('./routes/UsuarioRoute');
 app.use(express.urlencoded({extended: false}));
 app.use(cors(
     {
-        origin: ["http://localhost:5173"],
+        origin: ["https://proyecto-ds-equipo5.vercel.app"],
         methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true
     }
