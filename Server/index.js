@@ -13,6 +13,7 @@ const estudianteRoute = require('./routes/EstudianteRoute');
 const planTrabajoRoute = require('./routes/PlanTrabajoRoutes');
 const profesorRoute = require('./routes/ProfesorRoute');//
 const usuarioRoute = require('./routes/UsuarioRoute');
+const bodyParser = require('body-parser');
 
 app.use(express.urlencoded({extended: false}));
 app.use(cors(
@@ -25,7 +26,7 @@ app.use(cors(
 app.use(express.json());
 app.use(cookieParser());
 app.disable('x-powered-by');
-
+app.use(bodyParser.json())
 /**
 Todos los routes 
 */

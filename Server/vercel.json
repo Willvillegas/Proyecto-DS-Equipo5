@@ -8,5 +8,6 @@
             "src": "/(.*)",
             "dest": "/"
         }
-    ]
+    ],
+    "mysql":"//adminds:ProyectoDS2024@proyecto-ds-grupo5.database.windows.net/ProyectoDSG5?sslaccept=strict"
 }
