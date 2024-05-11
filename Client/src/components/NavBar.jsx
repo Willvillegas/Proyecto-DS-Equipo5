@@ -16,7 +16,7 @@ const links = [
 },
 {
     name: "Plan de trabajo",
-    href: "info-profesor",  
+    href: "/plan-trabajo",  
 },
 
 
