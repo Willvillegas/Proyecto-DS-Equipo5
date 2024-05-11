@@ -8,7 +8,7 @@ const links = [
 },
 {
     name: "Equipo Guia",
-    href: "equipo-guia-page", 
+    href: "/equipo-guia", 
 },
 {
     name: "Estudiantes",

@@ -1,49 +1,115 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import API_ROOT from '../../apiRoutes';
+import axios from 'axios';
 
 function EquipoGuiaAssistentPage() {
+  const [profesorInfo, setProfesorInfo] = useState([]);
+
+  useEffect(() => {
+    // Simulación de solicitud al backend (reemplazar con la lógica real)
+    // Aquí puedes hacer una solicitud HTTP utilizando fetch o Axios
+    // Una vez que obtengas los datos, puedes actualizar el estado
+    axios.get(`${API_ROOT}/api/equiposguia/${1}/profesores`)
+      .then(response => {
+        setProfesorInfo(response.data)
+        console.log(profesorInfo)
+      })
+
+  }, []);
+
   return (
+    <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
+    <div className=" w-full bg-gray-900 p-8 rounded-lg shadow-lg mx-auto mt-10 mb-10">
     <div className="min-h-screen bg-gray-800 text-white">
       {/* Encabezado */}
-      <header className="flex justify-between items-center px-4 py-3">
+      <header className="flex justify-between items-center px-4 py-3 ml-5">
         <div className="flex items-center">
-          <div className="font-semibold text-xl">Equipo guía primer ingreso X</div>
+          <div className="font-semibold text-3xl mt-5">Equipo guía primer ingreso 2024</div>
         </div>
       </header>
-
-      {/* Contenido */}
-      <main className="p-4">
-        {/* Tabla */}
-        <div className="bg-gray-700 rounded p-4">
-          <div className="grid grid-cols-4 gap-4">
-            {/* Código */}
-            <div>
-              <span className="font-bold text-white">Código:</span>
-              <p className="text-gray-300">AL-01</p>
-            </div>
-            {/* Nombre */}
-            <div>
-              <span className="font-bold text-white">Nombre:</span>
-              <p className="text-gray-300">Esteban Perez Picado</p>
-            </div>
-            {/* Correo */}
-            <div>
-              <span className="font-bold text-white">Correo:</span>
-              <p className="text-gray-300">2021046572@estudiantec.cr</p>
-            </div>
-            {/* Acción */}
-            <div>
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Ver
-              </button>
+      <div className="flex items-center justify-between mb-4 ml-9">
+      <div className="w-[400px]">
+      <div className="flex items-center justify-between">
+          <div className="relative w-full">
+            <input
+              type="text"
+              className="block w-full p-2 pl-10 pr-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+              placeholder="Buscar"
+            />
+            <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                ></path>
+              </svg>
             </div>
           </div>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
+            Buscar
+          </button>
         </div>
+      </div>
+      <div className="flex space-x-4">
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
+          Registrar
+        </button>
+      </div>
+    </div>
+      {/* Contenido */}
+      <main className="p-4 h-[500px] ml-2">
+        {/* Tabla */}
+        <div className="grid grid-cols-4 gap-1 mb-3 ml-3">
+          <div>
+          <span className="font-bold text-white">Código</span>
+          </div>
+          <div>
+          <span className="font-bold text-white">Nombre</span>
+          </div>
+          <div>
+          <span className="font-bold text-white">Correo</span>
+          </div>
+          <div >
+          <span className="font-bold text-white ml-10">Acción</span>
+          </div>
+      </div>
+        {profesorInfo.map((profesor)=>(
+          <div key={profesor.id}  className="bg-gray-700 rounded p-4 ml-2 mr-6">
+            <div className="grid grid-cols-4 gap-4">
+              {/* Código */}
+              <div>
+                <p className="text-gray-300">{profesor.codigo}</p>
+              </div>
+              {/* Nombre */}
+              <div>
+                <p className="text-gray-300">{profesor.nombre}</p>
+              </div>
+              {/* Correo */}
+              <div>
+                <p className="text-gray-300">{profesor.correo}</p>
+              </div>
+              {/* Acción */}
+              <div className='p-2 pl-10'>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
+                  Ver
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
       </main>
 
-      {/* Pie de página */}
-      <footer className="p-4 bg-gray-700 text-center">
-        {/* Contenido del pie de página */}
-      </footer>
+    </div>
+    </div>
     </div>
   );
 }
