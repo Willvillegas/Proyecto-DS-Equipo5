@@ -85,7 +85,7 @@ class ConnectionDAO{
                 }
 
                 const result = await request.execute(procedure);
-                return result;
+                return result.recordset;
             }
         } catch (error) {
             console.log('Error executing query: ', error);
