@@ -6,7 +6,7 @@ class ProfesorController {
             const profesores = await ProfesorDAO.getAll();
             console.log("By Controller");
             console.log(profesores);
-            res.status(200).json(JSON.parse(profesores));
+            res.status(200).json(profesores);
         } catch (error) {
             console.log(error)
             res.status(500).json({ error: error });
