@@ -5,23 +5,24 @@ import axios from 'axios';
 const DetallesActividad = () => {
 
     const [actividad, setActividad] = useState({});
-    //simulación de una actividad.
+    
     
     useEffect(() => {
+        //simulación de una actividad (Json).
         const actividad = {
-            id:1,
-            semana:1,
-            fecha:"2022-10-10",
-            previos:"Actividad de prueba",
-            publicacion:"Actividad de prueba",
-            recordatorios: "recuerdame",
-            enlace: "http://www.google.com",
-            afiche: "http://www.google.com",
-            tipo: "Recreativa",
-            modalidad: "Virtual",
-            estado: "Activo",
-            idPlan: 1,
-            responsables: "Juan Perez"
+            "id":1,
+            "semana":1,
+            "fecha":"2022-10-10",
+            "previos":"Actividad de prueba",
+            "publicacion":"Actividad de prueba",
+            "recordatorios": "recuerdame",
+            "enlace": "http://www.google.com",
+            "afiche": "http://www.google.com",
+            "tipo": "Recreativa",
+            "modalidad": "Virtual",
+            "estado": "Activo",
+            "idPlan": 1,
+            "responsables": "Juan Perez"
         }
         setActividad(actividad);
     }, []);
@@ -35,30 +36,14 @@ const DetallesActividad = () => {
                 </div>
                 <div className="mt-6 border-t border-gray-100">
                     <dl className="divide-y divide-gray-100">
-                    <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6 text-gray-50">Full name</dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">Margot Foster</dd>
-                    </div>
-                    <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6 text-gray-50">Application for</dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">Backend Developer</dd>
-                    </div>
-                    <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6 text-gray-50">Email address</dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">margotfoster@example.com</dd>
-                    </div>
-                    <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6 text-gray-50">Salary expectation</dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">$120,000</dd>
-                    </div>
-                    <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                        <dt className="text-sm font-medium leading-6 text-gray-50">About</dt>
-                        <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">
-                        Fugiat ipsum ipsum deserunt culpa aute sint do nostrud anim incididunt cillum culpa consequat. Excepteur
-                        qui ipsum aliquip consequat sint. Sit id mollit nulla mollit nostrud in ea officia proident. Irure nostrud
-                        pariatur mollit ad adipisicing reprehenderit deserunt qui eu.
-                        </dd>
-                    </div>
+                        {/* Información de la actividad hacerlo en un map por medio de la variable actividad*/}
+                        {Object.entries(actividad).map(([key, value]) => (
+                            <div key={key} className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <dt className="text-sm font-medium leading-6 text-gray-50">{key}</dt>
+                                <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">{value}</dd>
+                            </div>
+                        ))}
+                    
                     <div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
                         <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
