@@ -4,6 +4,7 @@ import axios from 'axios';
 
 function EquipoGuiaAssistentPage() {
   const [profesorInfo, setProfesorInfo] = useState([]);
+  const userTipe = 1
 
   useEffect(() => {
     // Simulación de solicitud al backend (reemplazar con la lógica real)
@@ -59,11 +60,12 @@ function EquipoGuiaAssistentPage() {
           </button>
         </div>
       </div>
+      {userTipe == 1 ? <div/>:
       <div className="flex space-x-4">
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
-          Registrar
-        </button>
-      </div>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
+        Registrar
+      </button>
+    </div>}
     </div>
       {/* Contenido */}
       <main className="p-4 h-[500px] ml-2">
