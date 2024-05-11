@@ -27,6 +27,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.disable('x-powered-by');
 app.use(bodyParser.json())
+app.use(json())
 /**
 Todos los routes 
 */
