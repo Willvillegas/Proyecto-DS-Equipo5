@@ -23,10 +23,10 @@ app.use(cors(
         credentials: true
     }
 ));
-app.use(json());
+//app.use(json());
 app.use(cookieParser());
 app.disable('x-powered-by');
-//app.use(bodyParser.json())
+app.use(bodyParser.json())
 /**
 Todos los routes 
 */
