@@ -14,7 +14,7 @@ class ProfesorDAO{
             });
             console.log("By Dao");
             console.log(result);
-            return JSON.stringify(result);
+            return result;
         } catch (error) {
             console.log('Error getting profesores: ', error);
             throw error;
