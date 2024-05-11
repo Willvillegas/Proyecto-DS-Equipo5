@@ -84,6 +84,7 @@ class ConnectionDAO{
                         request.input(key, params[key]);
                     }
                 }
+                const result = await request.execute(procedure);
                 const txt = `Cantidad${result.recordset.length}`
                 return txt;
             }
