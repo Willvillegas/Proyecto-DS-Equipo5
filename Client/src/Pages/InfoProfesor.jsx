@@ -18,6 +18,8 @@ function InfoProfesor() {
 
   }, []); // Se ejecutará solo una vez al montar el componente
 
+  const prueba = 1
+
   return (
     <div className="min-h-screen bg-gray-800 text-white">
       {/* Encabezado */}
@@ -35,7 +37,7 @@ function InfoProfesor() {
         <div className="flex flex-col items-center space-y-4">
           {/* Subir foto de perfil */}
           <div className="bg-gray-700 rounded p-4 flex items-center">
-            <span className="font-bold text-white">Subir foto de perfil</span>
+              <span className="font-bold text-white">Subir foto de perfil</span>
           </div>
 
           {/* Información del profesor */}
