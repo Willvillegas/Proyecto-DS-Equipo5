@@ -12,7 +12,7 @@ const links = [
 },
 {
     name: "Estudiantes",
-    href: "info-profesor",  
+    href: "/estudiantes",  
 },
 {
     name: "Plan de trabajo",
