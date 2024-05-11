@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import API_ROOT from '../../apiRoutes';
+import axios from 'axios';
 
 function InfoProfesor() {
   // Paso 1: Crear un estado para almacenar la información del profesor
@@ -9,17 +11,11 @@ function InfoProfesor() {
     // Simulación de solicitud al backend (reemplazar con la lógica real)
     // Aquí puedes hacer una solicitud HTTP utilizando fetch o Axios
     // Una vez que obtengas los datos, puedes actualizar el estado
-    const fetchData = async () => {
-      try {
-        const response = await fetch('url_del_backend/profesor');
-        const data = await response.json();
-        setProfesorInfo(data);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
+    axios.get(`${API_ROOT}/api/profesores`)
+      .then(response => {
+        console.log(response.data)
+      })
 
-    fetchData();
   }, []); // Se ejecutará solo una vez al montar el componente
 
   return (
