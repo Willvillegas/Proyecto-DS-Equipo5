@@ -14,6 +14,7 @@ function App() {
     return(
     <Router>
          <LoginPage />
+         <ForgotPasswordPage />
        {
         /* <Prueba2 />
         <MostrarProfesorSede/>
