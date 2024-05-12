@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import API_ROOT from "../../apiRoutes";
 
 
@@ -10,6 +10,7 @@ const Comentarios = () => {
     const [responses, setResponses] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [nombre, setNombre] = useState('')
+    const navigate = useNavigate();
 
     useEffect(() => {
         //simulación de una actividad (Json).
@@ -39,7 +40,6 @@ const Comentarios = () => {
     }, []);
 
     const handleSubmitComment = (event) => {
-        event.preventDefault();
         const data = {
             titulo: '',
             fecha: '',
@@ -52,6 +52,10 @@ const Comentarios = () => {
         .then(response => {
             console.log(response.data);
         })
+    }
+
+    const handleVolver = () => {
+        navigate(`/detalle-actividad/${id}`);
     }
 
     return(
@@ -120,7 +124,7 @@ const Comentarios = () => {
               </button>
             </div>
         </form>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
+          <button onClick={handleVolver} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
             Volver
           </button>
       </div>

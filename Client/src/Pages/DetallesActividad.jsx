@@ -22,6 +22,10 @@ const DetallesActividad = () => {
         navigate(`/comentarios/${id}`);
     }
 
+    const handleVolver = () => {
+        navigate(`/actividad`);
+    }
+
     return (
         <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen m-9">
             <div className=" w-[800px] bg-gray-900 p-8 rounded-lg shadow-lg mx-auto m-20">
@@ -77,7 +81,7 @@ const DetallesActividad = () => {
                     </dl>
                 </div>
                 </div>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
+                <button onClick={handleVolver} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
                 Volver
                 </button>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2"
