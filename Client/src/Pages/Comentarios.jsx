@@ -10,6 +10,7 @@ const Comentarios = () => {
     const [responses, setResponses] = useState([]);
     const [newComment, setNewComment] = useState('');
     const [nombre, setNombre] = useState('')
+    const [idRespuesta, setIdRespuestas] = useState(0);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,6 +26,9 @@ const Comentarios = () => {
         //simulación de una actividad (Json).
         axios.get(`${API_ROOT}/api/comentarios/${id}`)
         .then(response => {
+            response.data.forEach(element => {
+                element.responder = "Responder"
+            });
             setComments(response.data);
         })
         
@@ -40,13 +44,14 @@ const Comentarios = () => {
     }, []);
 
     const handleSubmitComment = (event) => {
+        console.log(idRespuesta)
         const data = {
             titulo: '',
             fecha: '',
             cuerpo: newComment,
             profesor: 1,
             actividad: id,
-            respuesta: 0
+            respuesta: idRespuesta
         }
         axios.post(`${API_ROOT}/api/comentarios`, data)
         .then(response => {
@@ -56,6 +61,26 @@ const Comentarios = () => {
 
     const handleVolver = () => {
         navigate(`/detalle-actividad/${id}`);
+    }
+
+    const responder = (idComment) => {
+          const updatedComments = comments.map((comment) => {
+            if (comment.id === idComment) {
+                if (comment.responder === "Responder"){
+                    setIdRespuestas(idComment)
+                }else{
+                    setIdRespuestas(0)
+                }
+              return {
+                ...comment,
+                responder: comment.responder === "Responder" ? "Cancelar respuesta" : "Responder"
+              };
+            } else {
+              return comment;
+            }
+          });
+        
+          setComments(updatedComments); 
     }
 
     return(
@@ -83,8 +108,10 @@ const Comentarios = () => {
                 <div>
                   <p className="text-gray-300">{comment.cuerpo}</p>
                 </div>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 ml-auto">
-                Responder
+                <button 
+                onClick={() => responder(comment.id)}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 ml-auto">
+                {comment.responder}
                 </button>
               </div>
               
