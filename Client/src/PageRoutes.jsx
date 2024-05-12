@@ -10,6 +10,7 @@ import ActividadPage from "./Pages/ActividadPage";
 import InfoProfesor from "./Pages/InfoProfesor";
 import MostrarProfesorSede from "./Pages/MostrarProfesorSede";
 import DetallesActividad from "./Pages/DetallesActividad";
+import Comentarios from "./Pages/Comentarios";
 //import NotFoundPage from "./Pages/NotFoundPage"; // Add a NotFoundPage component
 
 const RoutesPages = () => (
@@ -23,9 +24,9 @@ const RoutesPages = () => (
     <Route path="/plan-trabajo" element={<PlanTrabajoPage />} />
     <Route path="/info-profesor" element={<InfoProfesor />} />
     <Route path="/mostrar-profesor-sede" element={<MostrarProfesorSede />} />
-    <Route path="/detalle-actividad" element={<DetallesActividad/>} />
+    <Route path="/detalle-actividad/:id" element={<DetallesActividad/>} />
     <Route path="/actividad" element={<ActividadPage/>} />
-    
+    <Route path="/comentarios/:id" element={<Comentarios/>} />
   </Routes>
 );
 
