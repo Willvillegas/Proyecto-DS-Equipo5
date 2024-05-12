@@ -53,7 +53,7 @@ function Popup({ isOpen, close,edit, modoEdicion, cambios, descartarCambios }) {
                                             </svg>
                                         </button>
                                         <Button
-                                            className="w-full text-center inline-flex items-center justify-center gap-2 rounded-md bg-red-600 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-red-500 data-[open]:bg-red-600 data-[focus]:outline-1 data-[focus]:outline-white"
+                                            className="w-full text-center inline-flex items-center justify-center   gap-2 rounded-md bg-red-600 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-red-500 data-[open]:bg-red-600 data-[focus]:outline-1 data-[focus]:outline-white"
                                             onClick={() => {
                                                 if (modoEdicion) {
                                                     cambios(); // Llamar a la función guardarCambios si estamos en modo de edición
