@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import API_ROOT from '../../apiRoutes';
 
+
+
+const currentUserRole = 1; // PARÁMETRO PARA CAMBIAR EL ROL Y MOSTRAR ASÍ LOS BOTONES
+
 const buttons = [
   {
     text: 'Volver',
@@ -25,13 +29,32 @@ const buttons = [
   }
 ];
 
+const profileButtons = [
+  {
+    text: 'Subir foto de perfil',
+    onClick: () => console.log('Subir foto de perfil'),
+    roles: [1, 2, 4] // Asistente Cartago 1, Asistente sede 2, Profesor logueado 4
+  }
+];
+
 const Button = ({ text, onClick }) => (
   <button
-    className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded mr-4"
+    className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded mr-4 active:scale-[.98] active:duration-75 hover:scale-[1.01]"
     onClick={onClick}
   >
     {text}
   </button>
+);
+
+const ButtonList = ({ buttons, currentUserRole }) => (
+  <div className="flex justify-center">
+    {buttons.map((button, index) => {
+      if (button.roles.includes(currentUserRole)) {
+        return <Button key={index} text={button.text} onClick={button.onClick} />;
+      }
+      return null;
+    })}
+  </div>
 );
 
 function MostrarProfesorSede() {
@@ -42,7 +65,7 @@ function MostrarProfesorSede() {
     oficina: '',
     celular: ''
   });
-  const userType = 1; // PARÁMETRO QUE CAMBIA SEGÚN EL ROL PARA MOSTRAR LOS BOTONES
+ 
 
   useEffect(() => {
     // Simulación de datos de prueba
@@ -63,10 +86,7 @@ function MostrarProfesorSede() {
         <div className="flex justify-center items-center flex-col mb-8">
           {/* Input de imagen */}
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
-          {/* Subir foto de perfil */}
-          <button className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded">
-            Subir foto de perfil
-          </button>
+          <ButtonList buttons={profileButtons} currentUserRole={currentUserRole} />
         </div>
         <div className="mb-8">
           {/* Código */}
@@ -96,24 +116,11 @@ function MostrarProfesorSede() {
           </div>
         </div>
         {/* Botones */}
-        <div className="flex justify-center">
-          {buttons.map((button, index) => {
-            // Verificar si el usuario tiene permiso para ver este botón
-            if (button.roles.includes(userType)) {
-              return (
-                <Button
-                  key={index}
-                  text={button.text}
-                  onClick={button.onClick}
-                />
-              );
-            }
-            return null; // Si el usuario no tiene permiso, no mostrar el botón
-          })}
-        </div>
+        <ButtonList buttons={buttons} currentUserRole={currentUserRole} />
       </div>
     </div>
   );
 }
 
 export default MostrarProfesorSede;
+
