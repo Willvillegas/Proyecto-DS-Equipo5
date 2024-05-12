@@ -23,8 +23,8 @@ class ActividadController {
     }
 
     static async createActividad(req, res) {
-        const { semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables } = req.body;
-        const actividad = new ActividadModel(null, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables);
+        const { semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables, nombre } = req.body;
+        const actividad = new ActividadModel(null, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables, nombre);
         try {
             const result = await ActividadDAO.create(actividad);
             res.status(201).json({ message: 'Actividad created successfully', result });
@@ -35,8 +35,8 @@ class ActividadController {
 
     static async updateActividad(req, res) {
         const id = req.params.id;
-        const { semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables } = req.body;
-        const actividad = new ActividadModel(id, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables);
+        const { semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables, nombre } = req.body;
+        const actividad = new ActividadModel(id, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables, nombre);
         try {
             const result = await ActividadDAO.update(actividad);
             res.status(200).json({ message: 'Actividad updated successfully', result });
