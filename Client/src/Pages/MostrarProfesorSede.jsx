@@ -2,6 +2,38 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import API_ROOT from '../../apiRoutes';
 
+const buttons = [
+  {
+    text: 'Volver',
+    onClick: () => console.log('Volver'),
+    roles: [1, 2, 3, 4, 5] // Asistente Cartago 1, Asistente sede 2 , Asistente otra sede 3, Profesor logueado 4, Profesor otra sede 5
+  },
+  {
+    text: 'Modificar',
+    onClick: () => console.log('Modificar'),
+    roles: [1, 2, 4] // Asistente Cartago 1, Asistente sede 2, Profesor logueado 4
+  },
+  {
+    text: 'Eliminar',
+    onClick: () => console.log('Eliminar'),
+    roles: [1, 2] // Asistente Cartago 1, Asistente sede 2
+  },
+  {
+    text: 'Cambiar rol',
+    onClick: () => console.log('Cambiar rol'),
+    roles: [1] // Asistente Cartago 1
+  }
+];
+
+const Button = ({ text, onClick }) => (
+  <button
+    className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded mr-4"
+    onClick={onClick}
+  >
+    {text}
+  </button>
+);
+
 function MostrarProfesorSede() {
   const [profesorInfo, setProfesorInfo] = useState({
     codigo: '',
@@ -10,7 +42,7 @@ function MostrarProfesorSede() {
     oficina: '',
     celular: ''
   });
-  const userType = 1;
+  const userType = 1; // PARÁMETRO QUE CAMBIA SEGÚN EL ROL PARA MOSTRAR LOS BOTONES
 
   useEffect(() => {
     // Simulación de datos de prueba
@@ -24,14 +56,6 @@ function MostrarProfesorSede() {
 
     setProfesorInfo(mockProfesorInfo);
   }, []);
-
-/** 
-  useEffect(() => {
-    // Lógica para obtener los datos del profesor del servidor
-    axios.get(`${API_ROOT}/api/profesor`).then((response) => {
-      setProfesorInfo(response.data);
-    });
-  }, []);*/
 
   return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
@@ -66,41 +90,26 @@ function MostrarProfesorSede() {
             <p className="text-white">{profesorInfo.oficina}</p>
           </div>
           {/* Celular */}
-          <div className="mb-4 w-full">
+          <div className="mb-4 border-b-2 border-gray-600 w-full">
             <p className="font-bold text-white">Celular:</p>
             <p className="text-white">{profesorInfo.celular}</p>
           </div>
         </div>
         {/* Botones */}
-        <div className="mb-8 flex justify-center">
-          {/* Botón de volver */}
-          <button
-            className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded mr-4"
-            onClick={() => console.log('Volver')}
-          >
-            Volver
-          </button>
-          {/* Botón de modificar */}
-          <button
-            className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded mr-4"
-            onClick={() => console.log('Modificar')}
-          >
-            Modificar
-          </button>
-          {/* Botón de eliminar */}
-          <button
-            className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded mr-4"
-            onClick={() => console.log('Eliminar')}
-          >
-            Eliminar
-          </button>
-          {/* Botón de cambiar rol */}
-          <button
-            className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded"
-            onClick={() => console.log('Cambiar rol')}
-          >
-            Cambiar rol
-          </button>
+        <div className="flex justify-center">
+          {buttons.map((button, index) => {
+            // Verificar si el usuario tiene permiso para ver este botón
+            if (button.roles.includes(userType)) {
+              return (
+                <Button
+                  key={index}
+                  text={button.text}
+                  onClick={button.onClick}
+                />
+              );
+            }
+            return null; // Si el usuario no tiene permiso, no mostrar el botón
+          })}
         </div>
       </div>
     </div>
