@@ -3,6 +3,7 @@ import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Popup from '../components/Popup';
+import PopupCancelar from '../components/PopupCancelar';
 import { Button} from '@headlessui/react';
 const DetallesActividad = () => {
     const { id } = useParams();
@@ -139,6 +140,11 @@ const DetallesActividad = () => {
                     className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
                     {modoEdicion ? "Guardar" : "Modificar"}
                 </button>
+                <button
+                    onClick={openPopup}
+                    className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
+                    Cancelar
+                </button>
 
                 <Popup isOpen={isOpenAc} 
                         close={closePopup} 
@@ -146,6 +152,7 @@ const DetallesActividad = () => {
                         modoEdicion={modoEdicion} 
                         cambios={guardarCambios}
                         descartarCambios={descartarCambios} />
+
 
             </div>
         </div>
