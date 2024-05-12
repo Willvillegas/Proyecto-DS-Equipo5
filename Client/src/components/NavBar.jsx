@@ -7,7 +7,7 @@ const links = [
     href: "assistant-menu", 
 },
 {
-    name: "Equipo Guia",
+    name: "Equipo Guía",
     href: "/equipo-guia", 
 },
 {

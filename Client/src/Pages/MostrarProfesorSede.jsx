@@ -1,90 +1,107 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import API_ROOT from '../../apiRoutes';
 
-// Componente para el rectángulo SVG
-function RectangleSVG() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 626 660"
-      fill="none"
-      style={{ width: '100%', height: '100%' }}
-    >
-      <use href="#svg-599846249_1012" />
-    </svg>
-  );
-}
-
-// Componente para el grupo de elementos
-function Group() {
-  return (
-    <div className="flex justify-center items-center flex-col">
-      {/* Subir foto de perfil */}
-      <p className="font-bold text-white text-center">Subir foto de perfil</p>
-      {/* Aquí puedes agregar el botón para subir la foto */}
-    </div>
-  );
-}
-
-// Componente para la tabla
-function Table() {
-  return (
-    <div className="flex flex-col items-center">
-      {/* Código */}
-      <p className="font-bold text-white">Código:</p>
-      <p className="text-white">AL-01</p>
-      {/* Nombre */}
-      <p className="font-bold text-white">Nombre:</p>
-      <p className="text-white">Esteban</p>
-      {/* Correo */}
-      <p className="font-bold text-white">Correo:</p>
-      <p className="text-white">2021046572@estudiantec.cr</p>
-      {/* Oficina */}
-      <p className="font-bold text-white">Oficina:</p>
-      <p className="text-white">0000-0000 [extension 0000]</p>
-      {/* Celular */}
-      <p className="font-bold text-white">Celular:</p>
-      <p className="text-white">00000000</p>
-    </div>
-  );
-}
-
-// Componente para los botones
-function Buttons() {
-  return (
-    <div className="flex space-x-4">
-      {/* Botón de volver */}
-      <button className="text-white" onClick={() => console.log('Volver')}>
-        Volver
-      </button>
-      {/* Botón de modificar */}
-      <button className="text-white" onClick={() => console.log('Modificar')}>
-        Modificar
-      </button>
-      {/* Botón de eliminar */}
-      <button className="text-white" onClick={() => console.log('Eliminar')}>
-        Eliminar
-      </button>
-    </div>
-  );
-}
-
-// Componente principal de la página
 function MostrarProfesorSede() {
+  const [profesorInfo, setProfesorInfo] = useState({
+    codigo: '',
+    nombre: '',
+    correo: '',
+    oficina: '',
+    celular: ''
+  });
+  const userType = 1;
+
+  useEffect(() => {
+    // Simulación de datos de prueba
+    const mockProfesorInfo = {
+      codigo: 'AL-01',
+      nombre: 'Esteban',
+      correo: 'esteban@example.com',
+      oficina: '0000-0000 [extension 0000]',
+      celular: '00000000'
+    };
+
+    setProfesorInfo(mockProfesorInfo);
+  }, []);
+
+/** 
+  useEffect(() => {
+    // Lógica para obtener los datos del profesor del servidor
+    axios.get(`${API_ROOT}/api/profesor`).then((response) => {
+      setProfesorInfo(response.data);
+    });
+  }, []);*/
+
   return (
-    <div className="min-h-screen bg-gray-800 flex justify-center items-center">
-      {/* Rectángulo SVG */}
-      <RectangleSVG />
-      {/* Grupo de elementos */}
-      <div className="max-w-md w-full inset-0 flex justify-center items-center">
-        <Group />
-      </div>
-      {/* Tabla */}
-      <div className="max-w-md w-full inset-0 flex justify-center items-center">
-        <Table />
-      </div>
-      {/* Botones */}
-      <div className="max-w-md w-full bottom-0 left-0 right-0 mb-8 flex justify-center">
-        <Buttons />
+    <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
+      <div className="max-w-md w-full">
+        <div className="flex justify-center items-center flex-col mb-8">
+          {/* Input de imagen */}
+          <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
+          {/* Subir foto de perfil */}
+          <button className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded">
+            Subir foto de perfil
+          </button>
+        </div>
+        <div className="mb-8">
+          {/* Código */}
+          <div className="mb-4 border-b-2 border-gray-600 w-full">
+            <p className="font-bold text-white">Código:</p>
+            <p className="text-white">{profesorInfo.codigo}</p>
+          </div>
+          {/* Nombre */}
+          <div className="mb-4 border-b-2 border-gray-600 w-full">
+            <p className="font-bold text-white">Nombre:</p>
+            <p className="text-white">{profesorInfo.nombre}</p>
+          </div>
+          {/* Correo */}
+          <div className="mb-4 border-b-2 border-gray-600 w-full">
+            <p className="font-bold text-white">Correo:</p>
+            <p className="text-white">{profesorInfo.correo}</p>
+          </div>
+          {/* Oficina */}
+          <div className="mb-4 border-b-2 border-gray-600 w-full">
+            <p className="font-bold text-white">Oficina:</p>
+            <p className="text-white">{profesorInfo.oficina}</p>
+          </div>
+          {/* Celular */}
+          <div className="mb-4 w-full">
+            <p className="font-bold text-white">Celular:</p>
+            <p className="text-white">{profesorInfo.celular}</p>
+          </div>
+        </div>
+        {/* Botones */}
+        <div className="mb-8 flex justify-center">
+          {/* Botón de volver */}
+          <button
+            className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded mr-4"
+            onClick={() => console.log('Volver')}
+          >
+            Volver
+          </button>
+          {/* Botón de modificar */}
+          <button
+            className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded mr-4"
+            onClick={() => console.log('Modificar')}
+          >
+            Modificar
+          </button>
+          {/* Botón de eliminar */}
+          <button
+            className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded mr-4"
+            onClick={() => console.log('Eliminar')}
+          >
+            Eliminar
+          </button>
+          {/* Botón de cambiar rol */}
+          <button
+            className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded"
+            onClick={() => console.log('Cambiar rol')}
+          >
+            Cambiar rol
+          </button>
+        </div>
       </div>
     </div>
   );
