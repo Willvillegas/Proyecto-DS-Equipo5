@@ -2,8 +2,18 @@ import React from 'react';
 import { Input } from "../components/ui/Input"; // Importación del componente Input
 import { Button } from "../components/ui/Button"; // Importación del componente Button
 import { Link } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+
 
 function ForgotPasswordPage() {
+  const navigate = useNavigate();
+
+const pasarPage = ( ) => {
+navigate(`/reset-password`)
+
+}
+
+
   return (
     <div className="min-h-screen bg-white flex flex-col justify-center items-center">
       <div className="bg-gray-900 rounded-lg p-8 max-w-md w-full">
@@ -31,9 +41,9 @@ function ForgotPasswordPage() {
             {/* Botón de inicio de sesión */}
             <div className="mt-6">
               {/* Componente Link para redireccionar a RecuperarPassword */}
-              <Link to="/LoginPage">
-                <Button type="submit">Recuperar</Button>
-              </Link>
+              <button onClick={pasarPage} >
+                Recuperar
+              </button>
             </div>
           </form>
         </div>

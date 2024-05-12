@@ -18,7 +18,7 @@ const RoutesPages = () => (
   <Routes>  
     <Route path="/" element={<LoginPage />} />
     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-    <Route path="/reset-password" element={<ResetPasswordPage />} />
+    <Route path="/reset-password" element={<RecuperarPassword />} />
     <Route path="/assistant-menu" element={<AssistantMenu />} />
     <Route path="/estudiantes" element={<EstudiantesPage />} />
     <Route path="/equipo-guia" element={<EquipoGuiaAssistentPage />} />
