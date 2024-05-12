@@ -4,8 +4,9 @@ import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
 import ResetPasswordPage from "./Pages/ResetPasswordPage";
 import AssistantMenu from "./Pages/AssistantMenu";
 import EquipoGuiaAssistentPage from "./Pages/EquipoGuiaAssistentPage";
-import PlanTrabajoAssistent from "./Pages/PlanTrabajoAssistent";
+import PlanTrabajoPage from "./Pages/PlanTrabajoPage";
 import EstudiantesPage from "./Pages/EstudiantesPage";
+import ActividadPage from "./Pages/ActividadPage";
 import InfoProfesor from "./Pages/InfoProfesor";
 import MostrarProfesorSede from "./Pages/MostrarProfesorSede";
 import DetallesActividad from "./Pages/DetallesActividad";
@@ -19,10 +20,11 @@ const RoutesPages = () => (
     <Route path="/assistant-menu" element={<AssistantMenu />} />
     <Route path="/estudiantes" element={<EstudiantesPage />} />
     <Route path="/equipo-guia" element={<EquipoGuiaAssistentPage />} />
-    <Route path="/plan-trabajo" element={<PlanTrabajoAssistent />} />
+    <Route path="/plan-trabajo" element={<PlanTrabajoPage />} />
     <Route path="/info-profesor" element={<InfoProfesor />} />
     <Route path="/mostrar-profesor-sede" element={<MostrarProfesorSede />} />
     <Route path="/detalle-actividad" element={<DetallesActividad/>} />
+    <Route path="/actividad" element={<ActividadPage/>} />
     
   </Routes>
 );

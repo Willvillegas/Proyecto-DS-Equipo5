@@ -20,7 +20,7 @@ const links = [
 },
 {
     name: "Actividades",
-    href: "/detalle-actividad",  
+    href: "/actividad",
 },
 
 

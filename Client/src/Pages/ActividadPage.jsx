@@ -2,34 +2,31 @@ import React, { useState, useEffect } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 
-function PlanTrabajoAssistent() {
-  const [PlanTrabajoInfo, setPlanTrabajoInfo] = useState([]);
-  const userType = 2 //Tipo de usuario (1 = Asistente/Profesor)
+function ActividadPage() {
+  const [ActividadInfo, setActividadInfo] = useState([]);
+  const userType = 2 //Tipo de usuario (1 = Asistente/Profesor) 2= Profesor Coordinador
 
   useEffect(() => {
     // Simulación de datos de prueba
     const mockData = [
-      { id: 1, equipo: 'Equipo 1', nombre: 'Plan 1', estado: 'Activo' },
-      { id: 2, equipo: 'Equipo 2', nombre: 'Plan 2', estado: 'Inactivo' },
-      { id: 3, equipo: 'Equipo 3', nombre: 'Plan 3', estado: 'Activo' },
+      { id: 1, semana: '1', nombre: 'Actividad 1', tipo: 'Orientadora', estado: 'Activo' },
     ];
 
     // Establecer los datos de prueba en el estado
-    setPlanTrabajoInfo(mockData);
+    setActividadInfo(mockData);
   }, []);
 
   /**
    *   useEffect(() => {
-    axios.get(`${API_ROOT}/api/planTrabajo/${1}/planTrabajo`)
+    axios.get(`${API_ROOT}/api/actividad/${1}/actividad`)
       .then(response => {
-        setPlanTrabajoInfo(response.data)
-        console.log(PlanTrabajoInfo)
+        setActividadInfo(response.data)
+        console.log(ActividadInfo)
       })
 
   }, []);
 
    */
-
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
     <div className=" w-full bg-gray-900 p-8 rounded-lg shadow-lg mx-auto mt-10 mb-10">
@@ -37,7 +34,7 @@ function PlanTrabajoAssistent() {
       {/* Encabezado */}
       <header className="flex justify-between items-center px-4 py-3 ml-5">
         <div className="flex items-center">
-          <div className="font-semibold text-3xl mt-5">Planes de trabajo</div>
+          <div className="font-semibold text-3xl mt-5">Actividades</div>
         </div>
       </header>
       <div className="flex items-center justify-between mb-4 ml-9">
@@ -82,37 +79,44 @@ function PlanTrabajoAssistent() {
       {/* Contenido */}
       <main className="p-4 h-[500px] ml-2">
         {/* Tabla */}
-        <div className="grid grid-cols-4 gap-1 mb-3 ml-3">
+        <div className="grid grid-cols-5 gap-1 mb-3 ml-3">
           <div>
-          <span className="font-bold text-white">Año</span>
+          <span className="font-bold text-white">Semana</span>
           </div>
           <div>
           <span className="font-bold text-white">Nombre</span>
           </div>
           <div>
+          <span className="font-bold text-white">Tipo</span>
+          </div>
+          <div >
           <span className="font-bold text-white">Estado</span>
           </div>
           <div >
           <span className="font-bold text-white ml-10">Acción</span>
           </div>
       </div>
-        {PlanTrabajoInfo.map((planTrabajo)=>(
-          <div key={planTrabajo.id}  className="bg-gray-700 rounded p-4 ml-2 mr-6">
-            <div className="grid grid-cols-4 gap-4">
-              {/* Año */}
+        {ActividadInfo.map((actividad)=>(
+          <div key={actividad.id}  className="bg-gray-700 rounded p-4 ml-2 mr-9">
+            <div className="grid grid-cols-5 gap-4">
+              {/* Semana */}
               <div>
-                <p className="text-gray-300">{planTrabajo.equipo}</p>
+                <p className="text-gray-300">{actividad.semana}</p>
               </div>
               {/* Nombre */}
               <div>
-                <p className="text-gray-300">{planTrabajo.nombre}</p>
+                <p className="text-gray-300">{actividad.nombre}</p>
+              </div>
+              {/* Tipo */}
+              <div>
+                <p className="text-gray-300">{actividad.tipo}</p>
               </div>
               {/* Estado */}
               <div>
-                <p className="text-gray-300">{planTrabajo.estado}</p>
+                <p className="text-gray-300">{actividad.estado}</p>
               </div>
               {/* Acción */}
-              <div className='p-2 pl-10'>
+              <div className='flex items-center'>
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2">
                   Ver
                 </button>
@@ -132,4 +136,4 @@ function PlanTrabajoAssistent() {
   );
 }
 
-export default PlanTrabajoAssistent;
+export default ActividadPage;
