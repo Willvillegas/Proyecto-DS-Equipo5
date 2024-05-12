@@ -11,13 +11,14 @@ import InfoProfesor from "./Pages/InfoProfesor";
 import MostrarProfesorSede from "./Pages/MostrarProfesorSede";
 import DetallesActividad from "./Pages/DetallesActividad";
 import Comentarios from "./Pages/Comentarios";
+import RecuperarPassword from "./Pages/RecuperarPassword";
 //import NotFoundPage from "./Pages/NotFoundPage"; // Add a NotFoundPage component
 
 const RoutesPages = () => (
   <Routes>  
     <Route path="/" element={<LoginPage />} />
     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
-    <Route path="/reset-password" element={<ResetPasswordPage />} />
+    <Route path="/reset-password" element={<RecuperarPassword />} />
     <Route path="/assistant-menu" element={<AssistantMenu />} />
     <Route path="/estudiantes" element={<EstudiantesPage />} />
     <Route path="/equipo-guia" element={<EquipoGuiaAssistentPage />} />
