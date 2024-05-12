@@ -1,7 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
-import ResetPasswordPage from "./Pages/ResetPasswordPage";
 import AssistantMenu from "./Pages/AssistantMenu";
 import EquipoGuiaAssistentPage from "./Pages/EquipoGuiaAssistentPage";
 import PlanTrabajoPage from "./Pages/PlanTrabajoPage";
@@ -12,6 +11,7 @@ import MostrarProfesorSede from "./Pages/MostrarProfesorSede";
 import DetallesActividad from "./Pages/DetallesActividad";
 import Comentarios from "./Pages/Comentarios";
 import InfoProf from "./Pages/InfoProf";
+import RecuperarPassword from "./Pages/RecuperarPassword";
 //import NotFoundPage from "./Pages/NotFoundPage"; // Add a NotFoundPage component
 
 const RoutesPages = () => (

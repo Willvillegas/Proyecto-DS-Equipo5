@@ -1,7 +1,7 @@
 import { BrowserRouter as Router } from "react-router-dom";
 import RoutesPages from "./PageRoutes";
 import NavBar from "./components/NavBar";
-import RecuperarPassword from "./Pages/RecuperarPassword";
+
 
 
 const App = () => (

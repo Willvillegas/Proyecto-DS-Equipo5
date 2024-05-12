@@ -41,9 +41,9 @@ navigate(`/reset-password`)
             {/* Botón de inicio de sesión */}
             <div className="mt-6">
               {/* Componente Link para redireccionar a RecuperarPassword */}
-              <button onClick={pasarPage} >
+              <Button type="submit" onClick={pasarPage}>
                 Recuperar
-              </button>
+              </Button>
             </div>
           </form>
         </div>
