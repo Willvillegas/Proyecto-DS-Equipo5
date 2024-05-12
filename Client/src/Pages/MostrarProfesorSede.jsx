@@ -4,7 +4,7 @@ import API_ROOT from '../../apiRoutes';
 
 
 
-const currentUserRole = 1; // PARÁMETRO PARA CAMBIAR EL ROL Y MOSTRAR ASÍ LOS BOTONES
+const userTipe =1; // PARÁMETRO PARA CAMBIAR EL ROL Y MOSTRAR ASÍ LOS BOTONES
 
 const buttons = [
   {
@@ -46,10 +46,10 @@ const Button = ({ text, onClick }) => (
   </button>
 );
 
-const ButtonList = ({ buttons, currentUserRole }) => (
+const ButtonList = ({ buttons, userTipe }) => (
   <div className="flex justify-center">
     {buttons.map((button, index) => {
-      if (button.roles.includes(currentUserRole)) {
+      if (button.roles.includes(userTipe)) {
         return <Button key={index} text={button.text} onClick={button.onClick} />;
       }
       return null;
@@ -86,7 +86,7 @@ function MostrarProfesorSede() {
         <div className="flex justify-center items-center flex-col mb-8">
           {/* Input de imagen */}
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
-          <ButtonList buttons={profileButtons} currentUserRole={currentUserRole} />
+          <ButtonList buttons={profileButtons} userTipe={userTipe} />
         </div>
         <div className="mb-8">
           {/* Código */}
@@ -116,7 +116,7 @@ function MostrarProfesorSede() {
           </div>
         </div>
         {/* Botones */}
-        <ButtonList buttons={buttons} currentUserRole={currentUserRole} />
+        <ButtonList buttons={buttons} userTipe={userTipe} />
       </div>
     </div>
   );

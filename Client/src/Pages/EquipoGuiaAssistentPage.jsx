@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function EquipoGuiaAssistentPage() {
   const [profesorInfo, setProfesorInfo] = useState([]);
-  const userTipe = 1
+  const userTipe = 2
 
   useEffect(() => {
     // Simulación de solicitud al backend (reemplazar con la lógica real)
