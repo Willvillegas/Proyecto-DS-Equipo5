@@ -67,7 +67,7 @@ function InfoProf() {
     </div>}
     </div>
       {/* Contenido */}
-      <main className="p-2 h-[500px] ml-2">
+      <main className="p-2 h-[800px] ml-2">
         {/* Tabla */}
         <div className="grid grid-cols-2 gap-1 mb-3 ml-3">
           <div>
@@ -75,32 +75,31 @@ function InfoProf() {
           </div>
           <div>
           </div>
-      </div>
-        {EstudiantesInfo.map((estudiante)=>(
-          <div key={estudiante.id}  className="bg-gray-700 rounded p-4 ml-2 mr-6 bg-gray-700 rounded p-4 ml-2 mr-6 pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200">
-            <div className="grid grid-cols-4 gap-4">
-              {/* Nombre */}
-              <div>
-                <p className="text-gray-300">{estudiante.nombre}</p>
-              </div>
-              {/* Correo */}
-              <div>
-                <p className="text-gray-300">{estudiante.correo}</p>
-              </div>
-              {/* Carnet */}
-              <div>
-                <p className="text-gray-300">{estudiante.carnet}</p>
-              </div>
-              {/* Acción */}
-              <div className='p-2 pl-10'>
-                {userType == 1 ? <div/>:
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
-                  Agregar
-                </button>}
+      </div >
+      <div className="mt-6 border-t border-gray-100"> {/*Linea divisora.*/}
+        <dl className="divide-y divide-gray-100">
+          {EstudiantesInfo.map((estudiante)=>(
+            <div key={estudiante.id} className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" >
+              <dt className="text-sm font-medium leading-6 text-gray-50">{estudiante.id}</dt>
+            
+              <div className="grid grid-cols-4 gap-4">
+                {/* Nombre */}
+                <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">{estudiante.nombre}</dd>
+                
+                {/* Correo */}
+                <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">{estudiante.correo}</dd>
+                
+                {/* Carnet */}
+                <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">{estudiante.carnet}</dd>
+                
+                {/* Acción */}
+                
               </div>
             </div>
-          </div>
-        ))}
+          
+          ))}
+        </dl>
+      </div>
       </main>
 
     </div>
