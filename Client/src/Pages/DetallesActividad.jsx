@@ -2,10 +2,13 @@ import React, { useState, useEffect } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
-
+import Popup from '../components/Popup';
+import { Button} from '@headlessui/react';
 const DetallesActividad = () => {
     const { id } = useParams();
     const [actividad, setActividad] = useState({});
+    const [isOpenAc, setIsOpen] = useState(false);
+    const [modoEdicion, setModoEdicion] = useState(false);
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -13,6 +16,7 @@ const DetallesActividad = () => {
         console.log(id)
         axios.get(`${API_ROOT}/api/actividades/${id}`)
         .then(response => {
+            delete response.data[0].afiche;
             setActividad(response.data[0]);
         })
         
@@ -20,6 +24,33 @@ const DetallesActividad = () => {
 
     const handleComentariosClick = () => {
         navigate(`/comentarios/${id}`);
+    }
+    /*const openPopup = () => {
+      setIsOpen(true);
+    };*/
+  
+    const closePopup = () => {
+        setIsOpen(false);
+    };
+
+    const openPopup = () => {
+        setIsOpen(true);
+    };
+    const setEdition= ()=> {
+        setModoEdicion(true);
+        setIsOpen(false);
+    };
+
+    const guardarCambios = () => {
+        setModoEdicion(false);
+        console.log("Guardando cambios");
+        setIsOpen(false);
+        //llamo a la api para guardar cambios
+    };
+
+    const descartarCambios = () => {
+        setModoEdicion(false);
+        setIsOpen(false);
     }
 
     return (
@@ -33,9 +64,24 @@ const DetallesActividad = () => {
                     <dl className="divide-y divide-gray-100">
                         {/* Información de la actividad hacerlo en un map por medio de la variable actividad*/}
                         {Object.entries(actividad).map(([key, value]) => (
-                            <div key={key} className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            <div key={key} className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" >
                                 <dt className="text-sm font-medium leading-6 text-gray-50">{key}</dt>
-                                <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">{key == "afiche" ? "": value}</dd>
+                                {modoEdicion ? (
+                                    <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
+                                        
+                                        <input
+                                        type="text"
+                                        value={value}
+                                        onChange={(e) => {
+                                            const updatedActividad = { ...actividad, [key]: e.target.value };
+                                            setActividad(updatedActividad);
+                                        }}
+                                        className="border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md p-1"
+                                        />
+                                    </dd>
+                                    ) : (
+                                    <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">{value}</dd>
+                                    )}
                             </div>
                         ))}
                     
@@ -84,6 +130,19 @@ const DetallesActividad = () => {
                     onClick={handleComentariosClick}>
                     Comentarios
                 </button>
+                <button
+                    onClick={openPopup}
+                    className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
+                    {modoEdicion ? "Guardar" : "Modificar"}
+                </button>
+
+                <Popup isOpen={isOpenAc} 
+                        close={closePopup} 
+                        edit={setEdition} 
+                        modoEdicion={modoEdicion} 
+                        cambios={guardarCambios}
+                        descartarCambios={descartarCambios} />
+
             </div>
         </div>
     );

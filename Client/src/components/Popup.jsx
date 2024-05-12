@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Button, Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react' 
 
-function Popup({ isOpen, close,edit, modoEdicion, cambios }) {
+function Popup({ isOpen, close,edit, modoEdicion, cambios, descartarCambios }) {
     
     return (
         <>
@@ -53,7 +53,7 @@ function Popup({ isOpen, close,edit, modoEdicion, cambios }) {
                                             </svg>
                                         </button>
                                         <Button
-                                            className="w-full text-center inline-flex items-center gap-2 rounded-md bg-red-600 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-red-500 data-[open]:bg-red-600 data-[focus]:outline-1 data-[focus]:outline-white"
+                                            className="w-full text-center inline-flex items-center justify-center gap-2 rounded-md bg-red-600 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-red-500 data-[open]:bg-red-600 data-[focus]:outline-1 data-[focus]:outline-white"
                                             onClick={() => {
                                                 if (modoEdicion) {
                                                     cambios(); // Llamar a la función guardarCambios si estamos en modo de edición
@@ -64,7 +64,14 @@ function Popup({ isOpen, close,edit, modoEdicion, cambios }) {
                                         >
                                             {modoEdicion ? "Guardar" : "Modificar"}
                                         </Button>
-                                        
+                                        {modoEdicion && (
+                                            <Button
+                                                className="w-full text-center inline-flex items-center justify-center gap-2 rounded-md bg-gray-600 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-gray-500 data-[open]:bg-gray-600 data-[focus]:outline-1 data-[focus]:outline-white mt-1"
+                                                onClick={descartarCambios} // Llamar a la función descartarCambios cuando se haga clic en el botón
+                                            >
+                                                Descartar Cambios
+                                            </Button>
+                                        )}
                                     </div>
                                 </DialogPanel>
                             </TransitionChild>
