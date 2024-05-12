@@ -1,6 +1,7 @@
 import React from 'react';
 import { Input } from "../components/ui/Input"; // Importación del componente Input
 import { Button } from "../components/ui/Button"; // Importación del componente Button
+import { Link } from 'react-router-dom';
 
 function ForgotPasswordPage() {
   return (
@@ -29,8 +30,10 @@ function ForgotPasswordPage() {
             </div>
             {/* Botón de inicio de sesión */}
             <div className="mt-6">
-              {/* Componente Button para iniciar sesión */}
-              <Button type="submit">Iniciar sesión</Button>
+              {/* Componente Link para redireccionar a RecuperarPassword */}
+              <Link to="/LoginPage">
+                <Button type="submit">Recuperar</Button>
+              </Link>
             </div>
           </form>
         </div>
@@ -40,3 +43,4 @@ function ForgotPasswordPage() {
 }
 
 export default ForgotPasswordPage;
+
