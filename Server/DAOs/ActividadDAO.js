@@ -37,7 +37,6 @@ class ActividadDAO{
                 id: id, //Id de la actividad
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
-            console.log(result)
             return result;
         } catch (error) {
             console.log('Error getting actividad by id: ', error);
@@ -63,6 +62,7 @@ class ActividadDAO{
                 tipo: actividad.tipo,
                 modalidad: actividad.modalidad,
                 idPlan: actividad.idPlan,
+                nombre: actividad.nombre,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             console.log(result)
@@ -91,6 +91,7 @@ class ActividadDAO{
                 responsables: actividad.responsables,
                 tipo: actividad.tipo,
                 modalidad: actividad.modalidad,
+                nombre: actividad.nombre,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             console.log(result)

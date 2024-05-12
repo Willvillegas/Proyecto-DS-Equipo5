@@ -19,12 +19,11 @@ class ComentarioDAO {
             await ConnectionDAO.disconnect();
         }
     }
-    static async getAllRespuestas(idComentario){
+    static async getAllRespuestas(){
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("BuscarRespuestas", {
-                idMensaje: idComentario,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             return result;
@@ -40,7 +39,8 @@ class ComentarioDAO {
         try {
             await connection.connect();
             const result = await connection.executeProcedures("BuscarComentarioId", {
-                id: id
+                id: id,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             return result;
         } catch (error) {
@@ -51,18 +51,18 @@ class ComentarioDAO {
         }
     }
 
-    static async create(comentario) {
+    static async create(comentario, idRespuesta) {
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("CrearComentario", {
                 idProfesor: comentario.profesor,
 	            idActividad: comentario.actividad,
-	            idRespuesta: comentario.respuesta, // Si no hay respuesta se pasa 0
+	            idRespuesta: idRespuesta, // Si no hay respuesta se pasa 0
 	            titulo: comentario.titulo,
 	            cuerpo: comentario.cuerpo,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
-            console.log(result);
             return result;
         } catch (error) {
             console.log('Error creating comentario: ', error);
@@ -82,7 +82,8 @@ class ComentarioDAO {
                 fecha: comentario.fecha,
                 cuerpo: comentario.cuerpo,
                 profesor: comentario.profesor,
-                actividad: comentario.actividad
+                actividad: comentario.actividad,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             console.log(result);
             return result;
@@ -99,7 +100,8 @@ class ComentarioDAO {
         try {
             await connection.connect();
             const result = await connection.executeProcedures("EliminarComentario", {
-                id: id
+                id: id,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             return result;
         } catch (error) {

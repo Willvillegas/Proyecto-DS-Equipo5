@@ -4,8 +4,8 @@ const ComentarioModel = require('../models/ComentarioModel');
 class ComentarioController {
     static async getAllComentarios(req, res) {
         try {
-            const {idActividad} = req.body
-            const comentarios = await ComentarioDAO.getAll(idActividad);
+            const {id} = req.params
+            const comentarios = await ComentarioDAO.getAll(id);
             res.status(200).json(comentarios);
         } catch (error) {
             res.status(500).json({ error: 'Error getting comentarios' });
@@ -14,8 +14,7 @@ class ComentarioController {
 
     static async getAllRespuestas(req, res) {
         try {
-            const {idComentario} = req.body
-            const respuestas = await ComentarioDAO.getAllRespuestas(idComentario);
+            const respuestas = await ComentarioDAO.getAllRespuestas();
             res.status(200).json(respuestas);
         } catch (error) {
             res.status(500).json({ error: 'Error getting respuestas' });
@@ -33,10 +32,10 @@ class ComentarioController {
     }
 
     static async createComentario(req, res) {
-        const { titulo, fecha, cuerpo, profesor, actividad } = req.body;
+        const { titulo, fecha, cuerpo, profesor, actividad, respuesta } = req.body;
         const comentario = new ComentarioModel(null, titulo, fecha, cuerpo, profesor, actividad);
         try {
-            const result = await ComentarioDAO.create(comentario);
+            const result = await ComentarioDAO.create(comentario, respuesta);
             res.status(201).json({ message: 'Comentario created successfully', result });
         } catch (error) {
             res.status(500).json({ error: 'Error creating comentario' });

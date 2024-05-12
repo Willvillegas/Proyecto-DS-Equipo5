@@ -1,5 +1,5 @@
 class ActividadModel {
-  constructor(id, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables) {
+  constructor(id, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables, nombre) {
       this.id = id;
       this.semana = semana;
       this.fecha = fecha;
@@ -13,6 +13,7 @@ class ActividadModel {
       this.estado = estado;
       this.idPlan = idPlan;
       this.responsables = responsables;
+      this.nombre = nombre;
   }
 
   getSemana() {
@@ -109,6 +110,14 @@ class ActividadModel {
 
   setIdPlan(idPlan) {
       this.idPlan = idPlan;
+  }
+
+  getNombre() {
+    return this.nombre;
+  }
+
+  setNombre(nombre) {
+    this.nombre = nombre;
   }
 }
 
