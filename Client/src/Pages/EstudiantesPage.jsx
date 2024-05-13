@@ -1,32 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
+import PopupArchivo from '../components/PopUpArchivo';
+import PopUpDescargarArchivo from '../components/PopUpDescargarArchivo';
 
 function EstudiantesPage() {
   const [EstudiantesInfo, setEstudianteInfo] = useState([]);
-  const userType = 2 //Tipo de usuario (1 = Profesor)
+  const [showPopup, setShowPopup] = useState(false); // Estado para mostrar/ocultar el popup
+  const [showDownloadPopup, setShowDownloadPopup] = useState(false);
+  const userType = 2
+
 
   useEffect(() => {
-    // Simulación de datos de prueba
-    const mockData = [
-      { id: 1, nombre: 'John Doe', correo: 'johndoe@estudiantec.cr', carnet: '2022437760' }
-    ];
-
-    // Establecer los datos de prueba en el estado
-    setEstudianteInfo(mockData);
+    fetchEstudiantesData();
   }, []);
 
-  /**
-   *   useEffect(() => {
-    axios.get(`${API_ROOT}/api/estudiante/${1}/estudiante`)
+  const fetchEstudiantesData = () => {
+    axios.get(`${API_ROOT}/api/estudiantes/`)
       .then(response => {
-        setEstudianteInfo(response.data)
-        console.log(EstudiantesInfo)
+        setEstudianteInfo(response.data);
+        console.log('Estudiantes :', response.data);
       })
+      .catch(error => {
+        console.error('Error fetching estudiantes:', error);
+      });
+  };
 
-  }, []);
+  // Función para manejar la selección de archivo
+  const handleFileSelect = (file) => {
+    const formData = new FormData();
+    formData.append('file', file);
 
-   */
+    axios.post(`${API_ROOT}/api/estudiantes/upload`, formData)
+      .then(response => {
+        console.log('Archivo cargado exitosamente:', response.data);
+        // Actualizar la información de los estudiantes después de cargar el archivo
+        fetchEstudiantesData();
+      })
+      .catch(error => {
+        console.error('Error al cargar el archivo:', error);
+      });
+
+    // Cerrar el popup
+    setShowPopup(false);
+  };
+
+   // Función para manejar la generación de archivo
+   const handleGenerateFile = () => {
+    setShowDownloadPopup(true);
+  };
+
 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
@@ -69,7 +92,8 @@ function EstudiantesPage() {
                   className="block p-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ml-1"
                   defaultValue="alfabetico"
                 >
-                  <option value="alfabetico">Alfabetico</option>
+                  <option value="alfabetico">Alfabético</option>
+                  <option value="alfabetico">Carnet</option>
                 </select>
           <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
             Buscar
@@ -77,16 +101,23 @@ function EstudiantesPage() {
         </div>
       </div>
 
-      {userType == 1 ? <div/>:
+      {userType === 2 && (
       <div className="flex space-x-4 mr-8">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
-        Agregar
-      </button>
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-auto">
-        Cargar Excel
-      </button>
-    </div>
-    }
+         <button onClick={() => setShowPopup(true)} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
+          Cargar Excel
+        </button>
+      </div>
+    )}
+
+    {userType === 5 && (
+      <div className="flex space-x-4 mr-8">
+         <button  onClick={handleGenerateFile} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-auto">
+          Generar Excel
+        </button>
+      </div>
+    )} {showPopup && <PopupArchivo onFileSelect={handleFileSelect} />} {showDownloadPopup && <PopUpDescargarArchivo />}
+
+
     </div>
       {/* Contenido */}
       <main className="p-4 h-[500px] ml-2">
