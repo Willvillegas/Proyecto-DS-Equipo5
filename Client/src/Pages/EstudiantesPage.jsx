@@ -76,12 +76,17 @@ function EstudiantesPage() {
           </button>
         </div>
       </div>
+
       {userType == 1 ? <div/>:
-      <div className="flex space-x-4">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
+      <div className="flex space-x-4 mr-8">
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
+        Agregar
+      </button>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-auto">
         Cargar Excel
       </button>
-    </div>}
+    </div>
+    }
     </div>
       {/* Contenido */}
       <main className="p-4 h-[500px] ml-2">
@@ -120,10 +125,7 @@ function EstudiantesPage() {
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2">
                   Ver
                 </button>
-                {userType == 1 ? <div/>:
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
-                  Agregar
-                </button>}
+                
               </div>
             </div>
           </div>
