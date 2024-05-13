@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 
@@ -11,6 +12,12 @@ const ejemploProfesor = {
 };
 
 function EquipoGuiaAssistentPage() {
+  const navigate = useNavigate();
+  const pasarPage = ( ) => {
+  navigate(`/mostrar-profesor-sede`)
+    
+    }
+
   const [profesorInfo, setProfesorInfo] = useState([]);
   const userTipe = 2
 
@@ -98,7 +105,7 @@ function EquipoGuiaAssistentPage() {
                     <p className="text-gray-300">{profesor.correo}</p>
                   </div>
                   <div className='p-2 pl-10'>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]">
+                    <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]" onClick={pasarPage}>
                       Ver
                     </button>
                   </div>
