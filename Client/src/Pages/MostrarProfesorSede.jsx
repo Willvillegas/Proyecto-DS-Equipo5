@@ -4,7 +4,7 @@ import API_ROOT from '../../apiRoutes';
 
 
 
-const userTipe =1; // PARÁMETRO PARA CAMBIAR EL ROL Y MOSTRAR ASÍ LOS BOTONES
+const userTipe = 1; // PARÁMETRO PARA CAMBIAR EL ROL Y MOSTRAR ASÍ LOS BOTONES
 
 const buttons = [
   {

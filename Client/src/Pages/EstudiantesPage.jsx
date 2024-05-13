@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function EstudiantesPage() {
   const [EstudiantesInfo, setEstudianteInfo] = useState([]);
-  const userType = 2 //Tipo de usuario (1 = Profesor)
+  const userType = 1 //Tipo de usuario (1 = Profesor)
 
   useEffect(() => {
     // Simulación de datos de prueba
@@ -71,14 +71,14 @@ function EstudiantesPage() {
                 >
                   <option value="alfabetico">Alfabetico</option>
                 </select>
-          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
             Buscar
           </button>
         </div>
       </div>
       {userType == 1 ? <div/>:
       <div className="flex space-x-4">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
         Cargar Excel
       </button>
     </div>}
@@ -117,11 +117,11 @@ function EstudiantesPage() {
               </div>
               {/* Acción */}
               <div className='p-2 pl-10'>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
                   Ver
                 </button>
                 {userType == 1 ? <div/>:
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
                   Agregar
                 </button>}
               </div>
