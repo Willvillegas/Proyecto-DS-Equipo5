@@ -76,12 +76,22 @@ function EstudiantesPage() {
           </button>
         </div>
       </div>
+
       {userType == 1 ? <div/>:
+<<<<<<< HEAD
       <div className="flex space-x-4">
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
+=======
+      <div className="flex space-x-4 mr-8">
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
+        Agregar
+      </button>
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-auto">
+>>>>>>> 0d234cfb5be857812779952c115a1242aeabfdf4
         Cargar Excel
       </button>
-    </div>}
+    </div>
+    }
     </div>
       {/* Contenido */}
       <main className="p-4 h-[500px] ml-2">
@@ -120,10 +130,14 @@ function EstudiantesPage() {
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
                   Ver
                 </button>
+<<<<<<< HEAD
                 {userType == 1 ? <div/>:
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
                   Agregar
                 </button>}
+=======
+                
+>>>>>>> 0d234cfb5be857812779952c115a1242aeabfdf4
               </div>
             </div>
           </div>
