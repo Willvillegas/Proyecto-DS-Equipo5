@@ -22,8 +22,16 @@ function EquipoGuiaAssistentPage() {
   const userTipe = 2
 
   // Agregando el objeto de ejemplo en el estado inicial
-  useEffect(() => {
-    setProfesorInfo([ejemploProfesor]);
+    useEffect(() => {
+      // Simulación de solicitud al backend (reemplazar con la lógica real)
+     // Aquí puedes hacer una solicitud HTTP utilizando fetch o Axios
+     // Una vez que obtengas los datos, puedes actualizar el estado
+     axios.get(`${API_ROOT}/api/equiposguia/${1}/profesores`)
+       .then(response => {
+         setProfesorInfo(response.data)
+         console.log(profesorInfo)
+       })
+ 
   }, []);
 
   return (
