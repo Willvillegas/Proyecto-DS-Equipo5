@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import API_ROOT from '../../apiRoutes';
+import axios from 'axios';
 
-const userType = 3;
+const userType = 2;
 
 const buttons = [
   {
     text: 'Volver',
     onClick: () => console.log("Volver"),
-    roles: [1, 2, 3, 4, 5]
+    roles: [1, 2, 3, 4, 5] // 1 asistente Cartago, 2 asistente sede, 3 asistente sin sede, 4 profesor que está logueado, 5 profesor guía
   },
   {
     text: 'Modificar',
-    onClick: () => console.log('Modificar'),
     roles: [1, 2, 4]
   },
   {
@@ -44,10 +45,10 @@ const Button = ({ text, onClick, key }) => (
   </button>
 );
 
-const ButtonGroup = ({ buttons, userType }) => (
+const ButtonGroup = ({ buttons, userType, navigateToModificar }) => (
   <div className="flex justify-center">
     {buttons.filter(button => button.roles.some(role => role === userType)).map((button, index) => (
-      <Button key={index} text={button.text} onClick={button.onClick} />
+      <Button key={index} text={button.text} onClick={button.onClick || navigateToModificar} />
     ))}
   </div>
 );
@@ -107,18 +108,23 @@ function MostrarProfesorSede() {
     setProfesorInfo(mockProfesorInfo);
   }, []);
 
+  const navigateToModificar = () => {
+    
+    navigate('/modificar-profesor');
+  };
+
   return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
       <div className="max-w-md w-full">
         <div className="flex justify-center items-center flex-col mb-8">
           {/* Input de imagen */}
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
-          <ButtonGroup buttons={profileButtons} userType={userType} />
+          <ButtonGroup buttons={profileButtons} userType={userType} navigateToModificar={navigateToModificar} />
         </div>
         <ProfileInfo profesorInfo={profesorInfo} />
         {/* Botones */}
         <div className="flex justify-center">
-          <ButtonGroup buttons={buttons.slice(1)} userType={userType} />
+          <ButtonGroup buttons={buttons.slice(1)} userType={userType} navigateToModificar={navigateToModificar} />
           <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} userType={userType} />
         </div>
       </div>
