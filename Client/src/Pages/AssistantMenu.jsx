@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthContext';
 
 const AssistantMenu = () => {
+  const { currentUser } = useAuthContext();
+
+  useEffect(() => {
+    console.log(currentUser)
+  }, []);
+
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white p-11">
       <div className="max-w-md w-full bg-gray-900 p-8 rounded-lg shadow-lg">

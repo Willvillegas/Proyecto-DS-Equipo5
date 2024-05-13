@@ -1,8 +1,44 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { Input } from "../components/ui/Input"; // Importación del componente Input
 import { Button } from "../components/ui/Button"; // Importación del componente Button
+import { AuthContext, useAuthContext } from "../context/AuthContext";
+import axios from "axios";
+import API_ROOT from "../../apiRoutes";
+import { data } from "autoprefixer";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+
 
 function LoginPage() {
+  const { getLoginStatus, dispatch } = useContext(AuthContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+    // Aquí puedes agregar la lógica para autenticar al usuario
+    // Por ejemplo, puedes enviar una solicitud al servidor para verificar las credenciales
+    // Si las credenciales son válidas, puedes actualizar el estado global del usuario usando dispatch
+    const data = {
+      correo: email,
+      contrasenna: password
+    }
+    try{
+      axios.post(`${API_ROOT}/api/usuario/login`, data)
+        .then(response => {
+          if(response.data!=50000){
+            dispatch({ type: 'LOGIN', payload: response.data });
+            navigate(`/assistant-menu`);
+          }
+        })
+    }catch (error){
+      console.log(error)
+    }
+    // Después de autenticar al usuario, podrías redirigirlo a otra página
+    };
+
+
   return (
     <>
       {/* Contenedor principal */}
@@ -16,7 +52,7 @@ function LoginPage() {
           {/* Contenedor del formulario */}
           <div className="bg-gray-900 mt-8 p-8 justify-center rounded-lg sm:mx-auto sm:w-full mx-auto sm:max-w-sm">
             {/* Formulario */}
-            <form className="space-y-2" action="#" method="POST">
+            <form className="space-y-2">
               {/* Campo de correo electrónico */}
               <div>
                 <label htmlFor="email" className="block text-sm justify-center font-medium leading-6 text-white">
@@ -28,8 +64,9 @@ function LoginPage() {
                     id="email"
                     name="email"
                     type="email"
-                    required
                     placeholder="Ingrese su correo"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -55,13 +92,15 @@ function LoginPage() {
                     required
                     autoComplete="current-password"
                     placeholder="Contraseña"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </div>
               {/* Botón de inicio de sesión */}
               <div className="mt-6">
                 {/* Componente Button para iniciar sesión */}
-                <Button type="submit">Iniciar sesión</Button>
+                <Button type="submit" onClick={handleLogin}>Iniciar sesión</Button>
               </div>
             </form>
           </div>

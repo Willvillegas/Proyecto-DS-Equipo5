@@ -31,19 +31,23 @@ class UsuarioController {
         try {
             const usuario = await UsuarioDAO.getById(correo);
             //const contr= await bycrypt.hash(contrasenna, 10);
-            const objUsuario = usuario[0];
+            const objUsuario = usuario;
             //hago compare (contraseña de la base de datos, contraseña que me pasaron)
             //Si la base de datos están las contraseñas encriptadas, se debe cambiar la siguiente línea
             //const passwordCorrect = objUsuario.contrasenna === contrasenna;
-            const passwordCorrect = await bycrypt.compare(objUsuario.contrasenna,contrasenna);
-            if (!passwordCorrect) {
-                res.status(401).json({ error: 'Usuario o contraseña incorrecta' });
-                return;
+            if (usuario.length != 0){
+                /*const passwordCorrect = await bycrypt.compare(objUsuario.contrasenna,contrasenna);
+                if (!passwordCorrect) {
+                    res.status(401).json({ error: 'Usuario o contraseña incorrecta' });
+                    return;
+                }
+                //generate token using jwt expiresIn: 7 days
+                const token = jwt.sign({ correo: usuario},'Proyecto-DS', {expiresIn: 60 * 60 * 24 * 7});
+                res.cookie('token', token, {httpOnly: true});*/
+                res.status(200).json(usuario[0]);
+            }else{
+                res.status(200).json(50000);
             }
-            //generate token using jwt expiresIn: 7 days
-            const token = jwt.sign({ correo: usuario},'Proyecto-DS', {expiresIn: 60 * 60 * 24 * 7});
-            res.cookie('token', token, {httpOnly: true});
-            res.status(200).json({usuario, token});
         } catch (error) {
             console.error(error);
             res.status(500).json({ error: 'Error al hacer login.' });
