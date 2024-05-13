@@ -4,12 +4,15 @@ import axios from 'axios';
 import { useNavigate, useParams } from 'react-router-dom';
 import Popup from '../components/Popup';
 import PopupCancelar from '../components/PopupCancelar';
+import PopupFinalizar from '../components/PopupFinalizar';
 import { Button} from '@headlessui/react';
 const DetallesActividad = () => {
     const { id } = useParams();
     const [actividad, setActividad] = useState({});
     const [isOpenAc, setIsOpen] = useState(false);
     const [modoEdicion, setModoEdicion] = useState(false);
+    const [isOpenCancelar, setIsOpenCancelar] = useState(false);
+    const [isOpenFinalizar, setIsOpenFinalizar] = useState(false);
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -56,6 +59,19 @@ const DetallesActividad = () => {
 
     const handleVolver = () => {
         navigate(`/actividad`);
+    }
+    const closePopupCancelar = () => {
+        setIsOpenCancelar(false);
+    }
+    const openPopupCancelar = () => {
+        setIsOpenCancelar(true);
+    }
+
+    const closePopupFinalizar = () => {
+        setIsOpenFinalizar(false);
+    }
+    const openPopupFinalizar = () => {
+        setIsOpenFinalizar(true);
     }
 
     return (
@@ -141,9 +157,14 @@ const DetallesActividad = () => {
                     {modoEdicion ? "Guardar" : "Modificar"}
                 </button>
                 <button
-                    onClick={openPopup}
+                    onClick={openPopupCancelar}
                     className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
                     Cancelar
+                </button>
+                <button
+                    onClick={openPopupFinalizar}
+                    className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
+                    Finalizar Actividad
                 </button>
 
                 <Popup isOpen={isOpenAc} 
@@ -151,7 +172,14 @@ const DetallesActividad = () => {
                         edit={setEdition} 
                         modoEdicion={modoEdicion} 
                         cambios={guardarCambios}
-                        descartarCambios={descartarCambios} />
+                        descartarCambios={descartarCambios} 
+                />
+                <PopupCancelar isOpenC={isOpenCancelar} 
+                                close={closePopupCancelar} 
+                />
+                <PopupFinalizar isOpenF={isOpenFinalizar}
+                                close={closePopupFinalizar}
+                />  
 
 
             </div>
