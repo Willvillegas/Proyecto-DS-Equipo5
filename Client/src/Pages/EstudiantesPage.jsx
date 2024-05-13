@@ -4,7 +4,7 @@ import axios from 'axios';
 
 function EstudiantesPage() {
   const [EstudiantesInfo, setEstudianteInfo] = useState([]);
-  const userType = 1 //Tipo de usuario (1 = Profesor)
+  const userType = 2 //Tipo de usuario (1 = Profesor)
 
   useEffect(() => {
     // Simulación de datos de prueba

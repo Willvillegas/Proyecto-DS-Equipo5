@@ -14,6 +14,7 @@ import InfoProf from "./Pages/InfoProf";
 import ModificarProfesor from "./Pages/ModificarProfesor";
 import RecuperarPassword from "./Pages/RecuperarPassword";
 import DetallesEstudiante from "./Pages/DetallesEstudiante";
+import ModificarEstudiante from "./Pages/ModificarEstudiante";
 //import NotFoundPage from "./Pages/NotFoundPage"; // Add a NotFoundPage component
 
 const RoutesPages = () => (
@@ -32,10 +33,10 @@ const RoutesPages = () => (
     <Route path="/actividad" element={<ActividadPage/>} />
     <Route path="/comentarios/:id" element={<Comentarios/>} />
     <Route path="/info-prof" element={<InfoProf/>} />
+    <Route path="/modificar-estudiante" element={<ModificarEstudiante/>} />
     <Route path="/modificar-profesor" element={<ModificarProfesor/>} />
     
   </Routes>
 );
-
 
 export default RoutesPages;
