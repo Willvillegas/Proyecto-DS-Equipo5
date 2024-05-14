@@ -10,6 +10,14 @@ function EstudiantesPage() {
   const [orderBy, setOrderBy] = useState('alfabetico');
   const userType = 5;
 
+  // Agregando el objeto de ejemplo en el estado inicial
+  useEffect(() => {
+   axios.get(`${API_ROOT}/api/estudiantes/allEstudiantes/${1}`)
+     .then(response => {
+       setEstudiantesInfo(response.data)
+       console.log(estudiantesInfo)
+     })
+}, []);
 
   // Función para manejar la generación de archivo
   const handleGenerateFile = () => {
@@ -123,7 +131,7 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
           </div>
 
             {/* Contenido */}
-            <main className="p-4 h-[500px] ml-2">
+            <main className="p-4 h-[calc(100vh - 200px)] ml-2 overflow-y-auto overflow-x-hidden">
             {/* Tabla */}
             <div className="grid grid-cols-4 gap-1 mb-3 ml-3">
               <div>

@@ -84,7 +84,7 @@ function EquipoGuiaAssistentPage() {
               </div>}
           </div>
           {/* Contenido */}
-          <main className="p-4 h-[500px] ml-2">
+          <main className="p-4 h-[calc(100vh - 200px)] ml-2 overflow-y-auto overflow-x-hidden">
             {/* Tabla */}
             <div className="grid grid-cols-4 gap-1 mb-3 ml-3">
               <div>

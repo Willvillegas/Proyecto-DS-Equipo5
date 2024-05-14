@@ -4,8 +4,9 @@ const XLSX = require('xlsx');
 
 class EstudianteController {
     static async getAllEstudiantes(req, res) {
+        const { id } = req.params;
         try {
-            const estudiantes = await EstudianteDAO.getAll();
+            const estudiantes = await EstudianteDAO.getAll(id);
             res.status(200).json(estudiantes);
         } catch (error) {
             res.status(500).json({ error: 'Error getting estudiantes' });

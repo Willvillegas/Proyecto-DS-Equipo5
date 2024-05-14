@@ -6,7 +6,7 @@ const storage = multer.memoryStorage();
 const upload = multer({storage: storage});
 
 //Rutas
-router.get('/', EstudianteController.getAllEstudiantes);
+router.get('/allEstudiantes/:id', EstudianteController.getAllEstudiantes);
 router.get('/:id', EstudianteController.getEstudianteById);
 router.post('/', EstudianteController.createEstudiante);
 router.put('/:id', EstudianteController.updateEstudiante);
