@@ -25,6 +25,12 @@ const AssistantMenu = () => {
             Estudiantes
           </button>
         </Link>
+        {/* Botón para ir ventana para agregar estudiantes */}
+        <Link to="/agregar-estudiantes">
+          <button className="active:scale-[.98] active:duration-75 hover:scale-[1.01]  w-full bg-indigo-600 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mb-4">
+            Agregar Estudiantes
+          </button>
+        </Link>
         {/* Botón para ir al plan de trabajo */}
         <Link to="/plan-trabajo">
           <button className="active:scale-[.98] active:duration-75 hover:scale-[1.01]  w-full bg-indigo-600 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mb-4">

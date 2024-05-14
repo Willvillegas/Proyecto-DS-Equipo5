@@ -4,6 +4,7 @@ import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
 import AssistantMenu from "./Pages/AssistantMenu";
 import EquipoGuiaAssistentPage from "./Pages/EquipoGuiaAssistentPage";
 import PlanTrabajoPage from "./Pages/PlanTrabajoPage";
+import AddEstudiantesPage from "./Pages/AddEstudiantesPage";
 import EstudiantesPage from "./Pages/EstudiantesPage";
 import ActividadPage from "./Pages/ActividadPage";
 import InfoProfesor from "./Pages/InfoProfesor";
@@ -23,6 +24,7 @@ const RoutesPages = () => (
     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
     <Route path="/reset-password" element={<RecuperarPassword/>} />
     <Route path="/assistant-menu" element={<AssistantMenu />} />
+    <Route path="/agregar-estudiantes" element={<AddEstudiantesPage />} />
     <Route path="/estudiantes" element={<EstudiantesPage />} />
     <Route path="/equipo-guia" element={<EquipoGuiaAssistentPage />} />
     <Route path="/plan-trabajo" element={<PlanTrabajoPage />} />

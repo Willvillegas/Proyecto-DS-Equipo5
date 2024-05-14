@@ -4,13 +4,13 @@ import axios from 'axios';
 import PopupArchivo from '../components/PopUpArchivo';
 import PopUpDescargarArchivo from '../components/PopUpDescargarArchivo';
 
-function EstudiantesPage() {
+function AddEstudiantesPage() {
   const [estudiantesInfo, setEstudiantesInfo] = useState([]);
   const [showPopup, setShowPopup] = useState(false); // Estado para mostrar/ocultar el popup
   const [showDownloadPopup, setShowDownloadPopup] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); // Estado input busqueda
   const [orderBy, setOrderBy] = useState('alfabetico');
-  const userType = 5;
+  const userType = 2;
 
   // Función para manejar la selección de archivo
   const handleFileSelect = (file) => {
@@ -79,7 +79,7 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
           {/* Encabezado */}
           <header className="flex justify-between items-center px-4 py-3 ml-5">
             <div className="flex items-center">
-              <div className="font-semibold text-3xl mt-5">Estudiantes</div>
+              <div className="font-semibold text-3xl mt-5">Agregar estudiantes</div>
             </div>
           </header>
           <div className="flex items-center justify-between mb-4 ml-9">
@@ -129,72 +129,79 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
               </div>
             </div>
 
-            {userType === 5 && (
+            {userType === 2 && (
               <div className="flex space-x-4 mr-8">
                 <button
-                  onClick={handleGenerateFile}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-auto"
+                  onClick={() => setShowPopup(true)}
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2 active:scale-[.98] active:duration-75 hover:scale-[1.01]"
                 >
-                  Generar Excel
+                  Cargar Excel
                 </button>
               </div>
-            )}{' '}
+            )}
+
+           {' '}
             {showPopup && <PopupArchivo onFileSelect={handleFileSelect} />}{' '}
             {showDownloadPopup && <PopUpDescargarArchivo />}
           </div>
 
-            {/* Contenido */}
-            <main className="p-4 h-[500px] ml-2">
+          {/* Contenido */}
+          <main className="p-4 h-[calc(100vh - 200px)] ml-2 overflow-y-auto overflow-x-hidden">
+            
             {/* Tabla */}
-            <div className="grid grid-cols-4 gap-1 mb-3 ml-3">
+            <div className="grid grid-cols-5 gap-1 mb-3 ml-3">
+              {/* Encabezados de la tabla */}
               <div>
                 <span className="font-bold text-white">Nombre</span>
               </div>
               <div>
-                <span className="font-bold text-white">Correo</span>
+                <span className="font-bold text-white">Apellidos</span>
               </div>
               <div>
                 <span className="font-bold text-white">Carnet</span>
               </div>
               <div>
-                <span className="font-bold text-white ml-10">Acción</span>
+                <span className="font-bold text-white ml-10">Correo</span>
+              </div>
+              <div>
+                <span className="font-bold text-white ml-10">Teléfono</span>
               </div>
             </div>
+            {/* Contenido de la tabla */}
             {filteredEstudiantes.map((estudiante) => (
               <div
-                key={estudiante.id}
-                className="bg-gray-700 rounded p-4 ml-2 mr-6 bg-gray-700 rounded p-4 ml-2 mr-6 pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
+                key={estudiante.carnet}
+                className="bg-gray-700 rounded p-4 ml-2 mr-6 mb-4 bg-gray-700 rounded p-4 ml-2 mr-6 pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
               >
-                <div className="grid grid-cols-4 gap-4">
+                <div className="grid grid-cols-5 gap-4">
                   {/* Nombre */}
                   <div>
                     <p className="text-gray-300">{estudiante.nombre}</p>
                   </div>
-                  {/* Correo */}
+                  {/* Apellidos */}
                   <div>
-                    <p className="text-gray-300">{estudiante.correo}</p>
+                    <p className="text-gray-300">{estudiante.apellido1} {estudiante.apellido2}</p>
                   </div>
                   {/* Carnet */}
                   <div>
                     <p className="text-gray-300">{estudiante.carnet}</p>
                   </div>
-                  {/* Acción */}
+                  {/* Correo */}
+                  <div>
+                    <p className="text-gray-300">{estudiante.correo}</p>
+                  </div>
+                  {/* Teléfono */}
                   <div className="p-2 pl-10">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
-                      Ver
-                    </button>
+                    <p className="text-gray-300">{estudiante.telefono}</p>
                   </div>
                 </div>
               </div>
             ))}
           </main>
-
         </div>
       </div>
     </div>
   );
 }
 
-export default EstudiantesPage;
-
-
+export default AddEstudiantesPage;
