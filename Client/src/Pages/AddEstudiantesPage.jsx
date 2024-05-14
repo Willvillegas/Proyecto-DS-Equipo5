@@ -2,12 +2,10 @@ import { useState, useEffect } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import PopupArchivo from '../components/PopUpArchivo';
-import PopUpDescargarArchivo from '../components/PopUpDescargarArchivo';
 
 function AddEstudiantesPage() {
   const [estudiantesInfo, setEstudiantesInfo] = useState([]);
   const [showPopup, setShowPopup] = useState(false); // Estado para mostrar/ocultar el popup
-  const [showDownloadPopup, setShowDownloadPopup] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); // Estado input busqueda
   const [orderBy, setOrderBy] = useState('alfabetico');
   const userType = 2;
@@ -31,10 +29,6 @@ function AddEstudiantesPage() {
     setShowPopup(false);
   };
 
-  // Función para manejar la generación de archivo
-  const handleGenerateFile = () => {
-    setShowDownloadPopup(true);
-  };
 
 // Filtrar estudiantes basados en el término de búsqueda en nombres y apellidos
 const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
@@ -142,7 +136,6 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
 
            {' '}
             {showPopup && <PopupArchivo onFileSelect={handleFileSelect} />}{' '}
-            {showDownloadPopup && <PopUpDescargarArchivo />}
           </div>
 
           {/* Contenido */}

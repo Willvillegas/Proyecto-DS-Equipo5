@@ -1,35 +1,15 @@
 import { useState, useEffect } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
-import PopupArchivo from '../components/PopUpArchivo';
 import PopUpDescargarArchivo from '../components/PopUpDescargarArchivo';
 
 function EstudiantesPage() {
   const [estudiantesInfo, setEstudiantesInfo] = useState([]);
-  const [showPopup, setShowPopup] = useState(false); // Estado para mostrar/ocultar el popup
   const [showDownloadPopup, setShowDownloadPopup] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); // Estado input busqueda
   const [orderBy, setOrderBy] = useState('alfabetico');
   const userType = 5;
 
-  // Función para manejar la selección de archivo
-  const handleFileSelect = (file) => {
-    const formData = new FormData();
-    formData.append('file', file);
-
-    axios
-      .post(`${API_ROOT}/api/estudiantes/upload`, formData)
-      .then((response) => {
-        console.log('Archivo cargado exitosamente:', response.data.data);
-        setEstudiantesInfo(response.data.data);
-      })
-      .catch((error) => {
-        console.error('Error al cargar el archivo:', error);
-      });
-
-    // Cerrar el popup
-    setShowPopup(false);
-  };
 
   // Función para manejar la generación de archivo
   const handleGenerateFile = () => {
@@ -139,7 +119,6 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
                 </button>
               </div>
             )}{' '}
-            {showPopup && <PopupArchivo onFileSelect={handleFileSelect} />}{' '}
             {showDownloadPopup && <PopUpDescargarArchivo />}
           </div>
 
