@@ -83,7 +83,7 @@ class EstudianteController {
                 const estudianteModel = new EstudianteModel(carnet, nombre, apellido1, apellido2, correo, telefono, sede, 1, 1);
                 await EstudianteDAO.create(estudianteModel,1);
             });
-            res.status(200).json({ message: 'Estudiantes created successfully' });
+            res.status(200).json({ message: 'Estudiantes created successfully', data });
         }catch (error){
             console.error(error);
             res.status(500).json({ error: 'Error reading file' });
