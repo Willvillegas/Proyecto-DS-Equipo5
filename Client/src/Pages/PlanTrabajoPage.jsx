@@ -1,34 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
+import { useAuthContext } from '../context/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 function PlanTrabajoPage() {
   const [PlanTrabajoInfo, setPlanTrabajoInfo] = useState([]);
-  const userType = 2 //Tipo de usuario (1 = Asistente/Profesor)
+  const { currentUser } = useAuthContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Simulación de datos de prueba
-    const mockData = [
-      { id: 1, equipo: 'Equipo 1', nombre: 'Plan 1', estado: 'Activo' },
-      { id: 2, equipo: 'Equipo 2', nombre: 'Plan 2', estado: 'Inactivo' },
-      { id: 3, equipo: 'Equipo 3', nombre: 'Plan 3', estado: 'Activo' },
-    ];
-
-    // Establecer los datos de prueba en el estado
-    setPlanTrabajoInfo(mockData);
-  }, []);
-
-  /**
-   *   useEffect(() => {
-    axios.get(`${API_ROOT}/api/planTrabajo/${1}/planTrabajo`)
+    axios.get(`${API_ROOT}/api/planTrabajo`)
       .then(response => {
         setPlanTrabajoInfo(response.data)
         console.log(PlanTrabajoInfo)
       })
-
+    // Establecer los datos de prueba en el estado
   }, []);
 
-   */
+  const clickVer = (id) => {
+    navigate(`/actividad/${id}`)
+  }
+
 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
@@ -72,7 +66,7 @@ function PlanTrabajoPage() {
           </button>
         </div>
       </div>
-      {userType == 1 ? <div/>:
+      {currentUser.tipo != 4 ? <div/>:
       <div className="flex space-x-4">
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
         Crear
@@ -89,34 +83,28 @@ function PlanTrabajoPage() {
           <div>
           <span className="font-bold text-white">Nombre</span>
           </div>
-          <div>
-          <span className="font-bold text-white">Estado</span>
-          </div>
           <div >
-          <span className="font-bold text-white ml-10">Acción</span>
+          <span className="font-bold text-white ml-5">Acción</span>
           </div>
       </div>
         {PlanTrabajoInfo.map((planTrabajo)=>(
-          <div key={planTrabajo.id}  className="bg-gray-700 rounded p-4 ml-2 mr-6">
+          <div key={planTrabajo.id}  className="bg-gray-700 rounded p-4 ml-2 mr-6 mt-3">
             <div className="grid grid-cols-4 gap-4">
               {/* Año */}
               <div>
-                <p className="text-gray-300">{planTrabajo.equipo}</p>
+                <p className="text-gray-300">{planTrabajo.generacion}</p>
               </div>
               {/* Nombre */}
               <div>
                 <p className="text-gray-300">{planTrabajo.nombre}</p>
               </div>
-              {/* Estado */}
-              <div>
-                <p className="text-gray-300">{planTrabajo.estado}</p>
-              </div>
               {/* Acción */}
-              <div className='p-2 pl-10'>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2">
+              <div className='grid grid-cols-2 p-2 pl-5 w-[320px]'>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2"
+                  onClick={() => clickVer(planTrabajo.id)}>
                   Ver
                 </button>
-                {userType == 1 ? <div/>:
+                {currentUser.tipo != 4 ? <div/>:
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
                   Eliminar
                 </button>}

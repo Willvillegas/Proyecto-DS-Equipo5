@@ -18,7 +18,7 @@ const DetallesActividad = () => {
     useEffect(() => {
         //simulación de una actividad (Json).
         console.log(id)
-        axios.get(`${API_ROOT}/api/actividades/${id}`)
+        axios.get(`${API_ROOT}/api/actividades/actividad/${id}`)
         .then(response => {
             delete response.data[0].afiche;
             setActividad(response.data[0]);

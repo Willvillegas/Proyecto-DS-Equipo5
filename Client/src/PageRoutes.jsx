@@ -30,7 +30,7 @@ const RoutesPages = () => (
     <Route path="/mostrar-profesor-sede" element={<MostrarProfesorSede />} />
     <Route path="/detalle-actividad/:id" element={<DetallesActividad/>} />
     <Route path="/detalle-estudiantes" element={<DetallesEstudiante/>} />
-    <Route path="/actividad" element={<ActividadPage/>} />
+    <Route path="/actividad/:id" element={<ActividadPage/>} />
     <Route path="/comentarios/:id" element={<Comentarios/>} />
     <Route path="/info-prof" element={<InfoProf/>} />
     <Route path="/modificar-estudiante" element={<ModificarEstudiante/>} />

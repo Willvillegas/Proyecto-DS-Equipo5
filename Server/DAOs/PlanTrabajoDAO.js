@@ -5,6 +5,7 @@ class PlanTrabajoDAO{
 
     //method to get all the planes guia from the database
     static async getAll(id){
+        id = 1
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();

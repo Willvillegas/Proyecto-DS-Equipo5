@@ -1,32 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthContext';
 
 function ActividadPage() {
   const [ActividadInfo, setActividadInfo] = useState([]);
-  const userType = 2 //Tipo de usuario (1 = Asistente/Profesor) 2= Profesor Coordinador
+  const { id } = useParams();
+  const { currentUser } = useAuthContext();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Simulación de datos de prueba
-    const mockData = [
-      { id: 1, semana: '1', nombre: 'Actividad 1', tipo: 'Orientadora', estado: 'Activo' },
-    ];
-
-    // Establecer los datos de prueba en el estado
-    setActividadInfo(mockData);
-  }, []);
-
-  /**
-   *   useEffect(() => {
-    axios.get(`${API_ROOT}/api/actividad/${1}/actividad`)
+    console.log(id)
+    axios.get(`${API_ROOT}/api/actividades/${id}`)
       .then(response => {
         setActividadInfo(response.data)
-        console.log(ActividadInfo)
       })
+    // Establecer los datos de prueba en el estado
+  }, [id]);
 
-  }, []);
+  const clickVer = (id) => {
+    navigate(`/detalle-actividad/${id}`)
+  }
 
-   */
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
     <div className=" w-full bg-gray-900 p-8 rounded-lg shadow-lg mx-auto mt-10 mb-10">
@@ -69,7 +66,7 @@ function ActividadPage() {
           </button>
         </div>
       </div>
-      {userType == 1 ? <div/>:
+      {currentUser.tipo != 4 ? <div/>:
       <div className="flex space-x-4">
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
         Crear
@@ -117,10 +114,11 @@ function ActividadPage() {
               </div>
               {/* Acción */}
               <div className='flex items-center'>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2"
+                  onClick={() => clickVer(actividad.id)}>
                   Ver
                 </button>
-                {userType == 1 ? <div/>:
+                {currentUser.tipo != 4 ? <div/>:
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
                   Eliminar
                 </button>}
