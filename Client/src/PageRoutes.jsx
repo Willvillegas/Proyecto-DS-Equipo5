@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
-import AssistantMenu from "./Pages/AssistantMenu";
+import Menu from "./Pages/Menu";
 import EquipoGuiaAssistentPage from "./Pages/EquipoGuiaAssistentPage";
 import PlanTrabajoPage from "./Pages/PlanTrabajoPage";
 import AddEstudiantesPage from "./Pages/AddEstudiantesPage";
@@ -23,7 +23,7 @@ const RoutesPages = () => (
     <Route path="/" element={<LoginPage />} />
     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
     <Route path="/reset-password" element={<RecuperarPassword/>} />
-    <Route path="/assistant-menu" element={<AssistantMenu />} />
+    <Route path="/menu" element={<Menu />} />
     <Route path="/agregar-estudiantes" element={<AddEstudiantesPage />} />
     <Route path="/estudiantes" element={<EstudiantesPage />} />
     <Route path="/equipo-guia" element={<EquipoGuiaAssistentPage />} />
@@ -31,11 +31,11 @@ const RoutesPages = () => (
     <Route path="/info-profesor" element={<InfoProfesor />} />
     <Route path="/mostrar-profesor-sede" element={<MostrarProfesorSede />} />
     <Route path="/detalle-actividad/:id" element={<DetallesActividad/>} />
-    <Route path="/detalle-estudiantes" element={<DetallesEstudiante/>} />
+    <Route path="/detalle-estudiantes/:id" element={<DetallesEstudiante/>} />
     <Route path="/actividad/:id" element={<ActividadPage/>} />
     <Route path="/comentarios/:id" element={<Comentarios/>} />
     <Route path="/info-prof" element={<InfoProf/>} />
-    <Route path="/modificar-estudiante" element={<ModificarEstudiante/>} />
+    <Route path="/modificar-estudiante/:id" element={<ModificarEstudiante/>} />
     <Route path="/modificar-profesor" element={<ModificarProfesor/>} />
     
   </Routes>

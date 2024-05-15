@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import PopUpDescargarArchivo from '../components/PopUpDescargarArchivo';
+import { Link } from 'react-router-dom';
 
 function EstudiantesPage() {
   const [estudiantesInfo, setEstudiantesInfo] = useState([]);
@@ -48,8 +49,8 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
       });
     } else if (orderBy === 'sede') {
       sortedEstudiantes.sort((a, b) => {
-        if (typeof a.sede === 'string' && typeof b.sede === 'string') {
-          return a.sede.localeCompare(b.sede);
+        if (typeof a.Sede === 'string' && typeof b.Sede === 'string') {
+          return a.Sede.localeCompare(b.Sede);
         } else {
           return 0;
         }
@@ -58,7 +59,6 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
 
     setEstudiantesInfo(sortedEstudiantes);
   };
-
 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
@@ -155,7 +155,7 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
                 <div className="grid grid-cols-4 gap-4">
                   {/* Nombre */}
                   <div>
-                    <p className="text-gray-300">{estudiante.nombre}</p>
+                    <p className="text-gray-300">{estudiante.nombre} {estudiante.apellido1} {estudiante.apellido2}</p>
                   </div>
                   {/* Correo */}
                   <div>
@@ -167,10 +167,13 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
                   </div>
                   {/* Acción */}
                   <div className="p-2 pl-10">
+                  {/* Botón para ver */}
+                  <Link to={`/detalle-estudiantes/${estudiante.id}`}>
                     <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
                       Ver
                     </button>
-                  </div>
+                  </Link>
+                </div>
                 </div>
               </div>
             ))}

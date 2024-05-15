@@ -1,7 +1,7 @@
-import  { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import API_ROOT from '../../apiRoutes';
+import { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import API_ROOT from '../../apiRoutes';
 
 const userType = 5;
 
@@ -14,14 +14,6 @@ const buttons = [
   {
     text: 'Modificar',
     roles: [5]
-  }
-];
-
-const profileButtons = [
-  {
-    text: 'Subir foto de perfil',
-    onClick: () => console.log('Subir foto de perfil'),
-    roles: [1, 2, 4]
   }
 ];
 
@@ -43,7 +35,7 @@ const ButtonGroup = ({ buttons, userType, navigateToModificar }) => (
   </div>
 );
 
-const ProfileInfo = ({ profesorInfo: estudianteInfo }) => (
+const ProfileInfo = ({ estudianteInfo }) => (
   <div className="mb-8">
     {/* Carnet */}
     <div className="mb-4 border-b-2 border-gray-600 w-full">
@@ -52,8 +44,8 @@ const ProfileInfo = ({ profesorInfo: estudianteInfo }) => (
     </div>
     {/* Nombre */}
     <div className="mb-4 border-b-2 border-gray-600 w-full">
-      <p className="font-bold text-white">Nombre:</p>
-      <p className="text-white">{estudianteInfo.nombre}</p>
+      <p className="font-bold text-white">Nombre completo:</p>
+      <p className="text-white">{estudianteInfo.nombre} {estudianteInfo.apellido1} {estudianteInfo.apellido2}</p>
     </div>
     {/* Correo */}
     <div className="mb-4 border-b-2 border-gray-600 w-full">
@@ -65,45 +57,40 @@ const ProfileInfo = ({ profesorInfo: estudianteInfo }) => (
       <p className="font-bold text-white">Telefono:</p>
       <p className="text-white">{estudianteInfo.telefono}</p>
     </div>
+    {/* Sede */}
+    <div className="mb-4 border-b-2 border-gray-600 w-full">
+      <p className="font-bold text-white">Sede:</p>
+      <p className="text-white">{estudianteInfo.Sede}</p>
+    </div>
+
   </div>
 );
 
+
 function DetallesEstudiante() {
+  const { id } = useParams(); // Obtener el ID del estudiante de los parámetros de la URL
   const navigate = useNavigate();
   const navigateBack = () => navigate(-1);
+  const [estudianteInfo, setEstudianteInfo] = useState([]);
 
-  const [EstudianteInfo, setEstudianteInfo] = useState({
-    carnet: '',
-    nombre: '',
-    correo: '',
-    telefono: ''
-  });
 
   useEffect(() => {
-    // Simulación de datos de prueba
-    const mockEstudianteInfo = {
-      carnet: 'AL-01',
-      nombre: 'Esteban',
-      correo: 'esteban@example.com',
-      telefono: '00000000'
-    };
-
-    setEstudianteInfo(mockEstudianteInfo);
-  }, []);
+    axios.get(`${API_ROOT}/api/estudiantes/${id}`)
+      .then(response => {
+        setEstudianteInfo(response.data[0])
+        console.log(response.data)
+      })
+ }, []);
 
   const navigateToModificar = () => {
-    
-    navigate('/modificar-estudiante');
+    navigate(`/modificar-estudiante/${id}`); // Redirigir a la pantalla de modificación con el ID del estudiante
   };
 
   return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
       <div className="max-w-md w-full">
-      <h1 className="text-white text-center text-3xl font-bold mb-4">Estudiante</h1>
-        <div className="flex justify-center items-center flex-col mb-8">
-          <ButtonGroup buttons={profileButtons} userType={userType} navigateToModificar={navigateToModificar} />
-        </div>
-        <ProfileInfo profesorInfo={EstudianteInfo} />
+        <h1 className="text-white text-center text-3xl font-bold mb-4">Estudiante</h1>
+        <ProfileInfo estudianteInfo={estudianteInfo} />
         {/* Botones */}
         <div className="flex justify-center">
           <ButtonGroup buttons={buttons.slice(1)} userType={userType} navigateToModificar={navigateToModificar} />
@@ -115,6 +102,3 @@ function DetallesEstudiante() {
 }
 
 export default DetallesEstudiante;
-
-
-

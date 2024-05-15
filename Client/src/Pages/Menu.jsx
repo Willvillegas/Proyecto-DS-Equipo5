@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext';
 
-const AssistantMenu = () => {
+const Menu = () => {
   const { currentUser } = useAuthContext();
 
   useEffect(() => {
@@ -26,11 +26,13 @@ const AssistantMenu = () => {
           </button>
         </Link>
         {/* Botón para ir ventana para agregar estudiantes */}
+        {currentUser.tipo in [1,2] ? 
         <Link to="/agregar-estudiantes">
-          <button className="active:scale-[.98] active:duration-75 hover:scale-[1.01]  w-full bg-indigo-600 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mb-4">
-            Agregar Estudiantes
-          </button>
-        </Link>
+        <button className="active:scale-[.98] active:duration-75 hover:scale-[1.01]  w-full bg-indigo-600 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mb-4">
+          Agregar Estudiantes
+        </button>
+        </Link>:
+        <></>}
         {/* Botón para ir al plan de trabajo */}
         <Link to="/plan-trabajo">
           <button className="active:scale-[.98] active:duration-75 hover:scale-[1.01]  w-full bg-indigo-600 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mb-4">
@@ -43,5 +45,4 @@ const AssistantMenu = () => {
   );
 };
 
-export default AssistantMenu;
-
+export default Menu;
