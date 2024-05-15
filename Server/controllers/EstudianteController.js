@@ -14,7 +14,7 @@ class EstudianteController {
     }
 
     static async getEstudianteById(req, res) {
-        const id = req.params.id;
+        const {id} = req.params;
         try {
             const estudiante = await EstudianteDAO.getById(id);
             res.status(200).json(estudiante);
@@ -40,7 +40,7 @@ class EstudianteController {
         const estudiante = new EstudianteModel(id, nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo);
         try {
             const result = await EstudianteDAO.update(estudiante,1);
-            res.status(200).json({ message: 'Estudiante updated successfully', result });
+            res.status(200).json({ message: 'Estudiante updated successfully', result});
         } catch (error) {
             res.status(500).json({ error: 'Error updating estudiante' });
         }

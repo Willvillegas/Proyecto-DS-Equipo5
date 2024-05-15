@@ -9,7 +9,7 @@ const upload = multer({storage: storage});
 router.get('/allEstudiantes/:id', EstudianteController.getAllEstudiantes);
 router.get('/:id', EstudianteController.getEstudianteById);
 router.post('/', EstudianteController.createEstudiante);
-router.put('/:id', EstudianteController.updateEstudiante);
+router.put('/update/:id', EstudianteController.updateEstudiante);
 router.delete('/:id', EstudianteController.deleteEstudiante);
 //exportar un xlsx con los datos
 router.post('/upload', upload.single('file'), EstudianteController.createEstudianteFromFile);
