@@ -98,6 +98,7 @@ class EstudianteController {
             const estudiantes = await EstudianteDAO.getAll(1)
             const workbook = XLSX.utils.book_new();
             let excelBuffer = null;
+            let nombreArchivo = '';
             if (modo === 0) {
                 let listaFiltrados = []
                 estudiantes.forEach(async (estudiante) =>{
@@ -110,7 +111,7 @@ class EstudianteController {
                 XLSX.utils.book_append_sheet(workbook, worksheet, 'Estudiantes');
                 excelBuffer = XLSX.write(workbook,  { bookType: 'xlsx', type: 'buffer' });
                 res.setHeader('Content-Disposition', 'attachment; filename=EstudiantesSede.xlsx');
-                
+                nombreArchivo = "EstudiantesSede.xlsx"
             }else{
                 const sedes = ['Cartago', 'Limon', 'San Jose', 'San Carlos', 'Alajuela'];
                 sedes.forEach(async (sedeFiltro) =>{
@@ -126,11 +127,11 @@ class EstudianteController {
                 })
                 excelBuffer = XLSX.write(workbook,  { bookType: 'xlsx', type: 'buffer' });
                 res.setHeader('Content-Disposition', 'attachment; filename=Estudiantes.xlsx');
-                
+                nombreArchivo = "Estudiantes.xlsx"
 
             }
             res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-            return res.send(excelBuffer);
+            return res.send({archivo: excelBuffer, nombre: nombreArchivo});
             
         }catch (error){
             console.error(error);

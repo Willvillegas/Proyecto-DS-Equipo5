@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios'; // Importa axios para hacer solicitudes HTTP
 import { useAuthContext } from '../context/AuthContext';
+import { saveAs } from 'file-saver';
 
 const PopUp = ({ sedes, onClose }) => {
   const [selectedSede, setSelectedSede] = useState('');
@@ -17,7 +18,18 @@ const PopUp = ({ sedes, onClose }) => {
           sede: currentUser.sede,
           modo: selectedSede === 'Todas' ? 0 : 1 // Determina el modo según la sede seleccionada
 
-      },{responseType: 'blob'} );
+      } )
+      .then((response) => {
+        console.log(response.data.archivo)
+        const uint8Array = new Uint8Array(response.data.archivo.data);
+
+        // Crea un Blob a partir del Uint8Array
+        const blob = new Blob([uint8Array], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+
+        // Descarga el archivo utilizando FileSaver.js
+        saveAs(blob, response.data.nombre);
+      })
+      
       onClose(); // Cierra el PopUp después de la descarga
     } catch (error) {
       console.error('Error al descargar el archivo:', error);
@@ -41,7 +53,7 @@ const PopUp = ({ sedes, onClose }) => {
           <select
             className="w-full mb-4 p-2 border border-gray-300 rounded-md bg-gray-700 text-white"
             value={selectedSede}
-            onChange={handleChange}
+            onChange={(e) => setSelectedSede(e.target.value)}
           >
             <option value="">Selecciona una sede</option>
             {sedes.map((sede, index) => (
