@@ -16,7 +16,8 @@ import ModificarProfesor from "./Pages/ModificarProfesor";
 import RecuperarPassword from "./Pages/RecuperarPassword";
 import DetallesEstudiante from "./Pages/DetallesEstudiante";
 import ModificarEstudiante from "./Pages/ModificarEstudiante";
-//import NotFoundPage from "./Pages/NotFoundPage"; // Add a NotFoundPage component
+import RegistrarProfesor from "./Pages/RegistrarProfesor";
+import NotFoundPage from "./Pages/NotFound";
 
 const RoutesPages = () => (
   <Routes>  
@@ -37,7 +38,8 @@ const RoutesPages = () => (
     <Route path="/info-prof" element={<InfoProf/>} />
     <Route path="/modificar-estudiante/:id" element={<ModificarEstudiante/>} />
     <Route path="/modificar-profesor" element={<ModificarProfesor/>} />
-    
+    <Route path="/registrar-profesor" element={<RegistrarProfesor/>} />
+    <Route path="*" element={<NotFoundPage/>} />
   </Routes>
 );
 

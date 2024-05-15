@@ -4,26 +4,34 @@ import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthContext'; // Importa el contexto de autenticación
 
-function EquipoGuiaAssistentPage() {
+function RegistrarProfesor() {
   const navigate = useNavigate();
   const { currentUser } = useAuthContext(); // Obtiene el usuario actual del contexto de autenticación
-  const [profesorInfo, setProfesorInfo] = useState([]);
 
-  const pasarPage = () => {
-    navigate(`/mostrar-profesor-sede`);
-  };
+  const [profesorInfo, setProfesorInfo] = useState([]);
  
   useEffect(() => {
-    axios.get(`${API_ROOT}/api/equiposguia/${1}/profesores`)
+    axios.get(`${API_ROOT}/api/profesores`)
       .then(response => {
         setProfesorInfo(response.data);
         console.log(profesorInfo);
       });
   }, []);
 
-  const cliclRegistrar = () =>{
-    navigate('/registrar-profesor')
-  }
+  const handleVolver = () => {
+    navigate(`/equipo-guia`);
+    }
+
+    const handleRegistrar = (idProfesor) => {
+        axios.post(`${API_ROOT}/api/equiposguia/${1}/profesores/${idProfesor}`)
+        .then(response => {
+            if(!response.data){
+                
+            }else {
+                navigate(`/equipo-guia`)
+            }
+        })
+    }
 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
@@ -67,22 +75,11 @@ function EquipoGuiaAssistentPage() {
                 </button>
               </div>
             </div>
-            {currentUser && (currentUser.tipo === 1 || currentUser.tipo === 2) ? (
-              <div className="flex space-x-4">
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10 active:scale-[.98] active:duration-75 hover:scale-[1.01]"
-                  onClick={cliclRegistrar}>
-                  Registrar
-                </button>
-              </div>
-            ) : null}
           </div>
           {/* Contenido */}
           <main className="p-4 h-[calc(100vh - 200px)] ml-2 overflow-y-auto overflow-x-hidden">
             {/* Tabla */}
-            <div className="grid grid-cols-4 gap-1 mb-3 ml-3">
-              <div>
-                <span className="font-bold text-white">Código</span>
-              </div>
+            <div className="grid grid-cols-3 gap-1 mb-3 ml-3">
               <div>
                 <span className="font-bold text-white">Nombre</span>
               </div>
@@ -95,10 +92,7 @@ function EquipoGuiaAssistentPage() {
             </div>
             {profesorInfo.map((profesor) => (
               <div key={profesor.id} className="bg-gray-700 rounded p-4 ml-2 mr-6 bg-gray-700 rounded p-4 ml-2 mr-6 pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200">
-                <div className="grid grid-cols-4 gap-4">
-                  <div>
-                    <p className="text-gray-300">{profesor.codigo}</p>
-                  </div>
+                <div className="grid grid-cols-3 gap-3">
                   <div>
                     <p className="text-gray-300">{profesor.nombre}</p>
                   </div>
@@ -106,8 +100,9 @@ function EquipoGuiaAssistentPage() {
                     <p className="text-gray-300">{profesor.correo}</p>
                   </div>
                   <div className='p-2 pl-10'>
-                    <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]" onClick={pasarPage}>
-                      Ver
+                    <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]" 
+                        onClick={() => handleRegistrar(profesor.id)}>
+                      Registrar
                     </button>
                   </div>
                 </div>
@@ -115,11 +110,14 @@ function EquipoGuiaAssistentPage() {
             ))}
           </main>
         </div>
+        <button onClick={handleVolver} className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
+            Volver
+        </button>
       </div>
     </div>
   );
 }
 
-export default EquipoGuiaAssistentPage;
+export default RegistrarProfesor;
 
 
