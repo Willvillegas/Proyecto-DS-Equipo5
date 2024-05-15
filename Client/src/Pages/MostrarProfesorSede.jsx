@@ -98,21 +98,6 @@ function MostrarProfesorSede() {
 
   
 
-  useEffect(() => {
-    // Obtener los datos reales del profesor desde el backend cuando se monta el componente
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${API_ROOT}/api/equiposguia/${1}/profesores`);
-        const profesor = response.data[0]; // Suponiendo que solo necesitas el primer profesor de la lista
-        setProfesorInfo(profesor);
-      } catch (error) {
-        console.error('Error al obtener los datos del profesor:', error);
-      }
-    };
-
-    fetchData(); // Llama a la función para obtener los datos del profesor al montar el componente
-  }, []);
-
   const navigateToModificar = () => {
     navigate(`/modificar-profesor/${id}`);
   };
