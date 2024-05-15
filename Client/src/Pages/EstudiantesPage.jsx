@@ -8,29 +8,30 @@ function EstudiantesPage() {
   const [estudiantesInfo, setEstudiantesInfo] = useState([]);
   const [showDownloadPopup, setShowDownloadPopup] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); // Estado input busqueda
-  const [orderBy, setOrderBy] = useState('alfabetico');
+  const [orderBy, setOrderBy] = useState('alfabetico');//Ordenar
+  const [filterBySede, setFilterBySede] = useState('Todas'); //Filtrar por sede
   const userType = 5;
 
-  // Agregando el objeto de ejemplo en el estado inicial
   useEffect(() => {
-   axios.get(`${API_ROOT}/api/estudiantes/allEstudiantes/${1}`)
-     .then(response => {
-       setEstudiantesInfo(response.data)
-       console.log(estudiantesInfo)
-     })
-}, []);
+    axios.get(`${API_ROOT}/api/estudiantes/allEstudiantes/${1}`)
+      .then(response => {
+        setEstudiantesInfo(response.data);
+      })
+      .catch(error => {
+        console.error('Error al obtener la información de los estudiantes:', error);
+      });
+  }, []);
 
-  // Función para manejar la generación de archivo
   const handleGenerateFile = () => {
     setShowDownloadPopup(true);
   };
 
-// Filtrar estudiantes basados en el término de búsqueda en nombres y apellidos
-const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
-  const nombreCompleto = `${estudiante.nombre} ${estudiante.apellido1} ${estudiante.apellido2}`.toLowerCase();
-  return nombreCompleto.includes(searchTerm.toLowerCase());
-});
-
+  const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
+    const nombreCompleto = `${estudiante.nombre} ${estudiante.apellido1} ${estudiante.apellido2}`.toLowerCase();
+    const nombreMatches = nombreCompleto.includes(searchTerm.toLowerCase());
+    const sedeMatches = filterBySede === 'Todas' ? true : estudiante.Sede === filterBySede;
+    return nombreMatches && sedeMatches;
+  });
 
   const sortEstudiantes = () => {
     let sortedEstudiantes = [...estudiantesInfo];
@@ -46,14 +47,6 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
     } else if (orderBy === 'carnet') {
       sortedEstudiantes.sort((a, b) => {
         return a.carnet - b.carnet;
-      });
-    } else if (orderBy === 'sede') {
-      sortedEstudiantes.sort((a, b) => {
-        if (typeof a.Sede === 'string' && typeof b.Sede === 'string') {
-          return a.Sede.localeCompare(b.Sede);
-        } else {
-          return 0;
-        }
       });
     }
 
@@ -99,6 +92,7 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
                     </svg>
                   </div>
                 </div>
+                
                 <select
                   className="block p-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ml-1"
                   value={orderBy}
@@ -106,7 +100,19 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
                 >
                   <option value="alfabetico">Alfabético</option>
                   <option value="carnet">Carnet</option>
-                  <option value="sede">Sede</option>
+                </select>
+                {/* Select para filtrar por sede */}
+                <select
+                  className="block p-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ml-1"
+                  value={filterBySede}
+                  onChange={(e) => setFilterBySede(e.target.value)}
+                >
+                  <option value="Todas">Todas</option>
+                  <option value="Cartago">Cartago</option>
+                  <option value="Limon">Limon</option>
+                  <option value="San Carlos">San Carlos</option>
+                  <option value="Alajuela">Alajuela</option>
+                  <option value="San Jose">San Jose</option>
                 </select>
                 <button
                   onClick={sortEstudiantes}
@@ -130,8 +136,8 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
             {showDownloadPopup && <PopUpDescargarArchivo />}
           </div>
 
-            {/* Contenido */}
-            <main className="p-4 h-[calc(100vh - 200px)] ml-2 overflow-y-auto overflow-x-hidden">
+          {/* Contenido */}
+          <main className="p-4 h-[calc(100vh - 200px)] ml-2 overflow-y-auto overflow-x-hidden">
             {/* Tabla */}
             <div className="grid grid-cols-4 gap-1 mb-3 ml-3">
               <div>
@@ -167,13 +173,13 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
                   </div>
                   {/* Acción */}
                   <div className="p-2 pl-10">
-                  {/* Botón para ver */}
-                  <Link to={`/detalle-estudiantes/${estudiante.id}`}>
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
-                      Ver
-                    </button>
-                  </Link>
-                </div>
+                    {/* Botón para ver */}
+                    <Link to={`/detalle-estudiantes/${estudiante.id}`}>
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
+                        Ver
+                      </button>
+                    </Link>
+                  </div>
                 </div>
               </div>
             ))}
@@ -186,5 +192,3 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
 }
 
 export default EstudiantesPage;
-
-
