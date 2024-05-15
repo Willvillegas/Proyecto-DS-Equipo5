@@ -2,36 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
-
-// Objeto de ejemplo para simular los datos de un profesor
-const ejemploProfesor = {
-  id: 1,
-  codigo: "PROF001",
-  nombre: "Juan Pérez",
-  correo: "juan@example.com"
-};
+import { useAuthContext } from '../context/AuthContext'; // Importa el contexto de autenticación
 
 function EquipoGuiaAssistentPage() {
   const navigate = useNavigate();
-  const pasarPage = ( ) => {
-  navigate(`/mostrar-profesor-sede`)
-    
-    }
+  const { currentUser } = useAuthContext(); // Obtiene el usuario actual del contexto de autenticación
+
+  const pasarPage = () => {
+    navigate(`/mostrar-profesor-sede`);
+  };
 
   const [profesorInfo, setProfesorInfo] = useState([]);
-  const userTipe = 2
-
-  // Agregando el objeto de ejemplo en el estado inicial
-    useEffect(() => {
-      // Simulación de solicitud al backend (reemplazar con la lógica real)
-     // Aquí puedes hacer una solicitud HTTP utilizando fetch o Axios
-     // Una vez que obtengas los datos, puedes actualizar el estado
-     axios.get(`${API_ROOT}/api/equiposguia/${1}/profesores`)
-       .then(response => {
-         setProfesorInfo(response.data)
-         console.log(profesorInfo)
-       })
  
+
+  useEffect(() => {
+    axios.get(`${API_ROOT}/api/equiposguia/${1}/profesores`)
+      .then(response => {
+        setProfesorInfo(response.data);
+        console.log(profesorInfo);
+      });
   }, []);
 
   return (
@@ -76,12 +65,13 @@ function EquipoGuiaAssistentPage() {
                 </button>
               </div>
             </div>
-            {userTipe === 1 ? <div /> :
+            {currentUser && (currentUser.tipo === 1 || currentUser.tipo === 2) ? (
               <div className="flex space-x-4">
                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10 active:scale-[.98] active:duration-75 hover:scale-[1.01]">
                   Registrar
                 </button>
-              </div>}
+              </div>
+            ) : null}
           </div>
           {/* Contenido */}
           <main className="p-4 h-[calc(100vh - 200px)] ml-2 overflow-y-auto overflow-x-hidden">
@@ -128,4 +118,5 @@ function EquipoGuiaAssistentPage() {
 }
 
 export default EquipoGuiaAssistentPage;
+
 

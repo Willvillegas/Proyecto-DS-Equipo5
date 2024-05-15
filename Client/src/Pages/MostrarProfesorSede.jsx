@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
-
-const userType = 2;
+import { useAuthContext } from '../context/AuthContext'; // Importa el contexto de autenticación
 
 const buttons = [
   {
@@ -73,12 +72,12 @@ const ProfileInfo = ({ profesorInfo }) => (
     {/* Oficina */}
     <div className="mb-4 border-b-2 border-gray-600 w-full">
       <p className="font-bold text-white">Oficina:</p>
-      <p className="text-white">{profesorInfo.oficina}</p>
+      <p className="text-white">{profesorInfo.telOficina}</p>
     </div>
     {/* Celular */}
     <div className="mb-4 border-b-2 border-gray-600 w-full">
       <p className="font-bold text-white">Celular:</p>
-      <p className="text-white">{profesorInfo.celular}</p>
+      <p className="text-white">{profesorInfo.telPersonal}</p>
     </div>
   </div>
 );
@@ -86,6 +85,7 @@ const ProfileInfo = ({ profesorInfo }) => (
 function MostrarProfesorSede() {
   const navigate = useNavigate();
   const navigateBack = () => navigate(-1);
+  const { currentUser } = useAuthContext(); // Obtiene el usuario actual del contexto de autenticación
 
   const [profesorInfo, setProfesorInfo] = useState({
     codigo: '',
@@ -96,20 +96,21 @@ function MostrarProfesorSede() {
   });
 
   useEffect(() => {
-    // Simulación de datos de prueba
-    const mockProfesorInfo = {
-      codigo: 'AL-01',
-      nombre: 'Esteban',
-      correo: 'esteban@example.com',
-      oficina: '0000-0000[extension 0000]',
-      celular: '00000000'
+    // Obtener los datos reales del profesor desde el backend cuando se monta el componente
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${API_ROOT}/api/equiposguia/${1}/profesores`);
+        const profesor = response.data[0]; // Suponiendo que solo necesitas el primer profesor de la lista
+        setProfesorInfo(profesor);
+      } catch (error) {
+        console.error('Error al obtener los datos del profesor:', error);
+      }
     };
 
-    setProfesorInfo(mockProfesorInfo);
+    fetchData(); // Llama a la función para obtener los datos del profesor al montar el componente
   }, []);
 
   const navigateToModificar = () => {
-    
     navigate('/modificar-profesor');
   };
 
@@ -119,13 +120,13 @@ function MostrarProfesorSede() {
         <div className="flex justify-center items-center flex-col mb-8">
           {/* Input de imagen */}
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
-          <ButtonGroup buttons={profileButtons} userType={userType} navigateToModificar={navigateToModificar} />
+          <ButtonGroup buttons={profileButtons} userType={currentUser ? currentUser.tipo : 0} navigateToModificar={navigateToModificar} />
         </div>
         <ProfileInfo profesorInfo={profesorInfo} />
         {/* Botones */}
         <div className="flex justify-center">
-          <ButtonGroup buttons={buttons.slice(1)} userType={userType} navigateToModificar={navigateToModificar} />
-          <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} userType={userType} />
+          <ButtonGroup buttons={buttons.slice(1)} userType={currentUser ? currentUser.tipo : 0} navigateToModificar={navigateToModificar} />
+          <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} userType={currentUser ? currentUser.tipo : 0} />
         </div>
       </div>
     </div>
@@ -133,3 +134,4 @@ function MostrarProfesorSede() {
 }
 
 export default MostrarProfesorSede;
+
