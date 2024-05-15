@@ -6,7 +6,7 @@ const Menu = () => {
   const { currentUser } = useAuthContext();
 
   useEffect(() => {
-    console.log(currentUser.tipo)
+    
   }, []);
 
   return (

@@ -1,5 +1,6 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { AuthContext, useAuthContext } from "../context/AuthContext";
 
 const links = [
 {
@@ -18,11 +19,17 @@ const links = [
     name: "Plan de trabajo",
     href: "/plan-trabajo",  
 },
-
-
 ];
 
 const NavBar = () => {
+    const { dispatch } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleSubmit = async () => {
+        dispatch({ type: 'LOGOUT', payload: null })
+        navigate('/')
+    }
+
     return (
         <nav className={`bg-gray-900 fixed w-full top-0 z-20 flex items-center justify-between h-16`}>
         <div className="flex space-x-4  ">
@@ -31,6 +38,10 @@ const NavBar = () => {
                     <Link to={x.href}>{x.name}</Link>
                 </div>
             ))}
+            <div className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                onClick={handleSubmit}>
+                Cerrar Sesion
+            </div>
         </div>
         </nav>
         

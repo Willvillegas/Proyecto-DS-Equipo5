@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import API_ROOT from "../../apiRoutes";
 
 
@@ -12,11 +12,15 @@ const Comentarios = () => {
     const [nombre, setNombre] = useState('')
     const [idRespuesta, setIdRespuestas] = useState(0);
     const navigate = useNavigate();
+    const location = useLocation();
+    const { idPlan } = location.state;
 
     useEffect(() => {
         //simulación de una actividad (Json).
-        axios.get(`${API_ROOT}/api/actividades/${id}`)
+        console.log(id, "asdas")
+        axios.get(`${API_ROOT}/api/actividades/actividad/${id}`)
         .then(response => {
+            console.log(response.data)
             setNombre(response.data[0].nombre);
         })
         
@@ -60,7 +64,7 @@ const Comentarios = () => {
     }
 
     const handleVolver = () => {
-        navigate(`/detalle-actividad/${id}`);
+        navigate(`/detalle-actividad/${id}`, { state: { idPlan: idPlan } });
     }
 
     const responder = (idComment) => {

@@ -25,8 +25,10 @@ function LoginPage() {
       contrasenna: password
     }
     try{
+      console.log(data)
       axios.post(`${API_ROOT}/api/usuario/login`, data)
         .then(response => {
+          console.log(response.data)
           if(response.data!=50000){
             dispatch({ type: 'LOGIN', payload: response.data });
             navigate(`/menu`);

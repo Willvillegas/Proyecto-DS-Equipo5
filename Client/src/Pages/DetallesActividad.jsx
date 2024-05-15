@@ -29,7 +29,7 @@ const DetallesActividad = () => {
     }, [id]);
 
     const handleComentariosClick = () => {
-        navigate(`/comentarios/${id}`);
+        navigate(`/comentarios/${id}`, { state: { idPlan: idPlan } });
     }
     /*const openPopup = () => {
       setIsOpen(true);
