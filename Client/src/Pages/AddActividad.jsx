@@ -17,14 +17,14 @@ const AddActividad = () => {
     }, []);
 
     const handleInputChange = (e) => {
-        setActividad(e.target.value);
+        setActividad({ ...actividad, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
         try {
-            // Your code here
+            console.log(actividad);
         } catch (error) {
             setError('An error occurred. Please try again.');
         }
@@ -112,7 +112,14 @@ const AddActividad = () => {
                             <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dd className='text-sm font-medium leading-6 text-gray-50'>Tipo</dd>
                                 <dt>
-                                    <input type="text" name="tipo" placeholder="Tipo" value={actividad.tipo} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0"/>
+                                    <select name="tipo" value={actividad.tipo} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
+                                        <option value="">Selecciona el tipo</option>
+                                        <option value="Orientadoras">Orientadoras</option>
+                                        <option value="Motivacionales">Motivacionales</option>
+                                        <option value="De apoyo a la vida estudiantil">De apoyo estudiantil</option>
+                                        <option value="De orden tecnico">Orden Tecnico</option>
+                                        <option value="De recreacion">Recreacion</option>
+                                    </select>
                                 </dt>
                             </div>
                             <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
