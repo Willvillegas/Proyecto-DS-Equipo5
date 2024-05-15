@@ -12,6 +12,8 @@ function ActividadPage() {
 
   useEffect(() => {
     // Simulación de datos de prueba
+
+    currentUser.tipo = 4
     console.log(id)
     axios.get(`${API_ROOT}/api/actividades/${id}`)
       .then(response => {
@@ -20,8 +22,8 @@ function ActividadPage() {
     // Establecer los datos de prueba en el estado
   }, [id]);
 
-  const clickVer = (id) => {
-    navigate(`/detalle-actividad/${id}`)
+  const clickVer = (id, idPlan) => {
+    navigate(`/detalle-actividad/${id}`, { state: { idPlan: idPlan } })
   }
 
   return (
@@ -114,14 +116,10 @@ function ActividadPage() {
               </div>
               {/* Acción */}
               <div className='flex items-center'>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2"
-                  onClick={() => clickVer(actividad.id)}>
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-2 ml-20"
+                  onClick={() => clickVer(actividad.id, id)}>
                   Ver
                 </button>
-                {currentUser.tipo != 4 ? <div/>:
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
-                  Eliminar
-                </button>}
               </div>
             </div>
           </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Popup from '../components/Popup';
 import PopupCancelar from '../components/PopupCancelar';
 import PopupFinalizar from '../components/PopupFinalizar';
@@ -14,6 +14,8 @@ const DetallesActividad = () => {
     const [isOpenCancelar, setIsOpenCancelar] = useState(false);
     const [isOpenFinalizar, setIsOpenFinalizar] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
+    const { idPlan } = location.state;
     
     useEffect(() => {
         //simulación de una actividad (Json).
@@ -58,7 +60,7 @@ const DetallesActividad = () => {
     }
 
     const handleVolver = () => {
-        navigate(`/actividad`);
+        navigate(`/actividad/${idPlan}`);
     }
     const closePopupCancelar = () => {
         setIsOpenCancelar(false);
