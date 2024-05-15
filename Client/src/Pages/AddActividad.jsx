@@ -86,28 +86,62 @@ const AddActividad = () => {
                                 </dt>
                             </div>
                             <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                
+                                <dd className='text-sm font-medium leading-6 text-gray-50'>Fecha de publicación</dd>
+                                <dt>
+                                    <input type="date" name="publicacion" placeholder="Publicacion" value={actividad.publicacion} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0"/>
+                                </dt>
                             </div>
                             <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                
+                                <dd className='text-sm font-medium leading-6 text-gray-50'>Recordatorio</dd>
+                                <dt>
+                                    <input type="text" name="recordatorios" placeholder="Recordatorios" value={actividad.recordatorios} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0" />
+                                </dt>
                             </div>
                             <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                
+                                <dd className='text-sm font-medium leading-6 text-gray-50'>Recordatorio</dd>
+                                <dt>
+                                    <input type="text" name="enlace" placeholder="Enlace" value={actividad.enlace} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0" />
+                                </dt>
                             </div>
-                        
-                        
-                        
-                        
-                        <input type="text" name="publicacion" placeholder="Publicacion" value={actividad.publicacion} onChange={handleInputChange} />
-                        <input type="text" name="recordatorios" placeholder="Recordatorios" value={actividad.recordatorios} onChange={handleInputChange} />
-                        <input type="text" name="enlace" placeholder="Enlace" value={actividad.enlace} onChange={handleInputChange} />
-                        <input type="text" name="afiche" placeholder="Afiche" value={actividad.afiche} onChange={handleInputChange} />
-                        <input type="text" name="tipo" placeholder="Tipo" value={actividad.tipo} onChange={handleInputChange} />
-                        <input type="text" name="modalidad" placeholder="Modalidad" value={actividad.modalidad} onChange={handleInputChange} />
-                        <input type="text" name="estado" placeholder="Estado" value={actividad.estado} onChange={handleInputChange} />
-                        <input type="text" name="idPlan" placeholder="IdPlan" value={actividad.idPlan} onChange={handleInputChange} />
-                        <input type="text" name="responsables" placeholder="Responsables" value={actividad.responsables} onChange={handleInputChange} />
-                        <button type="submit">Add Actividad</button>
+                            <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <dd className='text-sm font-medium leading-6 text-gray-50'>Afiche</dd>
+                                <dt>
+                                    <input type="text" name="afiche" placeholder="Afiche" value={actividad.afiche} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0"/>
+                                </dt>
+                            </div>
+                            <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <dd className='text-sm font-medium leading-6 text-gray-50'>Tipo</dd>
+                                <dt>
+                                    <input type="text" name="tipo" placeholder="Tipo" value={actividad.tipo} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0"/>
+                                </dt>
+                            </div>
+                            <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <dd className='text-sm font-medium leading-6 text-gray-50'>Modalidad</dd>
+                                <dt>
+                                    <input type="text" name="modalidad" placeholder="Modalidad" value={actividad.modalidad} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0"/>
+                                </dt>
+                            </div>
+                            <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <dd className='text-sm font-medium leading-6 text-gray-50'>Estado</dd>
+                                <dt>
+                                    <input type="text" name="estado" placeholder="Estado" value={actividad.estado} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0"/>
+                                </dt>
+                            </div>
+                            <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <dd className='text-sm font-medium leading-6 text-gray-50'>IdPlan</dd>
+                                <dt>
+                                    <input type="text" name="idPlan" placeholder="IdPlan" value={actividad.idPlan} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0"/>
+                                </dt>
+                            </div>
+                            <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <dd className='text-sm font-medium leading-6 text-gray-50'>Responsables</dd>
+                                <dt>
+                                    <input type="text" name="responsables" placeholder="Responsables" value={actividad.responsables} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0"/>
+                                </dt>
+                            </div>
+                            <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                <button type="submit">Add Actividad</button>
+                            </div>
                         </dl>
                         </form>
                     {error && <p>{error}</p>}
