@@ -37,6 +37,7 @@ class ActividadController {
         const id = req.params.id;
         const { semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables, nombre } = req.body;
         const actividad = new ActividadModel(id, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables, nombre);
+        console.log("by controller" + JSON.stringify(actividad));
         try {
             const result = await ActividadDAO.update(actividad);
             res.status(200).json({ message: 'Actividad updated successfully', result });

@@ -121,4 +121,4 @@ class ActividadModel {
   }
 }
 
-module.exports = { ActividadModel };
+module.exports =  ActividadModel ;

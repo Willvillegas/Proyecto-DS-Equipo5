@@ -5,7 +5,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import Popup from '../components/Popup';
 import PopupCancelar from '../components/PopupCancelar';
 import PopupFinalizar from '../components/PopupFinalizar';
-import { Button} from '@headlessui/react';
+
 const DetallesActividad = () => {
     const { id } = useParams();
     const [actividad, setActividad] = useState({});
@@ -22,7 +22,8 @@ const DetallesActividad = () => {
         console.log(id)
         axios.get(`${API_ROOT}/api/actividades/actividad/${id}`)
         .then(response => {
-            delete response.data[0].afiche;
+            //delete response.data[0].afiche;
+            console.log(response.data[0]);
             setActividad(response.data[0]);
         })
         
@@ -50,8 +51,33 @@ const DetallesActividad = () => {
     const guardarCambios = () => {
         setModoEdicion(false);
         console.log("Guardando cambios");
+        console.log(actividad.fechaPublicacion
+        );
+        actividad.afiche = "0";
         setIsOpen(false);
+        // validar cada propiedad de la actividad si es vacía colocar un cero
+        const envio= {
+            semana: actividad.semana === "" ? "0" : actividad.semana,
+            fecha: actividad.fecha === "" ? "0" : actividad.fecha,
+            previos: actividad.previos === "" ? "0" : actividad.previos,
+            publicacion: actividad.fechaPublicacion === "" ? "0" : actividad.fechaPublicacion,
+            recordatorios: actividad.recordatorios === "" ? "0" : actividad.recordatorios,
+            enlace: actividad.enlace === "" ? "0" : actividad.enlace,
+            afiche: actividad.afiche === "" ? "0" : actividad.afiche,
+            tipo: actividad.tipo === "" ? "0" : actividad.tipo,
+            modalidad: actividad.modalidad === "" ? "0" : actividad.modalidad,
+            estado: actividad.estado === "" ? "0" : actividad.estado,
+            idPlan: actividad.idPlan === "" ? "0" : actividad.idPlan,
+            responsables: actividad.responsables === "" ? "0" : actividad.responsables,
+            nombre: actividad.nombre === "" ? "0" : actividad.nombre
+        }
+
         //llamo a la api para guardar cambios
+        console.log(actividad);
+        axios.put(`${API_ROOT}/api/actividades/${id}`, envio)
+        .then(response => {
+            console.log(response.data);
+        })
     };
 
     const descartarCambios = () => {
@@ -87,24 +113,33 @@ const DetallesActividad = () => {
                     <dl className="divide-y divide-gray-100">
                         {/* Información de la actividad hacerlo en un map por medio de la variable actividad*/}
                         {Object.entries(actividad).map(([key, value]) => (
-                            <div key={key} className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0" >
+                            <div key={key} className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt className="text-sm font-medium leading-6 text-gray-50">{key}</dt>
-                                {modoEdicion ? (
+                                {key === 'afiche' ? (
                                     <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
-                                        
-                                        <input
-                                        type="text"
-                                        value={value}
-                                        onChange={(e) => {
-                                            const updatedActividad = { ...actividad, [key]: e.target.value };
-                                            setActividad(updatedActividad);
-                                        }}
-                                        className="border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md p-1"
-                                        />
+                                        {value !== undefined && value.data ? (
+                                            <img src={`data:image/png;base64,${value.data.toString('base64')}`} alt="Afiche" />
+                                        ) : (
+                                            <span>No hay afiche disponible</span>
+                                        )}
                                     </dd>
+                                ) : (
+                                    modoEdicion ? (
+                                        <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
+                                            <input
+                                                type="text"
+                                                value={value}
+                                                onChange={(e) => {
+                                                    const updatedActividad = { ...actividad, [key]: e.target.value };
+                                                    setActividad(updatedActividad);
+                                                }}
+                                                className="border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md p-1"
+                                            />
+                                        </dd>
                                     ) : (
-                                    <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">{value}</dd>
-                                    )}
+                                        <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">{value}</dd>
+                                    )
+                                )}
                             </div>
                         ))}
                     
