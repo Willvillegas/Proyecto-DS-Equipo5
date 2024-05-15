@@ -114,7 +114,7 @@ function MostrarProfesorSede() {
   }, []);
 
   const navigateToModificar = () => {
-    navigate('/modificar-profesor');
+    navigate(`/modificar-profesor/${id}`);
   };
 
   return (

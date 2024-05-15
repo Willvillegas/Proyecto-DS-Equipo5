@@ -33,7 +33,7 @@ const RoutesPages = () => (
     <Route path="/actividad/:id" element={<ActividadPage/>} />
     <Route path="/comentarios/:id" element={<Comentarios/>} />
     <Route path="/modificar-estudiante/:id" element={<ModificarEstudiante/>} />
-    <Route path="/modificar-profesor" element={<ModificarProfesor/>} />
+    <Route path="/modificar-profesor/:id" element={<ModificarProfesor/>} />
     <Route path="/registrar-profesor" element={<RegistrarProfesor/>} />
     <Route path="*" element={<NotFoundPage/>} />
   </Routes>

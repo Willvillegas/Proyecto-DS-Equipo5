@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useParams } from 'react-router-dom'; // Importar useParams para obtener el ID del profesor desde la URL
 import API_ROOT from '../../apiRoutes';
-import { useAuthContext } from '../context/AuthContext'; // Importa el contexto de autenticación
+import { useAuthContext } from '../context/AuthContext';
 
 const buttons = [
   {
     text: 'Cancelar',
     onClick: () => console.log('Cancelar'),
-    roles: [1, 2, 3, 4, 5] // Asistente Cartago 1, Asistente sede 2 , Asistente otra sede 3, Profesor logueado 4, Profesor otra sede 5
+    roles: [1, 2, 3, 4, 5]
   },
   {
     text: 'Guardar',
     onClick: () => handleSaveClick(),
-    roles: [1] // Asistente Cartago 1
+    roles: [1,2,3,4,5]
   }
 ];
 
@@ -20,7 +21,7 @@ const profileButtons = [
   {
     text: 'Subir foto de perfil',
     onClick: () => console.log('Subir foto de perfil'),
-    roles: [1, 2, 4] // Asistente Cartago 1, Asistente sede 2, Profesor logueado 4
+    roles: [1, 2, 4]
   }
 ];
 
@@ -33,57 +34,54 @@ const Button = ({ text, onClick }) => (
   </button>
 );
 
-const ButtonList = ({ buttons, currentUser }) => (
-  <div className="flex justify-center">
-    {buttons.map((button, index) => {
-      if (button.roles.includes(currentUser.tipo)) {
-        return <Button key={index} text={button.text} onClick={button.onClick} />;
-      }
-      return null;
-    })}
-  </div>
-);
+const ButtonList = ({ buttons }) => {
+  const { currentUser } = useAuthContext();
+
+  return (
+    <div className="flex justify-center">
+      {buttons.map((button, index) => {
+        if (button.roles.includes(currentUser.tipo)) {
+          return <Button key={index} text={button.text} onClick={button.onClick} />;
+        }
+        return null;
+      })}
+    </div>
+  );
+};
 
 function ModificarProfesor() {
-  const { currentUser } = useAuthContext(); // Obtiene el usuario actual del contexto de autenticación
+  const { currentUser } = useAuthContext();
+  const { id } = useParams(); // Obtener el ID del profesor desde la URL
   const [profesorInfo, setProfesorInfo] = useState({
-    codigo: '',
-    nombre: '',
-    correo: '',
-    telOficina: '', // Corregido de 'oficina' a 'telOficina'
-    telPersonal: '' // Corregido de 'celular' a 'telPersonal'
+    codigo: 'AL-01',
+    nombre: 'Esteban',
+    correo: 'esteban@example.com',
+    oficina: '0000-0000 [extension 0000]',
+    celular: '00000000'
   });
   const [showModal, setShowModal] = useState(false);
   const [isInvalidInput, setIsInvalidInput] = useState(false);
 
   useEffect(() => {
-    // Obtener los datos del profesor desde el backend cuando se monta el componente
     const fetchProfesorInfo = async () => {
       try {
-        const response = await axios.get(`${API_ROOT}/api/profesor/${currentUser.id}`);
-        const { codigo, nombre, correo, telOficina, telPersonal } = response.data;
-        // Establecer los datos del profesor en el estado
-        setProfesorInfo({ codigo, nombre, correo, telOficina, telPersonal });
+        const response = await axios.get(`${API_ROOT}/api/profesores/${id}`); // Usar el ID del profesor desde la URL
+        setProfesorInfo(response.data[0]);
       } catch (error) {
         console.error('Error al obtener los datos del profesor:', error);
       }
     };
+    fetchProfesorInfo();
+  }, [id]); // Agregar id como dependencia
 
-    fetchProfesorInfo(); // Llama a la función para obtener los datos del profesor al montar el componente
-  }, [currentUser.id]);
 
-  const handleSaveClick = async () => {
+
+  const handleSaveClick = () => {
     if (!validateInputs()) {
       setIsInvalidInput(true);
       return;
     }
-
-    try {
-      await axios.put(`${API_ROOT}/api/profesor/${currentUser.id}`, profesorInfo);
-      setShowModal(true);
-    } catch (error) {
-      console.error('Error al guardar los cambios:', error);
-    }
+    setShowModal(true);
   };
 
   const handleCancelClick = () => {
@@ -101,7 +99,7 @@ function ModificarProfesor() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProfesorInfo({ ...profesorInfo, [name]: value });
+    setProfesorInfo({ ...profesorInfo, [name]: value }); // Actualizar el estado profesorInfo con los valores introducidos en los inputs
   };
 
   const validateInputs = () => {
@@ -122,76 +120,69 @@ function ModificarProfesor() {
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
       <div className="max-w-md w-full">
         <div className="flex justify-center items-center flex-col mb-8">
-          {/* Input de imagen */}
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
-          <ButtonList buttons={profileButtons} currentUser={currentUser} />
+          <ButtonList buttons={profileButtons} />
         </div>
         <div className="mb-8">
-          {/* Código */}
           <div className="mb-4 border-b-2 border-gray-600 w-full">
             <p className="font-bold text-white">Código:</p>
             <input
               className="w-full bg-gray-700 text-white p-2 rounded cursor-not-allowed"
               type="text"
               name="codigo"
-              value={profesorInfo.codigo}
+              value={profesorInfo.codigo || ''}
               onChange={handleInputChange}
               disabled
             />
           </div>
-          {/* Nombre */}
           <div className="mb-4 border-b-2 border-gray-600 w-full">
             <p className="font-bold text-white">Nombre:</p>
             <input
               className="w-full bg-gray-700 text-white p-2 rounded"
               type="text"
               name="nombre"
-              value={profesorInfo.nombre}
+              value={profesorInfo.nombre || ''}
               onChange={handleInputChange}
               required
             />
           </div>
-          {/* Correo */}
           <div className="mb-4 border-b-2 border-gray-600 w-full">
             <p className="font-bold text-white">Correo:</p>
             <input
               className="w-full bg-gray-700 text-white p-2 rounded"
               type="email"
               name="correo"
-              value={profesorInfo.correo}
+              value={profesorInfo.correo || ''}
               onChange={handleInputChange}
               required
             />
           </div>
-          {/* Oficina */}
           <div className="mb-4 border-b-2 border-gray-600 w-full">
             <p className="font-bold text-white">Oficina:</p>
             <input
               className="w-full bg-gray-700 text-white p-2 rounded"
               type="text"
-              name="telOficina" // Cambiado de 'oficina' a 'telOficina'
-              value={profesorInfo.telOficina} // Cambiado de 'oficina' a 'telOficina'
-              onChange={handleInputChange} // Cambiado de 'oficina' a 'telOficina'
+              name="oficina"
+              value={profesorInfo.telOficina || ''}
+              onChange={handleInputChange}
               required
             />
           </div>
-          {/* Celular */}
           <div className="mb-4 border-b-2 border-gray-600 w-full">
             <p className="font-bold text-white">Celular:</p>
             <input
               className="w-full bg-gray-700 text-white p-2 rounded"
               type="tel"
-              name="telPersonal" // Cambiado de 'celular' a 'telPersonal'
-              value={profesorInfo.telPersonal} // Cambiado de 'celular' a 'telPersonal'
-              onChange={handleInputChange} // Cambiado de 'celular' a 'telPersonal'
+              name="celular"
+              value={profesorInfo.telPersonal || ''}
+              onChange={handleInputChange}
               required
               pattern={validateCelular}
             />
           </div>
         </div>
-        {/* Botones */}
         <div className="flex justify-center">
-          <ButtonList buttons={buttons} currentUser={currentUser} />
+          <ButtonList buttons={buttons} />
         </div>
       </div>
       {showModal && (
@@ -237,6 +228,3 @@ function ModificarProfesor() {
 }
 
 export default ModificarProfesor;
-
-
-
