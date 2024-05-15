@@ -46,6 +46,7 @@ class PlanTrabajoController {
 
     static async deletePlanTrabajo(req, res) {
         const id = req.params.id;
+        console.log(req.params)
         try {
             const result = await PlanTrabajoDAO.delete(id);
             res.status(200).json({ message: 'Plan de trabajo deleted successfully', result });

@@ -3,9 +3,15 @@ import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import PopupCrearPlan from '../components/PopupCrearPlan';
+import PopupEliminarPlan from '../components/PopupElimiarPlan';
 
 function PlanTrabajoPage() {
   const [PlanTrabajoInfo, setPlanTrabajoInfo] = useState([]);
+  const [isOpenCrear, setIsOpenCrear] = useState(false);
+  const [isOpenEliminar, setIsOpenEliminar] = useState(false);
+  const [idPlan, setIdPlan] = useState(0);
+  const [nombrePlan, setNombre] = useState('');
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
 
@@ -14,7 +20,6 @@ function PlanTrabajoPage() {
     axios.get(`${API_ROOT}/api/planTrabajo`)
       .then(response => {
         setPlanTrabajoInfo(response.data)
-        console.log(PlanTrabajoInfo)
       })
     // Establecer los datos de prueba en el estado
   }, []);
@@ -22,8 +27,20 @@ function PlanTrabajoPage() {
   const clickVer = (id) => {
     navigate(`/actividad/${id}`)
   }
-
-
+  const closePopupCrear = () => {
+    setIsOpenCrear(false);
+  }
+  const openPopupCrear = () => {
+    setIsOpenCrear(true);
+  } 
+  const closePopupEliminar= () => {
+    setIsOpenEliminar(false);
+  }
+  const openPopupEliminar = (id, nombre) => {
+    setIdPlan(id)
+    setNombre(nombre)
+    setIsOpenEliminar(true);
+  } 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
     <div className=" w-full bg-gray-900 p-8 rounded-lg shadow-lg mx-auto mt-10 mb-10">
@@ -68,7 +85,8 @@ function PlanTrabajoPage() {
       </div>
       {currentUser.tipo != 4 ? <div/>:
       <div className="flex space-x-4">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10"
+        onClick={openPopupCrear}>
         Crear
       </button>
     </div>}
@@ -105,7 +123,8 @@ function PlanTrabajoPage() {
                   Ver
                 </button>
                 {currentUser.tipo != 4 ? <div/>:
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
+                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10"
+                  onClick={() =>openPopupEliminar(planTrabajo.id, planTrabajo.nombre)}>
                   Eliminar
                 </button>}
               </div>
@@ -113,7 +132,15 @@ function PlanTrabajoPage() {
           </div>
         ))}
       </main>
-
+      <PopupCrearPlan isOpenC={isOpenCrear} 
+                      close={closePopupCrear}
+                      idEquipo={1} 
+                />
+      <PopupEliminarPlan isOpenE={isOpenEliminar} 
+                      close={closePopupEliminar}
+                      idPlan={idPlan}
+                      nombre={nombrePlan}
+                />
     </div>
     </div>
     </div>

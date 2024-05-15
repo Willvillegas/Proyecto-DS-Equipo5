@@ -7,6 +7,6 @@ router.get('/', PlanTrabajoController.getAllPlanesTrabajo);
 router.get('/:id', PlanTrabajoController.getPlanTrabajoById);
 router.post('/', PlanTrabajoController.createPlanTrabajo);
 router.put('/:id', PlanTrabajoController.updatePlanTrabajo);
-router.delete('/:id', PlanTrabajoController.deletePlanTrabajo);
+router.delete('/eliminar/:id', PlanTrabajoController.deletePlanTrabajo);
 
 module.exports = router;

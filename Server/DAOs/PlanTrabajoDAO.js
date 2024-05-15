@@ -87,7 +87,7 @@ class PlanTrabajoDAO{
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const result = await connection.executeProcedures("EliminarPlan", {
+            const result = await connection.executeProcedures("EliminarPan", {
                 id: id, // Id del plan
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
