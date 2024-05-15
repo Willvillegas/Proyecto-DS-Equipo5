@@ -35,11 +35,11 @@ class EstudianteController {
     }
 
     static async updateEstudiante(req, res) {
-        const id = req.params.id;
-        const { nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo } = req.body;
-        const estudiante = new EstudianteModel(id, nombre, apellido1, apellido2, correo, telefono, sede, estado, equipo);
+       const id = parseInt(req.params.id);
+        const {carnet, nombre, apellido1, apellido2, correo, telefono, Sede } = req.body;
+        const estudiante = new EstudianteModel(id, carnet,nombre, apellido1, apellido2, correo, telefono, Sede);
         try {
-            const result = await EstudianteDAO.update(estudiante,1);
+            const result = await EstudianteDAO.update(estudiante, id);
             res.status(200).json({ message: 'Estudiante updated successfully', result});
         } catch (error) {
             res.status(500).json({ error: 'Error updating estudiante' });

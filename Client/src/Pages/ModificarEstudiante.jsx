@@ -1,7 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import API_ROOT from '../../apiRoutes';
+import ErrorMessage from '../components/ErrorMessage';
 
 const userType = 5;
 
@@ -31,37 +32,7 @@ const ButtonGroup = ({ buttons, userType, navigateToModificar }) => (
   </div>
 );
 
-const ProfileInfo = ({ estudianteInfo }) => (
-  <div className="mb-8">
-    {/* Carnet */}
-    <div className="mb-4 border-b-2 border-gray-600 w-full">
-      <p className="font-bold text-white">Carnet:</p>
-      <p className="text-white">{estudianteInfo.carnet}</p>
-    </div>
-    {/* Nombre */}
-    <div className="mb-4 border-b-2 border-gray-600 w-full">
-      <p className="font-bold text-white">Nombre completo:</p>
-      <p className="text-white">{estudianteInfo.nombre} {estudianteInfo.apellido1} {estudianteInfo.apellido2}</p>
-    </div>
-    {/* Correo */}
-    <div className="mb-4 border-b-2 border-gray-600 w-full">
-      <p className="font-bold text-white">Correo:</p>
-      <p className="text-white">{estudianteInfo.correo}</p>
-    </div>
-    {/* Telefono */}
-    <div className="mb-4 border-b-2 border-gray-600 w-full">
-      <p className="font-bold text-white">Telefono:</p>
-      <p className="text-white">{estudianteInfo.telefono}</p>
-    </div>
-    {/* Sede */}
-    <div className="mb-4 border-b-2 border-gray-600 w-full">
-      <p className="font-bold text-white">Sede:</p>
-      <p className="text-white">{estudianteInfo.Sede}</p>
-    </div>
-
-  </div>
-);
-
+const sedeOptions = ['Cartago', 'Limon', 'San Carlos', 'Alajuela', 'San Jose'];
 
 function DetallesEstudiante() {
   const { id } = useParams(); // Obtener el ID del estudiante de los parámetros de la URL
@@ -70,6 +41,7 @@ function DetallesEstudiante() {
   const [estudianteInfo, setEstudianteInfo] = useState([]);
   const [modifiedEstudianteInfo, setModifiedEstudianteInfo] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(''); // Estado para el mensaje de error
 
   useEffect(() => {
     axios.get(`${API_ROOT}/api/estudiantes/${id}`)
@@ -83,12 +55,19 @@ function DetallesEstudiante() {
   }, []);
 
   const handleSaveChanges = () => {
+    // Verificar si el número de teléfono tiene 8 dígitos
+    if (modifiedEstudianteInfo.telefono && modifiedEstudianteInfo.telefono.length !== 8) {
+      console.log('El número de teléfono debe tener 8 dígitos.');
+      setErrorMessage('El número de teléfono debe tener 8 dígitos.'); 
+      return; // Salir de la función si el número de teléfono no tiene 8 dígitos
+    }
     // Enviar los datos modificados al servidor para actualizar
     axios.put(`${API_ROOT}/api/estudiantes/update/${id}`, modifiedEstudianteInfo)
       .then(response => {
         console.log('Cambios guardados exitosamente:', response.data);
+        console.log(modifiedEstudianteInfo);
         setEstudianteInfo(modifiedEstudianteInfo); // Actualizar los datos originales con los datos modificados
-        setIsEditing(false); // Deshabilitar la edición
+        setIsEditing(false);
       })
       .catch(error => {
         console.error('Error al guardar los cambios:', error);
@@ -97,26 +76,12 @@ function DetallesEstudiante() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    let modifiedValue = value;
-  
-    // Validar el teléfono
-    if (name === 'telefono' && !/^\d{8}$/.test(value)) {
-      // Si el teléfono no tiene 8 dígitos, no se actualiza
-      return;
-    }
-  
-    // Validar la sede
-    if (name === 'sede' && !['Cartago', 'San José', 'Limón', 'Alajuela', 'San Carlos'].includes(value)) {
-      // Si la sede no es una de las permitidas, no se actualiza
-      return;
-    }
-  
+
     setModifiedEstudianteInfo(prevState => ({
       ...prevState,
-      [name]: modifiedValue
+      [name]: value
     }));
   };
-  
 
   return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
@@ -180,14 +145,18 @@ function DetallesEstudiante() {
         </div>
         <div className="mb-4 border-b-2 border-gray-600 w-full">
           <label htmlFor="sede" className="font-bold text-white">Sede:</label>
-          <input
-            type="sede"
+          <select
             id="sede"
-            name="sede"
+            name="Sede"
             value={modifiedEstudianteInfo.Sede || ''}
             onChange={handleChange}
-            className="text-white bg-transparent outline-none border-b-2 border-gray-500 w-full"
-          />
+            className="text-black bg-gray-500 outline-none border-b-2 border-gray-500 w-full" // Cambiado a fondo oscuro y letras claras
+          >
+            <option value="">Selecciona una sede</option>
+            {sedeOptions.map((Sede, index) => (
+              <option key={index} value={Sede}>{Sede}</option>
+            ))}
+          </select>
         </div>
        
         <div className="flex justify-center">
@@ -195,6 +164,7 @@ function DetallesEstudiante() {
           <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} userType={userType} />
           <button onClick={handleSaveChanges} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">Guardar cambios</button>
         </div>
+        {errorMessage && <ErrorMessage message={errorMessage} onClose={() => setErrorMessage('')} />}
       </div>
     </div>
   );

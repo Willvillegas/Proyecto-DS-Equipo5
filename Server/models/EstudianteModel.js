@@ -1,6 +1,7 @@
 class EstudianteModel {
-    constructor(carnet, nombre, apellido1,apellido2, correo, telefono, sede, estado, equipo) {
-        this.carnet = carnet;
+    constructor(id, carnet, nombre, apellido1,apellido2, correo, telefono, sede, estado, equipo) {
+        this.id = id;
+        this.carnet =carnet;
         this.nombre = nombre;
         this.apellido1 = apellido1;
         this.apellido2 = apellido2;

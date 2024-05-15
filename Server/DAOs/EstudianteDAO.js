@@ -68,8 +68,9 @@ class EstudianteDAO{
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
+            console.log('Estudiante a actualizar:', estudiante);
             const result = await connection.executeProcedures("ModificarEstudiante", {
-                id: id,
+                id:id,
 	            carnet: estudiante.carnet,
 	            correo: estudiante.correo,
 	            nombre: estudiante.nombre,
@@ -79,7 +80,7 @@ class EstudianteDAO{
 	            sede: estudiante.sede,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
-            console.log(result)
+            console.log('Estudiante actualizado:', estudiante);
             return result;
         } catch (error) {
             console.log('Error updating estudiante: ', error);
