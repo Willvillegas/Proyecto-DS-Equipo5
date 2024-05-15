@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const links = [
 {
     name: "Menu",
-    href: "assistant-menu", 
+    href: "menu", 
 },
 {
     name: "Equipo Guía",

@@ -6,7 +6,7 @@ const Menu = () => {
   const { currentUser } = useAuthContext();
 
   useEffect(() => {
-    console.log(currentUser)
+    console.log(currentUser.tipo)
   }, []);
 
   return (
@@ -26,7 +26,7 @@ const Menu = () => {
           </button>
         </Link>
         {/* Botón para ir ventana para agregar estudiantes */}
-        {currentUser.tipo in [1,2] ? 
+        {currentUser.tipo == 1 || currentUser.tipo == 2 ? 
         <Link to="/agregar-estudiantes">
         <button className="active:scale-[.98] active:duration-75 hover:scale-[1.01]  w-full bg-indigo-600 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mb-4">
           Agregar Estudiantes

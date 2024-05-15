@@ -29,7 +29,7 @@ function LoginPage() {
         .then(response => {
           if(response.data!=50000){
             dispatch({ type: 'LOGIN', payload: response.data });
-            navigate(`/assistant-menu`);
+            navigate(`/menu`);
           }
         })
     }catch (error){

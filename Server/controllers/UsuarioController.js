@@ -62,7 +62,7 @@ class UsuarioController {
     //Method to reset password
     static async resetPassword(req, res) {
         const { correo } = req.body;
-        console.log (correo);
+        console.log(correo);
         if (!correo) {
             res.status(400).json({ error: 'Correo requerido' });
             return;
@@ -76,7 +76,7 @@ class UsuarioController {
             const token = jwt.sign({ correo: usuario[0].correo }, 'Proyecto-DS', { expiresIn: 60 * 15 });
             //send email with token
             emailSender.sendEmailRestorePassword(usuario[0].correo, token);
-            res.status(200).json({ message: 'Token enviado al correo' });
+            res.status(200).json({ message: 'Token enviado al correo' ,token: token});
         } catch (error) {
             res.status(500).json({ error: 'Error al resetear la contraseña' });
         }
