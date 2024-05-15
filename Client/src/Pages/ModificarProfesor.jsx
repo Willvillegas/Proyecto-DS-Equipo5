@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import API_ROOT from '../../apiRoutes';
-
-const userTipe = 1; // PARÁMETRO PARA CAMBIAR EL ROL Y MOSTRAR ASÍ LOS BOTONES
+import { useAuthContext } from '../context/AuthContext'; // Importa el contexto de autenticación
 
 const buttons = [
   {
@@ -34,10 +33,10 @@ const Button = ({ text, onClick }) => (
   </button>
 );
 
-const ButtonList = ({ buttons, userTipe }) => (
+const ButtonList = ({ buttons, currentUser }) => (
   <div className="flex justify-center">
     {buttons.map((button, index) => {
-      if (button.roles.includes(userTipe)) {
+      if (button.roles.includes(currentUser.tipo)) {
         return <Button key={index} text={button.text} onClick={button.onClick} />;
       }
       return null;
@@ -46,26 +45,45 @@ const ButtonList = ({ buttons, userTipe }) => (
 );
 
 function ModificarProfesor() {
+  const { currentUser } = useAuthContext(); // Obtiene el usuario actual del contexto de autenticación
   const [profesorInfo, setProfesorInfo] = useState({
-    codigo: 'AL-01',
-    nombre: 'Esteban',
-    correo: 'esteban@example.com',
-    oficina: '0000-0000 [extension 0000]',
-    celular: '00000000'
+    codigo: '',
+    nombre: '',
+    correo: '',
+    telOficina: '', // Corregido de 'oficina' a 'telOficina'
+    telPersonal: '' // Corregido de 'celular' a 'telPersonal'
   });
   const [showModal, setShowModal] = useState(false);
   const [isInvalidInput, setIsInvalidInput] = useState(false);
 
   useEffect(() => {
-    // Simulación de datos de prueba
-  }, []);
+    // Obtener los datos del profesor desde el backend cuando se monta el componente
+    const fetchProfesorInfo = async () => {
+      try {
+        const response = await axios.get(`${API_ROOT}/api/profesor/${currentUser.id}`);
+        const { codigo, nombre, correo, telOficina, telPersonal } = response.data;
+        // Establecer los datos del profesor en el estado
+        setProfesorInfo({ codigo, nombre, correo, telOficina, telPersonal });
+      } catch (error) {
+        console.error('Error al obtener los datos del profesor:', error);
+      }
+    };
 
-  const handleSaveClick = () => {
+    fetchProfesorInfo(); // Llama a la función para obtener los datos del profesor al montar el componente
+  }, [currentUser.id]);
+
+  const handleSaveClick = async () => {
     if (!validateInputs()) {
       setIsInvalidInput(true);
       return;
     }
-    setShowModal(true);
+
+    try {
+      await axios.put(`${API_ROOT}/api/profesor/${currentUser.id}`, profesorInfo);
+      setShowModal(true);
+    } catch (error) {
+      console.error('Error al guardar los cambios:', error);
+    }
   };
 
   const handleCancelClick = () => {
@@ -106,7 +124,7 @@ function ModificarProfesor() {
         <div className="flex justify-center items-center flex-col mb-8">
           {/* Input de imagen */}
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
-          <ButtonList buttons={profileButtons} userTipe={userTipe} />
+          <ButtonList buttons={profileButtons} currentUser={currentUser} />
         </div>
         <div className="mb-8">
           {/* Código */}
@@ -151,9 +169,9 @@ function ModificarProfesor() {
             <input
               className="w-full bg-gray-700 text-white p-2 rounded"
               type="text"
-              name="oficina"
-              value={profesorInfo.oficina}
-              onChange={handleInputChange}
+              name="telOficina" // Cambiado de 'oficina' a 'telOficina'
+              value={profesorInfo.telOficina} // Cambiado de 'oficina' a 'telOficina'
+              onChange={handleInputChange} // Cambiado de 'oficina' a 'telOficina'
               required
             />
           </div>
@@ -163,9 +181,9 @@ function ModificarProfesor() {
             <input
               className="w-full bg-gray-700 text-white p-2 rounded"
               type="tel"
-              name="celular"
-              value={profesorInfo.celular}
-              onChange={handleInputChange}
+              name="telPersonal" // Cambiado de 'celular' a 'telPersonal'
+              value={profesorInfo.telPersonal} // Cambiado de 'celular' a 'telPersonal'
+              onChange={handleInputChange} // Cambiado de 'celular' a 'telPersonal'
               required
               pattern={validateCelular}
             />
@@ -173,7 +191,7 @@ function ModificarProfesor() {
         </div>
         {/* Botones */}
         <div className="flex justify-center">
-          <ButtonList buttons={buttons} userTipe={userTipe} />
+          <ButtonList buttons={buttons} currentUser={currentUser} />
         </div>
       </div>
       {showModal && (
@@ -193,7 +211,7 @@ function ModificarProfesor() {
                 className="text-white bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]"
                 onClick={handleConfirmClick}
               >
-               Confirmar
+                Confirmar
               </button>
             </div>
           </div>
@@ -219,3 +237,6 @@ function ModificarProfesor() {
 }
 
 export default ModificarProfesor;
+
+
+
