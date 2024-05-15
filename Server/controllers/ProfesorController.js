@@ -57,8 +57,7 @@ class ProfesorController {
     }
 
     static async changeProfesorRol(req, res) {
-        const { id } = req.params;
-        const { rol } = req.body;
+        const { id, rol } = req.body;
         try {
             const result = await ProfesorDAO.changeRol(rol, id);
             res.status(200).json(result);

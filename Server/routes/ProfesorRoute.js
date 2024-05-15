@@ -8,6 +8,6 @@ router.get('/profesores/:id', ProfesorController.getProfesorById);
 router.post('/profesores', ProfesorController.createProfesor);
 router.put('/profesores/:id', ProfesorController.updateProfesor);
 router.delete('/profesores/:id', ProfesorController.deleteProfesor);
-router.patch('/profesores/:id/rol', ProfesorController.changeProfesorRol);
+router.put('/profesores/rol', ProfesorController.changeProfesorRol);
 
 module.exports = router;
