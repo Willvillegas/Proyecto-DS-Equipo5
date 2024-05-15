@@ -16,6 +16,7 @@ import DetallesEstudiante from "./Pages/DetallesEstudiante";
 import ModificarEstudiante from "./Pages/ModificarEstudiante";
 import RegistrarProfesor from "./Pages/RegistrarProfesor";
 import NotFoundPage from "./Pages/NotFound";
+import AddActividad from "./Pages/AddActividad";
 
 const RoutesPages = () => (
   <Routes>  
@@ -36,6 +37,7 @@ const RoutesPages = () => (
     <Route path="/modificar-profesor/:id" element={<ModificarProfesor/>} />
     <Route path="/registrar-profesor" element={<RegistrarProfesor/>} />
     <Route path="*" element={<NotFoundPage/>} />
+    <Route path="/add-actividad" element={<AddActividad/>} />
   </Routes>
 );
 

@@ -23,7 +23,7 @@ const DetallesActividad = () => {
         axios.get(`${API_ROOT}/api/actividades/actividad/${id}`)
         .then(response => {
             //delete response.data[0].afiche;
-            console.log(response.data[0]);
+            console.log("INicoSTart: "+ JSON.stringify(response.data[0],null,2));
             setActividad(response.data[0]);
         })
         
@@ -67,13 +67,14 @@ const DetallesActividad = () => {
             tipo: actividad.tipo === "" ? "0" : actividad.tipo,
             modalidad: actividad.modalidad === "" ? "0" : actividad.modalidad,
             estado: actividad.estado === "" ? "0" : actividad.estado,
-            idPlan: actividad.idPlan === "" ? "0" : actividad.idPlan,
+            idPlan: actividad.idPlan === "" ? "0" : parseInt(idPlan),
             responsables: actividad.responsables === "" ? "0" : actividad.responsables,
             nombre: actividad.nombre === "" ? "0" : actividad.nombre
         }
 
         //llamo a la api para guardar cambios
         console.log(actividad);
+        console.log(envio);
         axios.put(`${API_ROOT}/api/actividades/${id}`, envio)
         .then(response => {
             console.log(response.data);

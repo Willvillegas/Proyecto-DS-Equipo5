@@ -76,11 +76,11 @@ class ActividadDAO{
     }
     //method to update an actividad in the database
     static async update(actividad){
-        const connection = ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("ModificarActividad", {
-                id: id,
+                id: actividad.id,
                 semana: actividad.semana,
                 fecha: actividad.fecha,
                 previos: actividad.previos,
