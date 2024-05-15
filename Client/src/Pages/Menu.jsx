@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuthContext } from '../context/AuthContext';
 
-const AssistantMenu = () => {
+const Menu = () => {
   const { currentUser } = useAuthContext();
 
   useEffect(() => {
@@ -45,5 +45,5 @@ const AssistantMenu = () => {
   );
 };
 
-export default AssistantMenu;
+export default Menu;
 

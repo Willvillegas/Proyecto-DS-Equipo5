@@ -1,7 +1,7 @@
 import { Routes, Route } from "react-router-dom";
 import LoginPage from "./Pages/LoginPage";
 import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
-import AssistantMenu from "./Pages/AssistantMenu";
+import Menu from "./Pages/Menu";
 import EquipoGuiaAssistentPage from "./Pages/EquipoGuiaAssistentPage";
 import PlanTrabajoPage from "./Pages/PlanTrabajoPage";
 import AddEstudiantesPage from "./Pages/AddEstudiantesPage";
@@ -23,7 +23,7 @@ const RoutesPages = () => (
     <Route path="/" element={<LoginPage />} />
     <Route path="/forgot-password" element={<ForgotPasswordPage />} />
     <Route path="/reset-password" element={<RecuperarPassword/>} />
-    <Route path="/menu" element={<AssistantMenu />} />
+    <Route path="/menu" element={<Menu />} />
     <Route path="/agregar-estudiantes" element={<AddEstudiantesPage />} />
     <Route path="/estudiantes" element={<EstudiantesPage />} />
     <Route path="/equipo-guia" element={<EquipoGuiaAssistentPage />} />
