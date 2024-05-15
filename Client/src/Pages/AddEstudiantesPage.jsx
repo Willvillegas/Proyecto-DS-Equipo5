@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import PopupArchivo from '../components/PopUpArchivo';
+import { Link } from 'react-router-dom';
 
 function AddEstudiantesPage() {
   const [estudiantesInfo, setEstudiantesInfo] = useState([]);
   const [showPopup, setShowPopup] = useState(false); // Estado para mostrar/ocultar el popup
   const [searchTerm, setSearchTerm] = useState(''); // Estado input busqueda
-  const [orderBy, setOrderBy] = useState('alfabetico');
-  const userType = 2;
+  const [orderBy, setOrderBy] = useState('alfabetico'); //Orden estudiantes
 
   // Función para manejar la selección de archivo
   const handleFileSelect = (file) => {
@@ -52,19 +52,9 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
       sortedEstudiantes.sort((a, b) => {
         return a.carnet - b.carnet;
       });
-    } else if (orderBy === 'sede') {
-      sortedEstudiantes.sort((a, b) => {
-        if (typeof a.sede === 'string' && typeof b.sede === 'string') {
-          return a.sede.localeCompare(b.sede);
-        } else {
-          return 0;
-        }
-      });
-    }
-
+    } 
     setEstudiantesInfo(sortedEstudiantes);
   };
-
 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
@@ -112,7 +102,6 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
                 >
                   <option value="alfabetico">Alfabético</option>
                   <option value="carnet">Carnet</option>
-                  <option value="sede">Sede</option>
                 </select>
                 <button
                   onClick={sortEstudiantes}
@@ -123,7 +112,6 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
               </div>
             </div>
 
-            {userType === 2 && (
               <div className="flex space-x-4 mr-8">
                 <button
                   onClick={() => setShowPopup(true)}
@@ -131,8 +119,13 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
                 >
                   Cargar Excel
                 </button>
+                <Link to={`/estudiantes`}>
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-auto">
+                      Cancelar
+                      </button>
+                  </Link>
               </div>
-            )}
+          
 
            {' '}
             {showPopup && <PopupArchivo onFileSelect={handleFileSelect} />}{' '}

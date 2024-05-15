@@ -52,6 +52,7 @@ function EstudiantesPage() {
 
     setEstudiantesInfo(sortedEstudiantes);
   };
+  const sedes = ['Todas', 'Cartago', 'Limon', 'San Carlos', 'Alajuela', 'San Jose'];
 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
@@ -133,7 +134,23 @@ function EstudiantesPage() {
                 </button>
               </div>
             )}{' '}
-            {showDownloadPopup && <PopUpDescargarArchivo />}
+              {showDownloadPopup && (
+              <PopUpDescargarArchivo
+                sedes={sedes}
+                onClose={() => setShowDownloadPopup(false)}
+                sede={filterBySede}
+                modo={filterBySede === 'Todas' ? 0 : 1}
+              />
+            )}
+            {userType === 2 && (
+              <div className="flex space-x-4 mr-8">
+                 <Link to={`/agregar-estudiantes`}>
+                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-auto">
+                      Agregar Estudiantes
+                      </button>
+                  </Link>
+              </div>
+            )}{' '}
           </div>
 
           {/* Contenido */}
