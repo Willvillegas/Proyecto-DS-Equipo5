@@ -18,10 +18,6 @@ const links = [
     name: "Plan de trabajo",
     href: "/plan-trabajo",  
 },
-{
-    name: "Actividades",
-    href: "/actividad",
-},
 
 
 ];

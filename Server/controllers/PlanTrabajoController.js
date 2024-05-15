@@ -25,7 +25,7 @@ class PlanTrabajoController {
         const { nombre, estado, equipo } = req.body;
         const planTrabajo = new PlanTrabajoModel(null, nombre, estado, equipo);
         try {
-            const result = await PlanTrabajoDAO.create(planTrabajo);
+            const result = await PlanTrabajoDAO.create(equipo, planTrabajo);
             res.status(201).json({ message: 'Plan de trabajo created successfully', result });
         } catch (error) {
             res.status(500).json({ error: 'Error creating plan de trabajo' });
