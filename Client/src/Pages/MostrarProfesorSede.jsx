@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthContext'; // Importa el contexto de autenticación
@@ -85,15 +85,18 @@ const ProfileInfo = ({ profesorInfo }) => (
 function MostrarProfesorSede() {
   const navigate = useNavigate();
   const navigateBack = () => navigate(-1);
+  const { id } = useParams();
   const { currentUser } = useAuthContext(); // Obtiene el usuario actual del contexto de autenticación
+  const [profesorInfo, setProfesorInfo] = useState({});
 
-  const [profesorInfo, setProfesorInfo] = useState({
-    codigo: '',
-    nombre: '',
-    correo: '',
-    oficina: '',
-    celular: ''
-  });
+  useEffect(() => {
+    axios.get(`${API_ROOT}/api/profesores/${id}`)
+      .then(response => {
+        setProfesorInfo(response.data[0]);
+      });
+  }, []);
+
+  
 
   useEffect(() => {
     // Obtener los datos reales del profesor desde el backend cuando se monta el componente

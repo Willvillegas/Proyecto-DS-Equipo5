@@ -9,8 +9,8 @@ function EquipoGuiaAssistentPage() {
   const { currentUser } = useAuthContext(); // Obtiene el usuario actual del contexto de autenticación
   const [profesorInfo, setProfesorInfo] = useState([]);
 
-  const pasarPage = () => {
-    navigate(`/mostrar-profesor-sede`);
+  const pasarPage = (id) => {
+    navigate(`/mostrar-profesor/${id}`);
   };
  
   useEffect(() => {
@@ -106,7 +106,8 @@ function EquipoGuiaAssistentPage() {
                     <p className="text-gray-300">{profesor.correo}</p>
                   </div>
                   <div className='p-2 pl-10'>
-                    <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]" onClick={pasarPage}>
+                    <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]" 
+                      onClick={() => pasarPage(profesor.id)}>
                       Ver
                     </button>
                   </div>

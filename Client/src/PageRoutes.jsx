@@ -7,11 +7,9 @@ import PlanTrabajoPage from "./Pages/PlanTrabajoPage";
 import AddEstudiantesPage from "./Pages/AddEstudiantesPage";
 import EstudiantesPage from "./Pages/EstudiantesPage";
 import ActividadPage from "./Pages/ActividadPage";
-import InfoProfesor from "./Pages/InfoProfesor";
 import MostrarProfesorSede from "./Pages/MostrarProfesorSede";
 import DetallesActividad from "./Pages/DetallesActividad";
 import Comentarios from "./Pages/Comentarios";
-import InfoProf from "./Pages/InfoProf";
 import ModificarProfesor from "./Pages/ModificarProfesor";
 import RecuperarPassword from "./Pages/RecuperarPassword";
 import DetallesEstudiante from "./Pages/DetallesEstudiante";
@@ -29,13 +27,11 @@ const RoutesPages = () => (
     <Route path="/estudiantes" element={<EstudiantesPage />} />
     <Route path="/equipo-guia" element={<EquipoGuiaAssistentPage />} />
     <Route path="/plan-trabajo" element={<PlanTrabajoPage />} />
-    <Route path="/info-profesor" element={<InfoProfesor />} />
-    <Route path="/mostrar-profesor-sede" element={<MostrarProfesorSede />} />
+    <Route path="/mostrar-profesor/:id" element={<MostrarProfesorSede />} />
     <Route path="/detalle-actividad/:id" element={<DetallesActividad/>} />
     <Route path="/detalle-estudiantes/:id" element={<DetallesEstudiante/>} />
     <Route path="/actividad/:id" element={<ActividadPage/>} />
     <Route path="/comentarios/:id" element={<Comentarios/>} />
-    <Route path="/info-prof" element={<InfoProf/>} />
     <Route path="/modificar-estudiante/:id" element={<ModificarEstudiante/>} />
     <Route path="/modificar-profesor" element={<ModificarProfesor/>} />
     <Route path="/registrar-profesor" element={<RegistrarProfesor/>} />
