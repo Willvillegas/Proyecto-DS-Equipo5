@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios'; // Importa axios para hacer solicitudes HTTP
+import { useAuthContext } from '../context/AuthContext';
 
 const PopUp = ({ sedes, onClose }) => {
   const [selectedSede, setSelectedSede] = useState('');
-
+  const { currentUser } = useAuthContext();
   const handleChange = (e) => {
     setSelectedSede(e.target.value);
   };
@@ -12,13 +13,11 @@ const PopUp = ({ sedes, onClose }) => {
   const handleSubmit = async () => {
     try {
       // Realizar la solicitud HTTP al servidor
-      await axios.get(`${API_ROOT}/api/estudiantes/download`, {
-        params: {
-          sede: selectedSede,
+      await axios.post(`${API_ROOT}/api/estudiantes/download`, {
+          sede: currentUser.sede,
           modo: selectedSede === 'Todas' ? 0 : 1 // Determina el modo según la sede seleccionada
-        },
-        responseType: 'blob' // Especifica el tipo de respuesta como blob
-      });
+
+      },{responseType: 'blob'} );
       onClose(); // Cierra el PopUp después de la descarga
     } catch (error) {
       console.error('Error al descargar el archivo:', error);
@@ -64,7 +63,8 @@ const PopUp = ({ sedes, onClose }) => {
 };
 
 const DescargaPopUp = () => {
-  const sedes = ['Cartago', 'Limon', 'San Jose', 'San Carlos', 'Alajuela', 'Todas'];
+  const { currentUser } = useAuthContext();
+  const sedes = [currentUser.sede,'Todas'];
   const [showPopUp, setShowPopUp] = useState(true);
 
   const togglePopUp = () => {

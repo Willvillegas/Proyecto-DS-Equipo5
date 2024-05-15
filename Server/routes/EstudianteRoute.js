@@ -14,6 +14,6 @@ router.delete('/:id', EstudianteController.deleteEstudiante);
 //exportar un xlsx con los datos
 router.post('/upload', upload.single('file'), EstudianteController.createEstudianteFromFile);
 //importar un xlsx con los datos
-router.get('/download', EstudianteController.createFileFromEstudiantes);
+router.post('/download', EstudianteController.createFileFromEstudiantes);
 
 module.exports = router;
