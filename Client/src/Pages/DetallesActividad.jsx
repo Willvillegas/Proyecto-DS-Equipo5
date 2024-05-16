@@ -23,7 +23,6 @@ const DetallesActividad = () => {
         axios.get(`${API_ROOT}/api/actividades/actividad/${id}`)
         .then(response => {
             //delete response.data[0].afiche;
-            console.log("INicoSTart: "+ JSON.stringify(response.data[0],null,2));
             setActividad(response.data[0]);
         })
         
@@ -51,8 +50,7 @@ const DetallesActividad = () => {
     const guardarCambios = () => {
         setModoEdicion(false);
         console.log("Guardando cambios");
-        console.log(actividad.fechaPublicacion
-        );
+
         actividad.afiche = "0";
         setIsOpen(false);
         // validar cada propiedad de la actividad si es vacía colocar un cero
@@ -79,6 +77,26 @@ const DetallesActividad = () => {
         .then(response => {
             console.log(response.data);
         })
+    };
+
+    const guardarCancelacion = (valueTextArea) => {
+        setModoEdicion(false);
+        console.log("Cancelando actividad");
+        console.log(valueTextArea
+        );
+        setIsOpen(false);
+        axios.delete(`${API_ROOT}/api/actividades/${id}/${valueTextArea}`)
+        .then(response => {
+            console.log(response.data);
+        });
+        /** 
+        //llamo a la api para guardar cambios
+        console.log(actividad);
+        console.log(envio);
+        axios.put(`${API_ROOT}/api/actividades/${id}`, envio)
+        .then(response => {
+            console.log(response.data);
+        })*/
     };
 
     const descartarCambios = () => {
@@ -213,7 +231,8 @@ const DetallesActividad = () => {
                         descartarCambios={descartarCambios} 
                 />
                 <PopupCancelar isOpenC={isOpenCancelar} 
-                                close={closePopupCancelar} 
+                                close={closePopupCancelar}
+                                cancelar ={guardarCancelacion} 
                 />
                 <PopupFinalizar isOpenF={isOpenFinalizar}
                                 close={closePopupFinalizar}

@@ -1,8 +1,12 @@
 import { useState } from 'react'
 import { Button, Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react' 
 import { Description, Field, Label, Textarea } from '@headlessui/react'
-function Popup({ isOpenC, close }) {
-    
+function Popup({ isOpenC, close, cancelar }) {
+    const [textareaValue, setTextareaValue] = useState('');
+    const handleCancel = () => {
+        cancelar(textareaValue);
+        close();
+    }
     return (
         <>
             <Transition appear show={isOpenC}>
@@ -58,11 +62,13 @@ function Popup({ isOpenC, close }) {
                                             className='mt-3 block w-full resize-none rounded-lg border-none bg-white/5 py-1.5 px-3 text-sm/6 text-white'
                                             placeholder='Ingrese los detalles'
                                             rows={3}
+                                            value={textareaValue}
+                                            onChange={(e) => setTextareaValue(e.target.value)}
                                             />
                                         </Field>
                                         <Button
                                             className="w-full mt-3 text-center inline-flex items-center justify-center   gap-2 rounded-md bg-red-600 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-red-500 data-[open]:bg-red-600 data-[focus]:outline-1 data-[focus]:outline-white"
-                                            onClick={close} // Aquí se llama a la función para cerrar el diálogo
+                                            onClick={handleCancel} // Aquí se llama a la función para cerrar el diálogo
                                         >
                                             Cancelar Activdad
                                         </Button>
