@@ -8,11 +8,11 @@ const buttons = [
   {
     text: 'Volver',
     onClick: () => console.log("Volver"),
-    roles: [1, 2, 3, 4, 5] // 1 asistente Cartago, 2 asistente sede, 3 asistente sin sede, 4 profesor que está logueado, 5 profesor guía
+    roles: [1, 2, 3, 4, 5]
   },
   {
     text: 'Modificar',
-    roles: [5]
+    roles: [3,4]
   }
 ];
 
@@ -26,11 +26,17 @@ const Button = ({ text, onClick, key }) => (
   </button>
 );
 
-const ButtonGroup = ({ buttons, userType, navigateToModificar }) => (
+const ButtonGroup = ({ buttons, userType, navigateToModificar, currentUserSede, estudianteSede }) => (
   <div className="flex justify-center">
-    {buttons.filter(button => button.roles.some(role => role === userType)).map((button, index) => (
-      <Button key={index} text={button.text} onClick={button.onClick || navigateToModificar} />
-    ))}
+    {buttons
+      .filter(button => button.roles.some(role => role === userType))
+      .map((button, index) => {
+        // Agrega esta condición para verificar si el botón "Modificar" debe mostrarse
+        if (button.text === 'Modificar' && currentUserSede !== estudianteSede) {
+          return null; // No renderizar el botón "Modificar"
+        }
+        return <Button key={index} text={button.text} onClick={button.onClick || navigateToModificar} />;
+      })}
   </div>
 );
 
@@ -72,6 +78,7 @@ function DetallesEstudiante() {
   const { currentUser } = useAuthContext();
   const navigateBack = () => navigate(-1);
   const [estudianteInfo, setEstudianteInfo] = useState([]);
+  const currentUserSede = currentUser.sede;
 
   useEffect(() => {
     axios.get(`${API_ROOT}/api/estudiantes/${id}`)
@@ -87,15 +94,26 @@ function DetallesEstudiante() {
    // Imprime currentUser.tipo en la consola del navegador
    console.log('Tipo de usuario:', currentUser.tipo);
 
-  return (
+   return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
       <div className="max-w-md w-full">
         <h1 className="text-white text-center text-3xl font-bold mb-4">Estudiante</h1>
         <ProfileInfo estudianteInfo={estudianteInfo} />
-        {/* Botones */}
         <div className="flex justify-center">
-          <ButtonGroup buttons={buttons.slice(1)} userType={currentUser.tipo} navigateToModificar={navigateToModificar} />
-          <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} userType={currentUser.tipo} />
+          {/* Pasar currentUserSede y estudianteInfo.Sede como propiedades */}
+          <ButtonGroup
+            buttons={buttons.slice(1)}
+            userType={currentUser.tipo}
+            navigateToModificar={navigateToModificar}
+            currentUserSede={currentUserSede}
+            estudianteSede={estudianteInfo.Sede}
+          />
+          <ButtonGroup
+            buttons={[{ ...buttons[0], onClick: navigateBack }]}
+            userType={currentUser.tipo}
+            currentUserSede={currentUserSede}
+            estudianteSede={estudianteInfo.Sede}
+          />
         </div>
       </div>
     </div>
