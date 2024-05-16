@@ -9,11 +9,10 @@ function ActividadPage() {
   const { id } = useParams();
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
-
+ 
   useEffect(() => {
     // Simulación de datos de prueba
 
-    currentUser.tipo = 4
     console.log(id)
     axios.get(`${API_ROOT}/api/actividades/${id}`)
       .then(response => {
@@ -71,7 +70,7 @@ function ActividadPage() {
       {currentUser.tipo != 4 ? <div/>:
       <div className="flex space-x-4">
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
-        Crear
+        Crear actividad
       </button>
     </div>}
     </div>

@@ -1,3 +1,5 @@
+const ProfesorModel = require('../models/ProfesorModel');
+
 const ProfesorDAO = require('../DAOs/ProfesorDAO');
 
 class ProfesorController {

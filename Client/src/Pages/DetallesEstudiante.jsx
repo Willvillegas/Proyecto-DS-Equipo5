@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import API_ROOT from '../../apiRoutes';
-
-const userType = 5;
+import { useAuthContext } from '../context/AuthContext';
 
 const buttons = [
   {
@@ -70,9 +69,9 @@ const ProfileInfo = ({ estudianteInfo }) => (
 function DetallesEstudiante() {
   const { id } = useParams(); // Obtener el ID del estudiante de los parámetros de la URL
   const navigate = useNavigate();
+  const { currentUser } = useAuthContext();
   const navigateBack = () => navigate(-1);
   const [estudianteInfo, setEstudianteInfo] = useState([]);
-
 
   useEffect(() => {
     axios.get(`${API_ROOT}/api/estudiantes/${id}`)
@@ -85,6 +84,8 @@ function DetallesEstudiante() {
   const navigateToModificar = () => {
     navigate(`/modificar-estudiante/${id}`); // Redirigir a la pantalla de modificación con el ID del estudiante
   };
+   // Imprime currentUser.tipo en la consola del navegador
+   console.log('Tipo de usuario:', currentUser.tipo);
 
   return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
@@ -93,8 +94,8 @@ function DetallesEstudiante() {
         <ProfileInfo estudianteInfo={estudianteInfo} />
         {/* Botones */}
         <div className="flex justify-center">
-          <ButtonGroup buttons={buttons.slice(1)} userType={userType} navigateToModificar={navigateToModificar} />
-          <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} userType={userType} />
+          <ButtonGroup buttons={buttons.slice(1)} userType={currentUser.tipo} navigateToModificar={navigateToModificar} />
+          <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} userType={currentUser.tipo} />
         </div>
       </div>
     </div>

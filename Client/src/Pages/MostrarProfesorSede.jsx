@@ -2,51 +2,58 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
-import { useAuthContext } from '../context/AuthContext'; // Importa el contexto de autenticación
+import { useAuthContext } from '../context/AuthContext';
 
 const buttons = [
   {
     text: 'Volver',
     onClick: () => console.log("Volver"),
-    roles: [1, 2, 3, 4, 5] // 1 asistente Cartago, 2 asistente sede, 3 asistente sin sede, 4 profesor que está logueado, 5 profesor guía
+    shouldShow: () => true // Mostrar siempre el botón Volver
   },
   {
     text: 'Modificar',
-    roles: [1, 2, 4]
+    shouldShow: (currentUser, profesorInfo) => (
+      (currentUser.tipo === 1 || currentUser.tipo === 2) &&
+      (currentUser.sede === profesorInfo.idSede) ||
+      (currentUser.correo === profesorInfo.correo)
+    )
   },
   {
     text: 'Eliminar',
     onClick: () => console.log('Eliminar'),
-    roles: [1, 2]
+    shouldShow: (currentUser, profesorInfo) => (
+      (currentUser.tipo === 1 || currentUser.tipo === 2) &&
+      (currentUser.sede === profesorInfo.idSede)
+    )
   },
   {
     text: 'Cambiar rol',
     onClick: () => console.log('Cambiar rol'),
-    roles: [1]
-  }
-];
-
-const profileButtons = [
+    shouldShow: (currentUser) => currentUser.tipo === 1
+  },
   {
     text: 'Subir foto de perfil',
     onClick: () => console.log('Subir foto de perfil'),
-    roles: [1, 2, 4]
-  }
+    shouldShow: (currentUser, profesorInfo) => (
+      (currentUser.tipo === 1 || currentUser.tipo === 2) &&
+      (currentUser.sede === profesorInfo.idSede) ||
+      (currentUser.correo === profesorInfo.correo)
+    )
+  },
 ];
 
-const Button = ({ text, onClick, key }) => (
+const Button = ({ text, onClick }) => (
   <button
     className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-1 px-4 rounded mr-4 active:scale-[.98] active:duration-75 hover:scale-[1.01]"
     onClick={onClick}
-    key={key}
   >
     {text}
   </button>
 );
 
-const ButtonGroup = ({ buttons, userType, navigateToModificar }) => (
+const ButtonGroup = ({ buttons, currentUser, profesorInfo, navigateToModificar }) => (
   <div className="flex justify-center">
-    {buttons.filter(button => button.roles.some(role => role === userType)).map((button, index) => (
+    {buttons.filter((button) => button.shouldShow(currentUser, profesorInfo)).map((button, index) => (
       <Button key={index} text={button.text} onClick={button.onClick || navigateToModificar} />
     ))}
   </div>
@@ -96,8 +103,6 @@ function MostrarProfesorSede() {
       });
   }, []);
 
-  
-
   const navigateToModificar = () => {
     navigate(`/modificar-profesor/${id}`);
   };
@@ -108,13 +113,14 @@ function MostrarProfesorSede() {
         <div className="flex justify-center items-center flex-col mb-8">
           {/* Input de imagen */}
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
-          <ButtonGroup buttons={profileButtons} userType={currentUser ? currentUser.tipo : 0} navigateToModificar={navigateToModificar} />
+          {/* Botón Subir foto de perfil */}
+          <ButtonGroup buttons={[buttons[4]]} currentUser={currentUser} profesorInfo={profesorInfo} />
         </div>
         <ProfileInfo profesorInfo={profesorInfo} />
         {/* Botones */}
         <div className="flex justify-center">
-          <ButtonGroup buttons={buttons.slice(1)} userType={currentUser ? currentUser.tipo : 0} navigateToModificar={navigateToModificar} />
-          <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} userType={currentUser ? currentUser.tipo : 0} />
+          <ButtonGroup buttons={buttons.slice(1, 4)} currentUser={currentUser} profesorInfo={profesorInfo} navigateToModificar={navigateToModificar} />
+          <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} currentUser={currentUser} />
         </div>
       </div>
     </div>
@@ -122,4 +128,3 @@ function MostrarProfesorSede() {
 }
 
 export default MostrarProfesorSede;
-

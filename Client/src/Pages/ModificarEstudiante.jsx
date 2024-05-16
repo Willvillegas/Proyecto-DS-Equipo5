@@ -2,11 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import API_ROOT from '../../apiRoutes';
-import ErrorMessage from '../components/ErrorMessage';
+import ErrorMessage from '../components/ErrorMessage'; //PopUpError
+import { useAuthContext } from '../context/AuthContext'; // Importa el contexto de autenticación
 
-const userType = 5;
+const sedeOptions = ['Cartago', 'Limon', 'San Carlos', 'Alajuela', 'San Jose'];
 
-const buttons = [
+const userTypeButtons = [
   {
     text: 'Volver',
     onClick: () => console.log("Volver"),
@@ -32,22 +33,21 @@ const ButtonGroup = ({ buttons, userType, navigateToModificar }) => (
   </div>
 );
 
-const sedeOptions = ['Cartago', 'Limon', 'San Carlos', 'Alajuela', 'San Jose'];
-
-function DetallesEstudiante() {
-  const { id } = useParams(); // Obtener el ID del estudiante de los parámetros de la URL
+function ModificarEstudiante() {
+  const { id } = useParams();
   const navigate = useNavigate();
   const navigateBack = () => navigate(-1);
   const [estudianteInfo, setEstudianteInfo] = useState([]);
   const [modifiedEstudianteInfo, setModifiedEstudianteInfo] = useState({});
   const [isEditing, setIsEditing] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(''); // Estado para el mensaje de error
+  const [errorMessage, setErrorMessage] = useState('');
+  const { currentUser } = useAuthContext(); // Obtén el usuario actual del contexto de autenticación
 
   useEffect(() => {
     axios.get(`${API_ROOT}/api/estudiantes/${id}`)
       .then(response => {
         setEstudianteInfo(response.data[0]);
-        setModifiedEstudianteInfo(response.data[0]); // Inicialmente, los datos modificados son iguales a los datos originales
+        setModifiedEstudianteInfo(response.data[0]);
       })
       .catch(error => {
         console.error('Error al obtener la información del estudiante:', error);
@@ -55,18 +55,16 @@ function DetallesEstudiante() {
   }, []);
 
   const handleSaveChanges = () => {
-    // Verificar si el número de teléfono tiene 8 dígitos
     if (modifiedEstudianteInfo.telefono && modifiedEstudianteInfo.telefono.length !== 8) {
       console.log('El número de teléfono debe tener 8 dígitos.');
       setErrorMessage('El número de teléfono debe tener 8 dígitos.'); 
-      return; // Salir de la función si el número de teléfono no tiene 8 dígitos
+      return;
     }
-    // Enviar los datos modificados al servidor para actualizar
     axios.put(`${API_ROOT}/api/estudiantes/update/${id}`, modifiedEstudianteInfo)
       .then(response => {
         console.log('Cambios guardados exitosamente:', response.data);
         console.log(modifiedEstudianteInfo);
-        setEstudianteInfo(modifiedEstudianteInfo); // Actualizar los datos originales con los datos modificados
+        setEstudianteInfo(modifiedEstudianteInfo);
         setIsEditing(false);
       })
       .catch(error => {
@@ -87,7 +85,6 @@ function DetallesEstudiante() {
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
       <div className="max-w-md w-full">
         <h1 className="text-white text-center text-3xl font-bold mb-4">Estudiante</h1>
-        {/* Información del estudiante en modo editable */}
         <div className="mb-4 border-b-2 border-gray-600 w-full">
           <label htmlFor="nombre" className="font-bold text-white">Nombre:</label>
           <input
@@ -150,7 +147,7 @@ function DetallesEstudiante() {
             name="Sede"
             value={modifiedEstudianteInfo.Sede || ''}
             onChange={handleChange}
-            className="text-black bg-gray-500 outline-none border-b-2 border-gray-500 w-full" // Cambiado a fondo oscuro y letras claras
+            className="text-black bg-gray-500 outline-none border-b-2 border-gray-500 w-full"
           >
             <option value="">Selecciona una sede</option>
             {sedeOptions.map((Sede, index) => (
@@ -158,10 +155,9 @@ function DetallesEstudiante() {
             ))}
           </select>
         </div>
-       
         <div className="flex justify-center">
-          <ButtonGroup buttons={buttons.slice(1)} userType={userType} />
-          <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} userType={userType} />
+          <ButtonGroup buttons={userTypeButtons.slice(1)} userType={currentUser.tipo} />
+          <ButtonGroup buttons={[{ ...userTypeButtons[0], onClick: navigateBack }]} userType={currentUser.tipo} />
           <button onClick={handleSaveChanges} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">Guardar cambios</button>
         </div>
         {errorMessage && <ErrorMessage message={errorMessage} onClose={() => setErrorMessage('')} />}
@@ -170,4 +166,4 @@ function DetallesEstudiante() {
   );
 }
 
-export default DetallesEstudiante;
+export default ModificarEstudiante;

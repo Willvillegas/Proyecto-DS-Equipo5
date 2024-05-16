@@ -121,7 +121,7 @@ const filteredEstudiantes = estudiantesInfo.filter((estudiante) => {
                 </button>
                 <Link to={`/estudiantes`}>
                       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-auto">
-                      Cancelar
+                      Salir
                       </button>
                   </Link>
               </div>
