@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useAuthContext } from '../context/AuthContext';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -14,8 +15,11 @@ const DetallesActividad = () => {
     const [isOpenCancelar, setIsOpenCancelar] = useState(false);
     const [isOpenFinalizar, setIsOpenFinalizar] = useState(false);
     const navigate = useNavigate();
+    const { currentUser } = useAuthContext();
     const location = useLocation();
     const { idPlan } = location.state;
+    //currentUser.tipo = 3
+
     
     useEffect(() => {
         //simulación de una actividad (Json).
@@ -155,7 +159,7 @@ const DetallesActividad = () => {
                                 <span className="truncate font-medium">resume_back_end_developer.pdf</span>
                                 <span className="flex-shrink-0 text-gray-400">2.4mb</span>
                                 </div>
-                            </div>
+                            </div>  
                             <div className="ml-4 flex-shrink-0">
                                 <a href="#" className="font-medium text-indigo-600 hover:text-indigo-500">
                                 Download
@@ -185,26 +189,32 @@ const DetallesActividad = () => {
                 <button onClick={handleVolver} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
                 Volver
                 </button>
-                <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2"
-                    onClick={handleComentariosClick}>
-                    Comentarios
+                {currentUser.tipo === 3 || currentUser.tipo === 4 ? (
+                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2" onClick={handleComentariosClick}>
+                 Comentarios
                 </button>
+                ) : null}
+              {currentUser.tipo != 4 ? <div/>:
                 <button
                     onClick={openPopup}
                     className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
                     {modoEdicion ? "Guardar" : "Modificar"}
                 </button>
+              }
+                {currentUser.tipo != 4 ? <div/>:
                 <button
                     onClick={openPopupCancelar}
                     className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
                     Cancelar
                 </button>
+                } 
+                {currentUser.tipo != 4 ? <div/>:
                 <button
                     onClick={openPopupFinalizar}
                     className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
                     Finalizar Actividad
                 </button>
-
+                 }
                 <Popup isOpen={isOpenAc} 
                         close={closePopup} 
                         edit={setEdition} 
