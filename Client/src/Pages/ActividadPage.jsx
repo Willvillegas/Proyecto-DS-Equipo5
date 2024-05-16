@@ -24,6 +24,9 @@ function ActividadPage() {
   const clickVer = (id, idPlan) => {
     navigate(`/detalle-actividad/${id}`, { state: { idPlan: idPlan } })
   }
+  const clickCrear = (idPlan) => {
+    navigate(`/add-actividad`,{ state: { idPlan: idPlan } });
+  }
 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
@@ -69,7 +72,8 @@ function ActividadPage() {
       </div>
       {currentUser.tipo != 4 ? <div/>:
       <div className="flex space-x-4">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10">
+      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10" 
+      onClick={ () => clickCrear(id) }>
         Crear actividad
       </button>
     </div>}
