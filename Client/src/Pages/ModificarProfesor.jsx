@@ -13,7 +13,7 @@ const buttons = [
   },
   {
     text: 'Guardar',
-    onClick: () => handleSaveClick(),
+    onClick: () => handleSaveChanges(),
     roles: [1, 2, 3, 4, 5]
   }
 ];

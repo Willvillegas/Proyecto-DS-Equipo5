@@ -6,7 +6,7 @@ const ProfesorController = require('../controllers/ProfesorController');
 router.get('/profesores', ProfesorController.getAllProfesores);
 router.get('/profesores/:id', ProfesorController.getProfesorById);
 router.post('/profesores', ProfesorController.createProfesor);
-router.put('/profesores/:id', ProfesorController.updateProfesor);
+router.put('/profesores/update/:id', ProfesorController.updateProfesor);
 router.delete('/profesores/eliminar/:id', ProfesorController.deleteProfesor);
 router.put('/profesores/rol', ProfesorController.changeProfesorRol);
 
