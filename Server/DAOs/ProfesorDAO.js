@@ -40,7 +40,7 @@ class ProfesorDAO{
         }
     }
     static async create(profesor){
-        const connection = new ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("CrearProfesor", {
@@ -64,21 +64,20 @@ class ProfesorDAO{
             await ConnectionDAO.disconnect();
         }
     }
-    static async update(profesor, id, idAsistente){
-        const connection = new ConnectionDAO.getInstance();
+    static async update(profesor, id, idAsistente, correo, contrasenna){
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const result = await connection.executeProcedures("ModificarProfesorId", {
+            const result = await connection.executeProcedures("ModificarProfesor", {
                 idAsistente: idAsistente,
                 idProfesor: id, //Se pasa el id del profesor o usuario
-                correo: profesor.correo,
-	            contra: profesor.contrasenna,
+                correo: correo,
+	            contra: contrasenna,
 	            nombre: profesor.nombre,
 	            apellidos: profesor.apellidos,
 	            oficina: profesor.oficina,
 	            personal: profesor.personal,
 	            sede: profesor.sede, //Nombre de la cede
-                foto: profesor.foto,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             console.log(result)

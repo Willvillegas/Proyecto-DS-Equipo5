@@ -38,10 +38,11 @@ class ProfesorController {
 
     static async updateProfesor(req, res) {
         const id = req.params.id;
-        const { codigo, nombre, apellidos, oficina, personal, sede, tipo } = req.body;
-        const profesor = new ProfesorModel(id, codigo, nombre, apellidos, oficina, personal, sede, tipo);
+        const { codigo, contrasenna, correo, idAsistente, nombre, apellidos, telOficina, telPersonal
+            , Sede, Tipo } = req.body;
+        const profesor = new ProfesorModel(id, codigo, nombre, apellidos, telOficina, telPersonal, Sede, Tipo);
         try {
-            const result = await ProfesorDAO.update(profesor);
+            const result = await ProfesorDAO.update(profesor, id, idAsistente, correo, contrasenna);
             res.status(200).json({ message: 'Profesor updated successfully', result });
         } catch (error) {
             res.status(500).json({ error: 'Error updating profesor' });

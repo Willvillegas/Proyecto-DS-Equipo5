@@ -84,8 +84,8 @@ function ModificarProfesor() {
       setIsInvalidInput(true);
       return;
     }
-
-    axios.put(`${API_ROOT}/api/profesores/update/${id}`, modifiedProfesorInfo)
+    const data = {...modifiedProfesorInfo, idAsistente: currentUser.id}
+    axios.put(`${API_ROOT}/api/profesores/update/${id}`, data)
       .then(response => {
         console.log('Cambios guardados exitosamente:', response.data);
         setProfesorInfo(modifiedProfesorInfo);
