@@ -132,9 +132,10 @@ class ActividadDAO{
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
+            const datosBuffer = Buffer.from(datos, 'utf-8');
             const result = await connection.executeProcedures("FinalizarActividad", {
                 id: id, //Id de la actividad
-                dato: datos,
+                dato: datosBuffer,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             console.log(result)

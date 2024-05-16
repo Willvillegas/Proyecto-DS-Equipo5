@@ -1,11 +1,15 @@
 import { useState } from 'react'
 import { Button, Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react' 
-function PopupFinalizar({ isOpenF, close }) {
+function PopupFinalizar({ isOpenF, close, finalizar }) {
     const [selectedFiles, setSelectedFiles] = useState([]);
 
     const handleFileChange = (event) => {
         setSelectedFiles([...event.target.files]);
     };
+    const handleFinalizar = () => {
+        finalizar(selectedFiles);
+        close();
+    }
     return (
         <>
             <Transition appear show={isOpenF}>
@@ -88,7 +92,7 @@ function PopupFinalizar({ isOpenF, close }) {
                                         <Button 
                                             disabled={selectedFiles.length == 0}
                                             className="w-full mt-3 text-center inline-flex items-center justify-center   gap-2 rounded-md bg-indigo-500 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-green-500 data-[open]:bg-red-600 data-[focus]:outline-1 data-[focus]:outline-white"
-                                            onClick={close} // Aquí se llama a la función para cerrar el diálogo
+                                            onClick={handleFinalizar} // Aquí se llama a la función para cerrar el diálogo
                                         >
                                             Finalizar actividad
                                         </Button>

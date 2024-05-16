@@ -103,6 +103,11 @@ const DetallesActividad = () => {
         })*/
     };
 
+    const finalizarActividad = (valueData) => {
+        console.log("Finalizando actividad");
+        setIsOpen(false);
+        axios.put(`${API_ROOT}/api/actividades/finish/${id}`, valueData)
+    }
     const descartarCambios = () => {
         setModoEdicion(false);
         setIsOpen(false);
@@ -246,6 +251,7 @@ const DetallesActividad = () => {
                 />
                 <PopupFinalizar isOpenF={isOpenFinalizar}
                                 close={closePopupFinalizar}
+                                finalizar={finalizarActividad}
                 />  
 
 
