@@ -8,6 +8,7 @@ function EquipoGuiaAssistentPage() {
   const navigate = useNavigate();
   const { currentUser } = useAuthContext(); // Obtiene el usuario actual del contexto de autenticación
   const [profesorInfo, setProfesorInfo] = useState([]);
+  const [searchTerm, setSearchTerm] = useState(''); // Estado input busqueda
 
   const pasarPage = (id) => {
     navigate(`/mostrar-profesor/${id}`);
@@ -24,6 +25,12 @@ function EquipoGuiaAssistentPage() {
   const cliclRegistrar = () =>{
     navigate('/registrar-profesor')
   }
+
+  const filteredProfesores = profesorInfo.filter((profesor) => {
+    const nombreCompleto = `${profesor.nombre}`.toLowerCase();
+    const nombreMatches = nombreCompleto.includes(searchTerm.toLowerCase());
+    return nombreMatches;
+  });
 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
@@ -43,6 +50,8 @@ function EquipoGuiaAssistentPage() {
                     type="text"
                     className="block w-full p-2 pl-10 pr-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     placeholder="Buscar"
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
                   />
                   <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                     <svg
@@ -93,7 +102,7 @@ function EquipoGuiaAssistentPage() {
                 <span className="font-bold text-white ml-10">Acción</span>
               </div>
             </div>
-            {profesorInfo.map((profesor) => (
+            {filteredProfesores.map((profesor) => (
               <div key={profesor.id} className="bg-gray-700 rounded p-4 ml-2 mr-6 bg-gray-700 rounded p-4 ml-2 mr-6 pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200">
                 <div className="grid grid-cols-4 gap-4">
                   <div>

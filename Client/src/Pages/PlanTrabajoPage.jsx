@@ -14,6 +14,7 @@ function PlanTrabajoPage() {
   const [nombrePlan, setNombre] = useState('');
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState(''); // Estado input busqueda
 
   useEffect(() => {
     // Simulación de datos de prueba
@@ -41,6 +42,13 @@ function PlanTrabajoPage() {
     setNombre(nombre)
     setIsOpenEliminar(true);
   } 
+
+  const filteredPlanes = PlanTrabajoInfo.filter((plan) => {
+    const nombreCompleto = `${plan.nombre}`.toLowerCase();
+    const nombreMatches = nombreCompleto.includes(searchTerm.toLowerCase());
+    return nombreMatches;
+  });
+
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
     <div className=" w-full bg-gray-900 p-8 rounded-lg shadow-lg mx-auto mt-10 mb-10">
@@ -59,6 +67,8 @@ function PlanTrabajoPage() {
               type="text"
               className="block w-full p-2 pl-10 pr-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Buscar"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
@@ -105,7 +115,7 @@ function PlanTrabajoPage() {
           <span className="font-bold text-white ml-5">Acción</span>
           </div>
       </div>
-        {PlanTrabajoInfo.map((planTrabajo)=>(
+        {filteredPlanes.map((planTrabajo)=>(
           <div key={planTrabajo.id}  className="bg-gray-700 rounded p-4 ml-2 mr-6 mt-3">
             <div className="grid grid-cols-4 gap-4">
               {/* Año */}
