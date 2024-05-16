@@ -14,16 +14,15 @@ const buttons = [
     text: 'Modificar',
     shouldShow: (currentUser, profesorInfo) => (
       (currentUser.tipo === 1 || currentUser.tipo === 2) &&
-      (currentUser.sede === profesorInfo.idSede) ||
+      (currentUser.sede === profesorInfo.Sede) ||
       (currentUser.correo === profesorInfo.correo)
     )
   },
   {
     text: 'Eliminar',
-    onClick: () => console.log('Eliminar'),
     shouldShow: (currentUser, profesorInfo) => (
       (currentUser.tipo === 1 || currentUser.tipo === 2) &&
-      (currentUser.sede === profesorInfo.idSede)
+      (currentUser.sede === profesorInfo.Sede)
     )
   },
   {
@@ -36,7 +35,7 @@ const buttons = [
     onClick: () => console.log('Subir foto de perfil'),
     shouldShow: (currentUser, profesorInfo) => (
       (currentUser.tipo === 1 || currentUser.tipo === 2) &&
-      (currentUser.sede === profesorInfo.idSede) ||
+      (currentUser.sede === profesorInfo.Sede) ||
       (currentUser.correo === profesorInfo.correo)
     )
   },
