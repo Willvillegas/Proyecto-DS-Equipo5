@@ -55,7 +55,7 @@ function EstudiantesPage() {
     setEstudiantesInfo(sortedEstudiantes);
   };
 
-  const sedes = ['Todas', 'Cartago', 'Limon', 'San Carlos', 'Alajuela', 'San Jose'];
+  const sedes = ['Todas', currentUser.sede];
 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
@@ -126,8 +126,7 @@ function EstudiantesPage() {
                 </button>
               </div>
             </div>
-
-            {currentUser.tipo === 5 && (
+            {(currentUser.tipo === 3 || currentUser.tipo === 4) && (
               <div className="flex space-x-4 mr-8">
                 <button
                   onClick={handleGenerateFile}
