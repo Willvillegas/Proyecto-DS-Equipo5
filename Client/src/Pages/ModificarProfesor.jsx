@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams } from 'react-router-dom'; // Importar useParams para obtener el ID del profesor desde la URL
+import { useParams, useNavigate } from 'react-router-dom'; // Importar useParams para obtener el ID del profesor desde la URL
 import API_ROOT from '../../apiRoutes';
 import { useAuthContext } from '../context/AuthContext';
+import ErrorMessage from '../components/ErrorMessage'; // Asegúrate de tener este componente o crear uno similar
 
 const buttons = [
   {
@@ -13,7 +14,7 @@ const buttons = [
   {
     text: 'Guardar',
     onClick: () => handleSaveClick(),
-    roles: [1,2,3,4,5]
+    roles: [1, 2, 3, 4, 5]
   }
 ];
 
@@ -21,7 +22,7 @@ const profileButtons = [
   {
     text: 'Subir foto de perfil',
     onClick: () => console.log('Subir foto de perfil'),
-    roles: [1, 2, 4]
+    roles: [1, 2, 3, 4, 5]
   }
 ];
 
@@ -52,6 +53,7 @@ const ButtonList = ({ buttons }) => {
 function ModificarProfesor() {
   const { currentUser } = useAuthContext();
   const { id } = useParams(); // Obtener el ID del profesor desde la URL
+  const navigate = useNavigate(); // Usar navigate para redirigir después de guardar
   const [profesorInfo, setProfesorInfo] = useState({
     codigo: 'AL-01',
     nombre: 'Esteban',
@@ -59,52 +61,54 @@ function ModificarProfesor() {
     oficina: '0000-0000 [extension 0000]',
     celular: '00000000'
   });
+  const [modifiedProfesorInfo, setModifiedProfesorInfo] = useState({});
   const [showModal, setShowModal] = useState(false);
   const [isInvalidInput, setIsInvalidInput] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
   useEffect(() => {
     const fetchProfesorInfo = async () => {
       try {
         const response = await axios.get(`${API_ROOT}/api/profesores/${id}`); // Usar el ID del profesor desde la URL
         setProfesorInfo(response.data[0]);
+        setModifiedProfesorInfo(response.data[0]);
       } catch (error) {
         console.error('Error al obtener los datos del profesor:', error);
       }
     };
     fetchProfesorInfo();
-  }, [id]); // Agregar id como dependencia
+  }, [id]);
 
-
-
-  const handleSaveClick = () => {
-    if (!validateInputs()) {
+  const handleSaveChanges = () => {
+    if (!validateInputs() || !validateCelular(modifiedProfesorInfo.telPersonal)) {
       setIsInvalidInput(true);
       return;
     }
-    setShowModal(true);
+
+    axios.put(`${API_ROOT}/api/profesores/update/${id}`, modifiedProfesorInfo)
+      .then(response => {
+        console.log('Cambios guardados exitosamente:', response.data);
+        setProfesorInfo(modifiedProfesorInfo);
+        setShowModal(false);
+        navigate(`/modificar-profesor/${id}`); 
+      })
+      .catch(error => {
+        console.error('Error al guardar los cambios:', error);
+        setErrorMessage('Error al guardar los cambios. Por favor, inténtalo de nuevo.');
+      });
   };
 
-  const handleCancelClick = () => {
-    console.log('Cancelar');
-  };
-
-  const handleConfirmClick = () => {
-    console.log('Confirmar');
-    setShowModal(false);
-  };
-
-  const handleCancelModal = () => {
-    setShowModal(false);
-  };
-
-  const handleInputChange = (e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
-    setProfesorInfo({ ...profesorInfo, [name]: value }); // Actualizar el estado profesorInfo con los valores introducidos en los inputs
+    setModifiedProfesorInfo(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
   };
 
   const validateInputs = () => {
-    for (const key in profesorInfo) {
-      if (key !== 'codigo' && !profesorInfo[key]) {
+    for (const key in modifiedProfesorInfo) {
+      if (key !== 'codigo' && !modifiedProfesorInfo[key]) {
         return false;
       }
     }
@@ -131,7 +135,6 @@ function ModificarProfesor() {
               type="text"
               name="codigo"
               value={profesorInfo.codigo || ''}
-              onChange={handleInputChange}
               disabled
             />
           </div>
@@ -141,8 +144,8 @@ function ModificarProfesor() {
               className="w-full bg-gray-700 text-white p-2 rounded"
               type="text"
               name="nombre"
-              value={profesorInfo.nombre || ''}
-              onChange={handleInputChange}
+              value={modifiedProfesorInfo.nombre || ''}
+              onChange={handleChange}
               required
             />
           </div>
@@ -152,8 +155,8 @@ function ModificarProfesor() {
               className="w-full bg-gray-700 text-white p-2 rounded"
               type="email"
               name="correo"
-              value={profesorInfo.correo || ''}
-              onChange={handleInputChange}
+              value={modifiedProfesorInfo.correo || ''}
+              onChange={handleChange}
               required
             />
           </div>
@@ -162,9 +165,9 @@ function ModificarProfesor() {
             <input
               className="w-full bg-gray-700 text-white p-2 rounded"
               type="text"
-              name="oficina"
-              value={profesorInfo.telOficina || ''}
-              onChange={handleInputChange}
+              name="telOficina"
+              value={modifiedProfesorInfo.telOficina || ''}
+              onChange={handleChange}
               required
             />
           </div>
@@ -173,16 +176,19 @@ function ModificarProfesor() {
             <input
               className="w-full bg-gray-700 text-white p-2 rounded"
               type="tel"
-              name="celular"
-              value={profesorInfo.telPersonal || ''}
-              onChange={handleInputChange}
+              name="telPersonal"
+              value={modifiedProfesorInfo.telPersonal || ''}
+              onChange={handleChange}
               required
-              pattern={validateCelular}
+              pattern="^\d{8}$"
             />
           </div>
         </div>
         <div className="flex justify-center">
-          <ButtonList buttons={buttons} />
+          <ButtonList buttons={buttons.map(button => ({
+            ...button,
+            onClick: button.text === 'Guardar' ? handleSaveChanges : button.onClick
+          }))} />
         </div>
       </div>
       {showModal && (
@@ -194,13 +200,13 @@ function ModificarProfesor() {
             <div className="flex justify-end">
               <button
                 className="text-white bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded mr-4 active:scale-[.98] active:duration-75 hover:scale-[1.01]"
-                onClick={handleCancelModal}
+                onClick={() => setShowModal(false)}
               >
                 Cancelar
               </button>
               <button
                 className="text-white bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]"
-                onClick={handleConfirmClick}
+                onClick={handleSaveChanges}
               >
                 Confirmar
               </button>
@@ -210,18 +216,21 @@ function ModificarProfesor() {
       )}
       {isInvalidInput && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-8 rounded">
+          <div className="bg-blue p-8 rounded">
             <p className="text-lg font-bold mb-4">
               Por favor, complete todos los campos obligatorios.
             </p>
             <button
-              className="text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]"
+              className="text-blue bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]"
               onClick={() => setIsInvalidInput(false)}
             >
               OK
             </button>
           </div>
         </div>
+      )}
+      {errorMessage && (
+        <ErrorMessage message={errorMessage} onClose={() => setErrorMessage('')} />
       )}
     </div>
   );
