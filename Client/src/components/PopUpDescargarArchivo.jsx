@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
-import { useAuthContext } from '../context/AuthContext';
 import { saveAs } from 'file-saver';
 
 const PopUpDescargarArchivo = ({ sedes, onClose, sede, modo }) => {

@@ -1,16 +1,18 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import PopUpDescargarArchivo from '../components/PopUpDescargarArchivo';
 import { Link } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthContext'; // Importar useAuthContext
 
 function EstudiantesPage() {
+  const { currentUser } = useAuthContext(); // Obtener currentUser desde el contexto
+
   const [estudiantesInfo, setEstudiantesInfo] = useState([]);
   const [showDownloadPopup, setShowDownloadPopup] = useState(false);
   const [searchTerm, setSearchTerm] = useState(''); // Estado input busqueda
-  const [orderBy, setOrderBy] = useState('alfabetico');//Ordenar
-  const [filterBySede, setFilterBySede] = useState('Todas'); //Filtrar por sede
-  const userType = 5;
+  const [orderBy, setOrderBy] = useState('alfabetico'); // Ordenar
+  const [filterBySede, setFilterBySede] = useState('Todas'); // Filtrar por sede
 
   useEffect(() => {
     axios.get(`${API_ROOT}/api/estudiantes/allEstudiantes/${1}`)
@@ -52,6 +54,7 @@ function EstudiantesPage() {
 
     setEstudiantesInfo(sortedEstudiantes);
   };
+
   const sedes = ['Todas', 'Cartago', 'Limon', 'San Carlos', 'Alajuela', 'San Jose'];
 
   return (
@@ -93,7 +96,7 @@ function EstudiantesPage() {
                     </svg>
                   </div>
                 </div>
-                
+
                 <select
                   className="block p-2 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 ml-1"
                   value={orderBy}
@@ -124,7 +127,7 @@ function EstudiantesPage() {
               </div>
             </div>
 
-            {userType === 5 && (
+            {currentUser.tipo === 5 && (
               <div className="flex space-x-4 mr-8">
                 <button
                   onClick={handleGenerateFile}
@@ -133,8 +136,8 @@ function EstudiantesPage() {
                   Generar Excel
                 </button>
               </div>
-            )}{' '}
-              {showDownloadPopup && (
+            )}
+            {showDownloadPopup && (
               <PopUpDescargarArchivo
                 sedes={sedes}
                 onClose={() => setShowDownloadPopup(false)}
@@ -142,15 +145,15 @@ function EstudiantesPage() {
                 modo={filterBySede === 'Todas' ? 0 : 1}
               />
             )}
-            {userType === 2 && (
+            {currentUser.tipo === 2 && (
               <div className="flex space-x-4 mr-8">
-                 <Link to={`/agregar-estudiantes`}>
-                      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-auto">
-                      Agregar Estudiantes
-                      </button>
-                  </Link>
+                <Link to={`/agregar-estudiantes`}>
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-auto">
+                    Agregar Estudiantes
+                  </button>
+                </Link>
               </div>
-            )}{' '}
+            )}
           </div>
 
           {/* Contenido */}
