@@ -47,17 +47,20 @@ class ActividadDAO{
     }
     //method to create an actividad in the database
     static async create(actividad){
-        const connection = ConnectionDAO.getInstance();
+        const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
+            const fecha = new Date(actividad.fecha);
+            const publicacion = new Date(actividad.publicacion);
+            const aficheBuffer = Buffer.from(actividad.afiche, 'utf-8');
             const result = await connection.executeProcedures("CrearActividad", {
                 semana: actividad.semana,
-                fecha: actividad.fecha,
+                fecha: fecha,
                 previos: actividad.previos,
-                publicacion: actividad.publicacion,
+                publicacion: publicacion,
                 recordatorios: actividad.recordatorios,
                 enlace: actividad.enlace,
-                afiche: actividad.afiche,
+                afiche: aficheBuffer,
                 responsables: actividad.responsables,
                 tipo: actividad.tipo,
                 modalidad: actividad.modalidad,

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, act } from 'react';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
@@ -10,7 +10,7 @@ const AddActividad = () => {
 
     const location = useLocation();
     const navigate = useNavigate();
-    const { idPlan } = useParams();
+    const { idPlan } = location.state;
 
     useEffect(() => {
         // Your code here
@@ -24,11 +24,39 @@ const AddActividad = () => {
         e.preventDefault();
 
         try {
-            console.log(actividad);
+            actividad.idPlan = parseInt(actividad.idPlan);
+            actividad.previos = parseInt(actividad.previos);
+            actividad.recordatorios = parseInt(actividad.recordatorios);
+            actividad.semana = parseInt(actividad.semana);
+            actividad.afiche = "0";
+            const envio = { 
+                semana: actividad.semana,
+                fecha: actividad.fecha,
+                previos: actividad.previos,
+                publicacion: actividad.publicacion,
+                recordatorios: actividad.recordatorios,
+                enlace: actividad.enlace,
+                afiche: actividad.afiche,
+                tipo: actividad.tipo,
+                modalidad: actividad.modalidad,
+                estado: actividad.estado,
+                idPlan: actividad.idPlan,
+                responsables: actividad.responsables,
+                nombre: actividad.nombre
+            };
+            console.log(envio);
+            axios.post(`${API_ROOT}/api/actividades`, envio).then((response) => {
+                console.log(response);
+                navigate(`/actividad/${idPlan}`);
+            });
         } catch (error) {
             setError('An error occurred. Please try again.');
         }
     };
+
+    const handleVolver = () => {
+        navigate(`/actividad/${idPlan}`);
+    }
 
     return (
         <div>
@@ -39,25 +67,7 @@ const AddActividad = () => {
                             <h1 className="text-base text-center font-bold leading-7 text-gray-50">{actividad.previos}</h1>
                         </div>
                         <h1>Add Actividad</h1>
-                        {/**Formulario para crear actividad 
-                         * const envio= {
-                            semana: actividad.semana === "" ? "0" : actividad.semana,
-                            fecha: actividad.fecha === "" ? "0" : actividad.fecha,
-                            previos: actividad.previos === "" ? "0" : actividad.previos,
-                            publicacion: actividad.fechaPublicacion === "" ? "0" : actividad.fechaPublicacion,
-                            recordatorios: actividad.recordatorios === "" ? "0" : actividad.recordatorios,
-                            enlace: actividad.enlace === "" ? "0" : actividad.enlace,
-                            afiche: actividad.afiche === "" ? "0" : actividad.afiche,
-                            tipo: actividad.tipo === "" ? "0" : actividad.tipo,
-                            modalidad: actividad.modalidad === "" ? "0" : actividad.modalidad,
-                            estado: actividad.estado === "" ? "0" : actividad.estado,
-                            idPlan: actividad.idPlan === "" ? "0" : parseInt(idPlan),
-                            responsables: actividad.responsables === "" ? "0" : actividad.responsables,
-                            nombre: actividad.nombre === "" ? "0" : actividad.nombre
-                        }
-                         * 
-                         * 
-                        */}
+                        
                         <form onSubmit={handleSubmit} className="mt-6 border-t border-gray-100 ">
                             <dl className="divide-y divide-gray-100">
                                 
@@ -98,7 +108,7 @@ const AddActividad = () => {
                                 </dt>
                             </div>
                             <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dd className='text-sm font-medium leading-6 text-gray-50'>Recordatorio</dd>
+                                <dd className='text-sm font-medium leading-6 text-gray-50'>Enlace</dd>
                                 <dt>
                                     <input type="text" name="enlace" placeholder="Enlace" value={actividad.enlace} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0" />
                                 </dt>
@@ -146,13 +156,16 @@ const AddActividad = () => {
                                     <input type="text" name="responsables" placeholder="Responsables" value={actividad.responsables} onChange={handleInputChange} className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0"/>
                                 </dt>
                             </div>
-                            <div className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <button type="submit">Add Actividad</button>
+                            <div className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2 mt-5 text-center">
+                                <button type="submit">Crear Actividad</button>
                             </div>
                         </dl>
                         </form>
                     {error && <p>{error}</p>}
                     </div>
+                    <button onClick={handleVolver} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
+                        Volver
+                    </button>
                 </div>
             </div>
         </div>

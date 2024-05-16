@@ -15,10 +15,10 @@ const DetallesActividad = () => {
     const [isOpenCancelar, setIsOpenCancelar] = useState(false);
     const [isOpenFinalizar, setIsOpenFinalizar] = useState(false);
     const navigate = useNavigate();
-    const { currentUser } = useAuthContext();
+    //const { currentUser } = useAuthContext();
     const location = useLocation();
     const { idPlan } = location.state;
-    //currentUser.tipo = 3
+    //currentUser.tipo = 4
 
     
     useEffect(() => {
@@ -207,32 +207,32 @@ const DetallesActividad = () => {
                 <button onClick={handleVolver} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
                 Volver
                 </button>
-                {currentUser.tipo === 3 || currentUser.tipo === 4 ? (
+                {/*{currentUser.tipo === 3 || currentUser.tipo === 4 ? (*/}
                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2" onClick={handleComentariosClick}>
                  Comentarios
                 </button>
-                ) : null}
-              {currentUser.tipo != 4 ? <div/>:
+                {/*) : null}*/}
+              {/*{currentUser.tipo != 4 ? <div/>:*/}
                 <button
                     onClick={openPopup}
                     className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
                     {modoEdicion ? "Guardar" : "Modificar"}
                 </button>
-              }
-                {currentUser.tipo != 4 ? <div/>:
+              {/*}*/}
+                {/*{currentUser.tipo != 4 ? <div/>:*/}
                 <button
                     onClick={openPopupCancelar}
                     className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
                     Cancelar
                 </button>
-                } 
-                {currentUser.tipo != 4 ? <div/>:
+                {/*}*/} 
+                {/*{currentUser.tipo != 4 ? <div/>:*/}
                 <button
                     onClick={openPopupFinalizar}
                     className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
                     Finalizar Actividad
                 </button>
-                 }
+                {/* }*/}
                 <Popup isOpen={isOpenAc} 
                         close={closePopup} 
                         edit={setEdition} 
