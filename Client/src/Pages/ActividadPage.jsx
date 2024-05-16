@@ -9,6 +9,7 @@ function ActividadPage() {
   const { id } = useParams();
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState('');
  
   useEffect(() => {
     // Simulación de datos de prueba
@@ -24,6 +25,12 @@ function ActividadPage() {
   const clickVer = (id, idPlan) => {
     navigate(`/detalle-actividad/${id}`, { state: { idPlan: idPlan } })
   }
+
+  const filteredActividades = ActividadInfo.filter((actividad) => {
+    const nombreCompleto = `${actividad.nombre}`.toLowerCase();
+    const nombreMatches = nombreCompleto.includes(searchTerm.toLowerCase());
+    return nombreMatches;
+  });
 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
@@ -43,6 +50,8 @@ function ActividadPage() {
               type="text"
               className="block w-full p-2 pl-10 pr-4 text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
               placeholder="Buscar"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
             />
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <svg
@@ -94,7 +103,7 @@ function ActividadPage() {
           <span className="font-bold text-white ml-10">Acción</span>
           </div>
       </div>
-        {ActividadInfo.map((actividad)=>(
+        {filteredActividades.map((actividad)=>(
           <div key={actividad.id}  className="bg-gray-700 rounded p-4 ml-2 mr-9">
             <div className="grid grid-cols-5 gap-4">
               {/* Semana */}
