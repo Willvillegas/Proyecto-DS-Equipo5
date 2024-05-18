@@ -41,6 +41,7 @@ function ModificarEstudiante() {
   const [modifiedEstudianteInfo, setModifiedEstudianteInfo] = useState({});
   const [isEditing, setIsEditing] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [showModal, setShowModal] = useState(false);
   const { currentUser } = useAuthContext(); // Obtén el usuario actual del contexto de autenticación
 
   useEffect(() => {
@@ -60,16 +61,7 @@ function ModificarEstudiante() {
       setErrorMessage('El número de teléfono debe tener 8 dígitos.'); 
       return;
     }
-    axios.put(`${API_ROOT}/api/estudiantes/update/${id}`, modifiedEstudianteInfo)
-      .then(response => {
-        console.log('Cambios guardados exitosamente:', response.data);
-        console.log(modifiedEstudianteInfo);
-        setEstudianteInfo(modifiedEstudianteInfo);
-        setIsEditing(false);
-      })
-      .catch(error => {
-        console.error('Error al guardar los cambios:', error);
-      });
+    setShowModal(true); // Mostrar el modal cuando se haga clic en "Guardar"
   };
 
   const handleChange = (e) => {
@@ -79,6 +71,21 @@ function ModificarEstudiante() {
       ...prevState,
       [name]: value
     }));
+  };
+
+  // Función para confirmar y guardar los cambios
+  const handleConfirmChanges = () => {
+    axios.put(`${API_ROOT}/api/estudiantes/update/${id}`, modifiedEstudianteInfo)
+      .then(response => {
+        console.log('Cambios guardados exitosamente:', response.data);
+        console.log(modifiedEstudianteInfo);
+        setEstudianteInfo(modifiedEstudianteInfo);
+        setIsEditing(false);
+        setShowModal(false); // Ocultar el modal después de guardar los cambios
+      })
+      .catch(error => {
+        console.error('Error al guardar los cambios:', error);
+      });
   };
 
   return (
@@ -158,10 +165,33 @@ function ModificarEstudiante() {
         <div className="flex justify-center">
           <ButtonGroup buttons={userTypeButtons.slice(1)} userType={currentUser.tipo} />
           <ButtonGroup buttons={[{ ...userTypeButtons[0], onClick: navigateBack }]} userType={currentUser.tipo} />
-          <button onClick={handleSaveChanges} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">Guardar cambios</button>
+          <button onClick={handleSaveChanges} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">Guardar</button>
         </div>
         {errorMessage && <ErrorMessage message={errorMessage} onClose={() => setErrorMessage('')} />}
       </div>
+
+      {/* Modal de confirmación */}
+      {showModal && (
+        <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
+          <div className="bg-gray-800 p-8 rounded">
+            <p className="text-lg font-bold mb-4">¿Está seguro de que desea realizar los cambios?</p>
+            <div className="flex justify-end">
+              <button
+                className="text-white bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded mr-4 active:scale-[.98] active:duration-75 hover:scale-[1.01]"
+                onClick={() => setShowModal(false)} // Cancelar la acción y cerrar el modal
+              >
+                Cancelar
+              </button>
+              <button
+                className="text-white bg-green-500 hover:bg-green-700 font-bold py-2 px-4 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]"
+                onClick={handleConfirmChanges} // Confirmar la acción y guardar los cambios
+              >
+                Guardar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

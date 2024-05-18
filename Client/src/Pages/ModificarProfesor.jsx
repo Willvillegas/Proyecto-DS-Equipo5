@@ -1,30 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useParams, useNavigate } from 'react-router-dom'; // Importar useParams para obtener el ID del profesor desde la URL
+import { useParams, useNavigate } from 'react-router-dom';
 import API_ROOT from '../../apiRoutes';
 import { useAuthContext } from '../context/AuthContext';
-import ErrorMessage from '../components/ErrorMessage'; // Asegúrate de tener este componente o crear uno similar
-
-const buttons = [
-  {
-    text: 'Cancelar',
-    onClick: () => console.log('Cancelar'),
-    roles: [1, 2, 3, 4, 5]
-  },
-  {
-    text: 'Guardar',
-    onClick: () => handleSaveChanges(),
-    roles: [1, 2, 3, 4, 5]
-  }
-];
-
-const profileButtons = [
-  {
-    text: 'Subir foto de perfil',
-    onClick: () => console.log('Subir foto de perfil'),
-    roles: [1, 2, 3, 4, 5]
-  }
-];
+import ErrorMessage from '../components/ErrorMessage';
 
 const Button = ({ text, onClick }) => (
   <button
@@ -52,8 +31,8 @@ const ButtonList = ({ buttons }) => {
 
 function ModificarProfesor() {
   const { currentUser } = useAuthContext();
-  const { id } = useParams(); // Obtener el ID del profesor desde la URL
-  const navigate = useNavigate(); // Usar navigate para redirigir después de guardar
+  const { id } = useParams();
+  const navigate = useNavigate();
   const [profesorInfo, setProfesorInfo] = useState({
     codigo: 'AL-01',
     nombre: 'Esteban',
@@ -69,7 +48,7 @@ function ModificarProfesor() {
   useEffect(() => {
     const fetchProfesorInfo = async () => {
       try {
-        const response = await axios.get(`${API_ROOT}/api/profesores/${id}`); // Usar el ID del profesor desde la URL
+        const response = await axios.get(`${API_ROOT}/api/profesores/${id}`);
         setProfesorInfo(response.data[0]);
         setModifiedProfesorInfo(response.data[0]);
       } catch (error) {
@@ -84,13 +63,13 @@ function ModificarProfesor() {
       setIsInvalidInput(true);
       return;
     }
-    const data = {...modifiedProfesorInfo, idAsistente: currentUser.id}
+    const data = { ...modifiedProfesorInfo, idAsistente: currentUser.id };
     axios.put(`${API_ROOT}/api/profesores/update/${id}`, data)
       .then(response => {
         console.log('Cambios guardados exitosamente:', response.data);
         setProfesorInfo(modifiedProfesorInfo);
         setShowModal(false);
-        navigate(`/modificar-profesor/${id}`); 
+        navigate(`/modificar-profesor/${id}`);
       })
       .catch(error => {
         console.error('Error al guardar los cambios:', error);
@@ -119,6 +98,28 @@ function ModificarProfesor() {
     const regex = /^\d{8}$/;
     return regex.test(value);
   };
+
+
+  const buttons = [
+    {
+      text: 'Volver',
+      onClick: () => navigate(-1),
+      roles: [1, 2, 3, 4, 5]
+    },
+    {
+      text: 'Guardar',
+      onClick: () => setShowModal(true),
+      roles: [1, 2, 3, 4, 5]
+    }
+  ];
+
+  const profileButtons = [
+    {
+      text: 'Subir foto de perfil',
+      onClick: () => console.log('Subir foto de perfil'),
+      roles: [1, 2, 3, 4, 5]
+    }
+  ];
 
   return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
@@ -185,15 +186,12 @@ function ModificarProfesor() {
           </div>
         </div>
         <div className="flex justify-center">
-          <ButtonList buttons={buttons.map(button => ({
-            ...button,
-            onClick: button.text === 'Guardar' ? handleSaveChanges : button.onClick
-          }))} />
+          <ButtonList buttons={buttons} />
         </div>
       </div>
       {showModal && (
         <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-900 bg-opacity-50">
-          <div className="bg-white p-8 rounded">
+          <div className="bg-gray-800 p-8 rounded">
             <p className="text-lg font-bold mb-4">
               ¿Está seguro que desea realizar la modificación?
             </p>
