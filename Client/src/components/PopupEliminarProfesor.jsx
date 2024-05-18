@@ -4,16 +4,19 @@ import axios from 'axios';
 import API_ROOT from '../../apiRoutes';
 import { useNavigate } from 'react-router-dom';
 
-function PopupEliminarProfesor({ isOpenE, close, idPlan, nombre }) {
+function PopupEliminarProfesor({ isOpenE, close, idProfesor, nombre, idAsistente}) {
 
 
     const handleSubmit = () => {
-        axios.delete(`${API_ROOT}/api/profesores/eliminar/${idPlan}`)
+        axios.delete(`${API_ROOT}/api/equiposguia/deleteprofesor/${1}/profesor/${idProfesor}`, {
+            params: {
+                idAsistente: idAsistente
+            }
+        })
         .then(response => {
             console.log(response)
         }) 
     }
-
     return (
         <>
             <Transition appear show={isOpenE}>

@@ -1,5 +1,4 @@
 const ProfesorModel = require('../models/ProfesorModel');
-
 const ProfesorDAO = require('../DAOs/ProfesorDAO');
 
 class ProfesorController {
@@ -51,14 +50,16 @@ class ProfesorController {
 
     static async deleteProfesor(req, res) {
         const { id } = req.params;
+        const idAsistente = req.query.idAsistente;
+        console.log("paramsProfesor:", req.params); 
         try {
-            const result = await ProfesorDAO.delete(id);
+            const result = await ProfesorDAO.delete(id, idAsistente);
             res.status(200).json(result);
         } catch (error) {
             res.status(500).json({ error: 'Error al eliminar el profesor.' });
         }
     }
-
+    
     static async changeProfesorRol(req, res) {
         const { id, rol } = req.body;
         try {

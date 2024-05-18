@@ -12,7 +12,7 @@ router.delete('/:id', EquipoGuiaController.deleteEquipoGuia);
 // Rutas profesores en equipos guía
 router.get('/:id/profesores', EquipoGuiaController.getAllProfesorEquipoGuia);
 router.post('/:id/profesores/:idProfesor', EquipoGuiaController.createTeamProfesorEquipoGuia);
-router.delete('/:id/profesores/:idProfesor', EquipoGuiaController.deleteTeamProfesorEquipoGuia);
+router.delete('/deleteprofesor/:id/profesor/:idProfesor', EquipoGuiaController.deleteTeamProfesorEquipoGuia);
 
 // Rutas asistentes en equipos guía
 router.get('/:id/asistentes', EquipoGuiaController.getAllAsistenteEquipoGuia);

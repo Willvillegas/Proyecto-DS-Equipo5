@@ -93,20 +93,22 @@ class ProfesorDAO{
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
+            console.log("ID del asistente en ProfesorDAO:", idAsistente); // Agregar este registro de console.log
             const result = await connection.executeProcedures("EliminarProfesor", {
                 idAsistente: idAsistente,
-                idProfesor: id, //Se pasa el id del profesor o usuario
+                idProfesor: id,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
-            console.log(result)
+            console.log(result);
             return result;
         } catch (error) {
-            console.log('Error deleting profesor ', error); 
+            console.log('Error deleting profesor ', error);
             throw error;
         }finally{
             await ConnectionDAO.disconnect();
         }
     }
+    
     static async changeRol(rol, id, idAsistente){
         const connection = await ConnectionDAO.getInstance();
         try {

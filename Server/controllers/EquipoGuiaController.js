@@ -75,11 +75,12 @@ class EquipoGuiaController {
     static async deleteTeamProfesorEquipoGuia(req, res, next) {
         const { id, idProfesor } = req.params;
         console.log(id)
+        console.log("EQUIPOGUIA CONTROLLER:", idProfesor); 
         try {
             const result = await EquipoGuiaDAO.deleteTeamProfesor(id, idProfesor);
             res.status(200).json(result);
         } catch (error) {
-            res.status(500).json({error: 'No se pudo registrar el profesor'});
+            res.status(500).json({error: 'No se pudo eliminar el profesor'});
         }
     }
 

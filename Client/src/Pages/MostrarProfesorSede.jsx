@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthContext';
+import PopupEliminarProfesor from '../components/PopupEliminarProfesor';
 
 const buttons = [
   {
@@ -50,15 +51,24 @@ const Button = ({ text, onClick }) => (
   </button>
 );
 
-const ButtonGroup = ({ buttons, currentUser, profesorInfo, navigateToModificar }) => (
+const ButtonGroup = ({ buttons, currentUser, profesorInfo, navigateToModificar, openDeletePopup }) => (
   <div className="flex justify-center">
     {buttons.filter((button) => button.shouldShow(currentUser, profesorInfo)).map((button, index) => (
-      <Button key={index} text={button.text} onClick={button.onClick || navigateToModificar} />
+      <Button
+        key={index}
+        text={button.text}
+        onClick={
+          button.text === 'Eliminar'
+            ? openDeletePopup // Abrir el popup de eliminación
+            : button.onClick || navigateToModificar
+        }
+      />
     ))}
   </div>
 );
 
 const ProfileInfo = ({ profesorInfo }) => (
+  
   <div className="mb-8">
     {/* Código */}
     <div className="mb-4 border-b-2 border-gray-600 w-full">
@@ -94,16 +104,25 @@ function MostrarProfesorSede() {
   const { id } = useParams();
   const { currentUser } = useAuthContext(); // Obtiene el usuario actual del contexto de autenticación
   const [profesorInfo, setProfesorInfo] = useState({});
+  const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false); // Estado del popup de eliminación
 
   useEffect(() => {
     axios.get(`${API_ROOT}/api/profesores/${id}`)
       .then(response => {
         setProfesorInfo(response.data[0]);
       });
-  }, []);
-
+  }, [id]);
+  console.log("ID del profesor:", id);
   const navigateToModificar = () => {
     navigate(`/modificar-profesor/${id}`);
+  };
+
+  const openDeletePopup = () => {
+    setIsDeletePopupOpen(true);
+  };
+
+  const closeDeletePopup = () => {
+    setIsDeletePopupOpen(false);
   };
 
   return (
@@ -118,10 +137,24 @@ function MostrarProfesorSede() {
         <ProfileInfo profesorInfo={profesorInfo} />
         {/* Botones */}
         <div className="flex justify-center">
-          <ButtonGroup buttons={buttons.slice(1, 4)} currentUser={currentUser} profesorInfo={profesorInfo} navigateToModificar={navigateToModificar} />
+          <ButtonGroup
+            buttons={buttons.slice(1, 4)}
+            currentUser={currentUser}
+            profesorInfo={profesorInfo}
+            navigateToModificar={navigateToModificar}
+            openDeletePopup={openDeletePopup} // Pasar la función para abrir el popup de eliminación
+          />
           <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} currentUser={currentUser} />
         </div>
       </div>
+      <PopupEliminarProfesor
+        isOpenE={isDeletePopupOpen}
+        close={closeDeletePopup}
+        idProfesor={id}
+        nombre={profesorInfo.nombre}
+        idAsistente={currentUser.id}
+        
+      />
     </div>
   );
 }

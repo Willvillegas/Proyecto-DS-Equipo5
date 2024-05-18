@@ -203,7 +203,7 @@ class EquipoGuiaDAO{
             await ConnectionDAO.disconnect()
         }
     }
-    static async deleteTeamProfesor(id, idAsistente){
+    static async deleteTeamAsistente(id, idAsistente){
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
