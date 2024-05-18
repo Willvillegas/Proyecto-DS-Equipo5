@@ -1,11 +1,11 @@
-import { useState } from 'react'
-import { Button, Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react' 
+import { useState } from 'react';
+import { Button, Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'; 
 import axios from 'axios';
 import API_ROOT from '../../apiRoutes';
 import { useNavigate } from 'react-router-dom';
 
-function PopupEliminarProfesor({ isOpenE, close, idProfesor, nombre, idAsistente}) {
-
+function PopupEliminarProfesor({ isOpenE, close, idProfesor, nombre, idAsistente }) {
+    const navigate = useNavigate();
 
     const handleSubmit = () => {
         axios.delete(`${API_ROOT}/api/equiposguia/deleteprofesor/${1}/profesor/${idProfesor}`, {
@@ -14,14 +14,18 @@ function PopupEliminarProfesor({ isOpenE, close, idProfesor, nombre, idAsistente
             }
         })
         .then(response => {
-            console.log(response)
-        }) 
-    }
+            console.log(response);
+            navigate(-1);  // Redirigir a la página anterior
+        })
+        .catch(error => {
+            console.error(error);
+        });
+    };
+
     return (
         <>
             <Transition appear show={isOpenE}>
                 <Dialog as="div" className="relative z-10 focus:outline-none" onClose={close}>
-                    {/* Aplicar el desenfoque al fondo cuando el diálogo está activo */}
                     <Transition
                         as="div"
                         className="fixed inset-0 bg-black bg-opacity-40 backdrop-filter backdrop-blur"
@@ -42,7 +46,7 @@ function PopupEliminarProfesor({ isOpenE, close, idProfesor, nombre, idAsistente
                                         ¿Desea eliminar el profesor?
                                     </DialogTitle>
                                     <p className="mt-2 text-sm/6 text-white/50">
-                                        Eliminar profesor {nombre}.
+                                        Eliminar al profesor {nombre}.
                                     </p>
                                     <div className="mt-4">
                                         <button
@@ -65,8 +69,8 @@ function PopupEliminarProfesor({ isOpenE, close, idProfesor, nombre, idAsistente
                                             </svg>
                                         </button>
                                         <Button 
-                                            className="w-full mt-3 text-center inline-flex items-center justify-center   gap-2 rounded-md bg-indigo-500 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-green-500 data-[open]:bg-red-600 data-[focus]:outline-1 data-[focus]:outline-white"
-                                            onClick={handleSubmit} // Aquí se llama a la función para cerrar el diálogo
+                                            className="w-full mt-3 text-center inline-flex items-center justify-center gap-2 rounded-md bg-indigo-500 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-green-500 data-[open]:bg-red-600 data-[focus]:outline-1 data-[focus]:outline-white"
+                                            onClick={handleSubmit}
                                         >
                                             Eliminar profesor
                                         </Button>
@@ -78,7 +82,7 @@ function PopupEliminarProfesor({ isOpenE, close, idProfesor, nombre, idAsistente
                 </Dialog>
             </Transition>
         </>
-    )
+    );
 }
 
 export default PopupEliminarProfesor;
