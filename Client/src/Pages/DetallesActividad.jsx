@@ -14,6 +14,7 @@ const DetallesActividad = () => {
     const [modoEdicion, setModoEdicion] = useState(false);
     const [isOpenCancelar, setIsOpenCancelar] = useState(false);
     const [isOpenFinalizar, setIsOpenFinalizar] = useState(false);
+    const [imageSrc, setImageSrc] = useState('');
     const navigate = useNavigate();
     const { currentUser } = useAuthContext();
     const location = useLocation();
@@ -129,7 +130,14 @@ const DetallesActividad = () => {
     const openPopupFinalizar = () => {
         setIsOpenFinalizar(true);
     }
-
+    useEffect(() => {
+        if (actividad.afiche && actividad.afiche.data) {
+            const arrayBufferView = new Uint8Array(actividad.afiche.data);
+            const blob = new Blob([arrayBufferView], { type: 'image/png' });
+            const imageUrl = URL.createObjectURL(blob);
+            setImageSrc(imageUrl);
+        }
+    }, [actividad]);
     return (
         <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen m-9">
             <div className=" w-[800px] bg-gray-900 p-8 rounded-lg shadow-lg mx-auto m-20">
@@ -144,29 +152,41 @@ const DetallesActividad = () => {
                             <div key={key} className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                                 <dt className="text-sm font-medium leading-6 text-gray-50">{key}</dt>
                                 {key === 'afiche' ? (
-                                    <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
-                                        {value !== undefined && value.data ? (
-                                            <img src={`data:image/png;base64,${value.data.toString('base64')}`} alt="Afiche" />
-                                        ) : (
-                                            <span>No hay afiche disponible</span>
-                                        )}
-                                    </dd>
-                                ) : (
-                                    modoEdicion ? (
                                         <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
-                                            <input
-                                                type="text"
-                                                value={value}
-                                                onChange={(e) => {
-                                                    const updatedActividad = { ...actividad, [key]: e.target.value };
-                                                    setActividad(updatedActividad);
-                                                }}
-                                                className="border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md p-1"
-                                            />
+                                            {value !== undefined && value.data !==0 ? (
+                                                <img src={imageSrc} alt="Afiche"  />
+                                            ) : (
+                                                <span>No hay afiche disponible</span>
+                                            )}
                                         </dd>
                                     ) : (
-                                        <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">{value}</dd>
-                                    )
+                                        modoEdicion ? ( ((key === 'fecha') || (key === 'fechaPublicacion')) ?(
+                                            <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
+                                                <input
+                                                    type="date"
+                                                    value={new Date(value).toISOString().split('T')[0]}
+                                                    onChange={(e) => {
+                                                        const updatedActividad = { ...actividad, [key]: e.target.value };
+                                                        setActividad(updatedActividad);
+                                                    }}
+                                                    className="border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md p-1"
+                                                />
+                                            </dd>
+                                        ):(
+                                            <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
+                                                <input
+                                                    type="text"
+                                                    value={value}
+                                                    onChange={(e) => {
+                                                        const updatedActividad = { ...actividad, [key]: e.target.value };
+                                                        setActividad(updatedActividad);
+                                                    }}
+                                                    className="border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md p-1"
+                                                />
+                                            </dd>
+                                        )) : (
+                                            <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">{value}</dd>
+                                        )
                                 )}
                             </div>
                         ))}
@@ -217,27 +237,29 @@ const DetallesActividad = () => {
                  Comentarios
                 </button>
                 ) : null}
-              {currentUser.tipo != 4 ? <div/>:
+              {(currentUser.tipo != 4) || (actividad.estado === "Realizada")|| (actividad.estado === "Cancelada") ? <div/>:
                 <button
                     onClick={openPopup}
                     className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
                     {modoEdicion ? "Guardar" : "Modificar"}
                 </button>
               }
-                {currentUser.tipo != 4 ? <div/>:
+                {(currentUser.tipo != 4) || (actividad.estado === "Cancelada") || (actividad.estado === "Realizada")? <div/>:
                 <button
                     onClick={openPopupCancelar}
                     className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
                     Cancelar
                 </button>
                 }
-                {currentUser.tipo != 4 ? <div/>:
+                {(currentUser.tipo != 4) || (actividad.estado === "Cancelada") || (actividad.estado === "Realizada") ? <div/>:
                 <button
                     onClick={openPopupFinalizar}
                     className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
                     Finalizar Actividad
                 </button>
+                
                 }
+                
                 <Popup isOpen={isOpenAc} 
                         close={closePopup} 
                         edit={setEdition} 

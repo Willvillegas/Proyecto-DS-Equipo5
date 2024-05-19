@@ -36,9 +36,9 @@ function ActividadPage() {
   });
 
   return (
-    <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
-    <div className=" w-full bg-gray-900 p-8 rounded-lg shadow-lg mx-auto mt-10 mb-10">
-    <div className="min-h-screen bg-gray-800 text-white">
+    <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen ">
+    <div className=" w-full bg-gray-900 p-8 rounded-lg shadow-lg mx-auto mt-10 mb-10 ">
+    <div className="min-h-screen bg-gray-800 text-white ">
       {/* Encabezado */}
       <header className="flex justify-between items-center px-4 py-3 ml-5">
         <div className="flex items-center">
@@ -108,7 +108,7 @@ function ActividadPage() {
           </div>
       </div>
         {filteredActividades.map((actividad)=>(
-          <div key={actividad.id}  className="bg-gray-700 rounded p-4 ml-2 mr-9">
+          <div key={actividad.id}  className="bg-gray-700 rounded p-4 ml-2 mr-9 mt-7 ">
             <div className="grid grid-cols-5 gap-4">
               {/* Semana */}
               <div>

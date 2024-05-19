@@ -52,7 +52,8 @@ class ActividadDAO{
             await connection.connect();
             const fecha = new Date(actividad.fecha);
             const publicacion = new Date(actividad.publicacion);
-            const aficheBuffer = Buffer.from(actividad.afiche, 'utf-8');
+            const aficheBuffer = Buffer.from(actividad.afiche, 'base64');
+            console.log("By DAO: "+aficheBuffer);
             const result = await connection.executeProcedures("CrearActividad", {
                 semana: actividad.semana,
                 fecha: fecha,
