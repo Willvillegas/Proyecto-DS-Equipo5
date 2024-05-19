@@ -69,7 +69,7 @@ function ModificarProfesor() {
         console.log('Cambios guardados exitosamente:', response.data);
         setProfesorInfo(modifiedProfesorInfo);
         setShowModal(false);
-        navigate(`/modificar-profesor/${id}`);
+        navigate(`/mostrar-profesor/${id}`);
       })
       .catch(error => {
         console.error('Error al guardar los cambios:', error);

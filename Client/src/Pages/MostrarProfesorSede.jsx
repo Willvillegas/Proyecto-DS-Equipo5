@@ -102,7 +102,7 @@ const ProfileInfo = ({ profesorInfo }) => (
 
 function MostrarProfesorSede() {
   const navigate = useNavigate();
-  const navigateBack = () => navigate(-1);
+  const navigateBack = () => navigate(`/equipo-guia`);
   const { id } = useParams();
   const { currentUser } = useAuthContext(); // Obtiene el usuario actual del contexto de autenticación
   const [profesorInfo, setProfesorInfo] = useState({});
