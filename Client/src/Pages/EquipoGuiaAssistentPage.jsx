@@ -22,9 +22,13 @@ function EquipoGuiaAssistentPage() {
       });
   }, []);
 
-  const cliclRegistrar = () =>{
-    navigate('/registrar-profesor')
-  }
+  const cliclRegistrar = () => {
+    navigate('/registrar-profesor');
+  };
+
+  const handleVolver = () => {
+    navigate(`/menu`);
+  };
 
   const filteredProfesores = profesorInfo.filter((profesor) => {
     const nombreCompleto = `${profesor.nombre}`.toLowerCase();
@@ -34,7 +38,7 @@ function EquipoGuiaAssistentPage() {
 
   return (
     <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen">
-      <div className=" w-full bg-gray-900 p-8 rounded-lg shadow-lg mx-auto mt-10 mb-10">
+      <div className="w-full bg-gray-900 p-8 rounded-lg shadow-lg mx-auto mt-10 mb-10">
         <div className="min-h-screen bg-gray-800 text-white">
           {/* Encabezado */}
           <header className="flex justify-between items-center px-4 py-3 ml-5">
@@ -115,7 +119,7 @@ function EquipoGuiaAssistentPage() {
                     <p className="text-gray-300">{profesor.correo}</p>
                   </div>
                   <div className='p-2 pl-10'>
-                    <button  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]" 
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded active:scale-[.98] active:duration-75 hover:scale-[1.01]" 
                       onClick={() => pasarPage(profesor.id)}>
                       Ver
                     </button>
@@ -124,6 +128,9 @@ function EquipoGuiaAssistentPage() {
               </div>
             ))}
           </main>
+          <button onClick={handleVolver} className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
+            Volver
+          </button>
         </div>
       </div>
     </div>
