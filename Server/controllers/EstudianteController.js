@@ -79,7 +79,7 @@ class EstudianteController {
             const data = XLSX.utils.sheet_to_json(sheetName);
             //loop enter data to estudianteDAO one by one
             for (const estudiante of data) {
-                const { carnet, nombre, apellido1, apellido2, correo, telefono, Sede } = estudiante;
+                const { carnet, nombre, apellido1, apellido2, correo, telefono, sede } = estudiante;
                 const estudianteModel = new EstudianteModel(1, carnet, nombre, apellido1, apellido2, correo, telefono, Sede, 1, 1);
                 await EstudianteDAO.create(estudianteModel, 1);
             }
