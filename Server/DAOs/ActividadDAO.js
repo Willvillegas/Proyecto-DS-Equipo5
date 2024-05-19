@@ -19,7 +19,7 @@ class ActividadDAO{
                 idPlan: id, //Id del plan
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
-            console.log(result)
+            //console.log(result)
             return result;
         } catch (error) {
             console.log('Error getting actividades: ', error);
@@ -53,7 +53,7 @@ class ActividadDAO{
             const fecha = new Date(actividad.fecha);
             const publicacion = new Date(actividad.publicacion);
             const aficheBuffer = Buffer.from(actividad.afiche, 'base64');
-            console.log("By DAO: "+aficheBuffer);
+            //console.log("By DAO: "+aficheBuffer);
             const result = await connection.executeProcedures("CrearActividad", {
                 semana: actividad.semana,
                 fecha: fecha,
@@ -69,7 +69,7 @@ class ActividadDAO{
                 nombre: actividad.nombre,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
-            console.log(result)
+            //console.log(result)
             return result;
         } catch (error) {
             console.log('Error creating actividad: ', error);
@@ -83,7 +83,7 @@ class ActividadDAO{
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
-            const aficheBuffer = Buffer.from(actividad.afiche, 'utf-8');
+            //const aficheBuffer = Buffer.from(actividad.afiche, 'utf-8');
             const result = await connection.executeProcedures("ModificarActividad", {
                 id: actividad.id,
                 semana: actividad.semana,
@@ -92,7 +92,7 @@ class ActividadDAO{
                 publicacion: actividad.publicacion,
                 recordatorios: actividad.recordatorios,
                 enlace: actividad.enlace,
-                afiche: aficheBuffer,
+                //afiche: aficheBuffer,
                 responsables: actividad.responsables,
                 tipo: actividad.tipo,
                 modalidad: actividad.modalidad,
@@ -120,7 +120,7 @@ class ActividadDAO{
                 observacion: observacion,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
-            console.log(result)
+            //console.log(result)
             return result;
         } catch (error) {
             console.log('Error getting actividad by id: ', error);
@@ -139,7 +139,7 @@ class ActividadDAO{
                 dato: datosBuffer,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
-            console.log(result)
+            //console.log(result)
             return result;
         } catch (error) {
             console.log('Error getting actividad by id: ', error);

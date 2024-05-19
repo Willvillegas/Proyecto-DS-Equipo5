@@ -24,7 +24,7 @@ class ActividadController {
 
     static async createActividad(req, res) {
         const { semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables, nombre } = req.body;
-        console.log('By Controller: ', req.body);
+        
         const aficheBuffer = req.file.buffer;
         //console.log('By Controller: ', aficheBuffer);
         const actividad = new ActividadModel(null, semana, fecha, previos, publicacion, recordatorios, enlace, aficheBuffer, tipo, modalidad, estado, idPlan, responsables, nombre);
@@ -38,8 +38,9 @@ class ActividadController {
 
     static async updateActividad(req, res) {
         const id = req.params.id;
-        const { semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables, nombre } = req.body;
-        const actividad = new ActividadModel(id, semana, fecha, previos, publicacion, recordatorios, enlace, afiche, tipo, modalidad, estado, idPlan, responsables, nombre);
+        const { semana, fecha, previos, publicacion, recordatorios, enlace, tipo, modalidad, estado, idPlan, responsables, nombre } = req.body;
+        
+        const actividad = new ActividadModel(id, semana, fecha, previos, publicacion, recordatorios, enlace, null, tipo, modalidad, estado, idPlan, responsables, nombre);
         
         try {
             const result = await ActividadDAO.update(actividad);

@@ -181,7 +181,7 @@ const AddActividad = () => {
                         </form>
                     {error && <p>{error}</p>}
                     </div>
-                    <button onClick={handleVolver} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
+                    <button onClick={handleVolver} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2 mt-7">
                         Volver
                     </button>
                 </div>
