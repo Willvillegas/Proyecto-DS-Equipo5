@@ -54,7 +54,7 @@ const AddActividad = () => {
             await axios.post(`${API_ROOT}/api/actividades`, formData).then((response) => {
                 console.log(response);
                 alert('Actividad creada exitosamente');
-                //navigate(`/actividad/${idPlan}`);
+                navigate(`/actividad/${idPlan}`);
             });
         } catch (error) {
             setError('An error occurred. Please try again.');
