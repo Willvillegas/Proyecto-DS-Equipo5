@@ -1,29 +1,36 @@
-import { useState } from 'react'
-import { Button, Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react' 
+import { useState } from 'react';
+import { Button, Dialog, DialogPanel, DialogTitle, Transition, TransitionChild } from '@headlessui/react'; 
 import axios from 'axios';
 import API_ROOT from '../../apiRoutes';
-import { useNavigate } from 'react-router-dom';
+import { useAuthContext } from '../context/AuthContext';
 
-function PopupCambiarRol({ isOpenC, close, idProfesor }) {
+function PopupCambiarRol({ isOpenC, close, idProfesor, idAsistnete }) {
+    const { currentUser } = useAuthContext(); // Obtener el usuario actual del contexto de autenticación
     const [rolUsuario, setRol] = useState('');
-    const roles = ['Guia','Coordinador'];
+    const roles = ['Guia', 'Coordinador'];
 
     const handleSubmit = () => {
+        console.log('ID del profesor:', idProfesor);
+        console.log('ID del equipo:', currentUser.idEquipo);
         const data = {
             id: idProfesor,
             rol: rolUsuario,
-        }
+            idEquipo: 1,
+            idAsistnete: currentUser.id, 
+        };
         axios.put(`${API_ROOT}/api/profesores/rol`, data)
-        .then(response => {
+            .then(response => {
                 window.location.reload();
-        }) 
-    }
+            })
+            .catch(error => {
+                console.error("There was an error changing the role!", error);
+            });
+    };
 
     return (
         <>
             <Transition appear show={isOpenC}>
                 <Dialog as="div" className="relative z-10 focus:outline-none" onClose={close}>
-                    {/* Aplicar el desenfoque al fondo cuando el diálogo está activo */}
                     <Transition
                         as="div"
                         className="fixed inset-0 bg-black bg-opacity-40 backdrop-filter backdrop-blur"
@@ -67,24 +74,21 @@ function PopupCambiarRol({ isOpenC, close, idProfesor }) {
                                             </svg>
                                         </button>
                                         <div className="bg-gray-900 mt-6 p-3 justify-center rounded-lg sm:mx-auto sm:w-full mx-auto sm:max-w-sm">
-                                        <select
-                                            className="w-full mb-4 p-2 border border-gray-300 rounded-md bg-gray-700 text-white"
-                                            value={rolUsuario}
-                                            onChange={(e) => setRol(e.target.value)}
-                                        >
-                                            <option value="">Selecciona un rol</option>
-                                            {roles.map((rol, index) => (
-                                            <option key={index} value={rol}>
-                                                {rol}
-                                            </option>
-                                            ))}
-                                        </select>
-                                            
-                                            {/* Optional: Display the selected file names */}
-                                            
+                                            <select
+                                                className="w-full mb-4 p-2 border border-gray-300 rounded-md bg-gray-700 text-white"
+                                                value={rolUsuario}
+                                                onChange={(e) => setRol(e.target.value)}
+                                            >
+                                                <option value="">Selecciona un rol</option>
+                                                {roles.map((rol, index) => (
+                                                    <option key={index} value={rol}>
+                                                        {rol}
+                                                    </option>
+                                                ))}
+                                            </select>
                                         </div>
                                         <Button 
-                                            className="w-full mt-3 text-center inline-flex items-center justify-center   gap-2 rounded-md bg-indigo-500 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-green-500 data-[open]:bg-red-600 data-[focus]:outline-1 data-[focus]:outline-white"
+                                            className="w-full mt-3 text-center inline-flex items-center justify-center gap-2 rounded-md bg-indigo-500 py-1.5 px-3 text-sm/6 font-semibold text-white shadow-inner shadow-white/10 focus:outline-none data-[hover]:bg-green-500 data-[open]:bg-red-600 data-[focus]:outline-1 data-[focus]:outline-white"
                                             onClick={handleSubmit} // Aquí se llama a la función para cerrar el diálogo
                                         >
                                             Cambiar rol
@@ -97,7 +101,7 @@ function PopupCambiarRol({ isOpenC, close, idProfesor }) {
                 </Dialog>
             </Transition>
         </>
-    )
+    );
 }
 
 export default PopupCambiarRol;

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import API_ROOT from '../../apiRoutes';
 import axios from 'axios';
 import { useAuthContext } from '../context/AuthContext';
 import PopupEliminarProfesor from '../components/PopupEliminarProfesor';
+import PopupCambiarRol from '../components/PopupCambiarRol';
 
 const buttons = [
   {
@@ -51,7 +52,7 @@ const Button = ({ text, onClick }) => (
   </button>
 );
 
-const ButtonGroup = ({ buttons, currentUser, profesorInfo, navigateToModificar, openDeletePopup }) => (
+const ButtonGroup = ({ buttons, currentUser, profesorInfo, navigateToModificar, openDeletePopup, openChangeRolePopup }) => (
   <div className="flex justify-center">
     {buttons.filter((button) => button.shouldShow(currentUser, profesorInfo)).map((button, index) => (
       <Button
@@ -60,6 +61,8 @@ const ButtonGroup = ({ buttons, currentUser, profesorInfo, navigateToModificar, 
         onClick={
           button.text === 'Eliminar'
             ? openDeletePopup // Abrir el popup de eliminación
+            : button.text === 'Cambiar rol'
+            ? openChangeRolePopup // Abrir el popup de cambiar rol
             : button.onClick || navigateToModificar
         }
       />
@@ -68,7 +71,6 @@ const ButtonGroup = ({ buttons, currentUser, profesorInfo, navigateToModificar, 
 );
 
 const ProfileInfo = ({ profesorInfo }) => (
-  
   <div className="mb-8">
     {/* Código */}
     <div className="mb-4 border-b-2 border-gray-600 w-full">
@@ -105,14 +107,18 @@ function MostrarProfesorSede() {
   const { currentUser } = useAuthContext(); // Obtiene el usuario actual del contexto de autenticación
   const [profesorInfo, setProfesorInfo] = useState({});
   const [isDeletePopupOpen, setIsDeletePopupOpen] = useState(false); // Estado del popup de eliminación
+  const [isChangeRolePopupOpen, setIsChangeRolePopupOpen] = useState(false); // Estado del popup de cambiar rol
 
   useEffect(() => {
+    
     axios.get(`${API_ROOT}/api/profesores/${id}`)
       .then(response => {
         setProfesorInfo(response.data[0]);
       });
   }, [id]);
+
   console.log("ID del profesor:", id);
+
   const navigateToModificar = () => {
     navigate(`/modificar-profesor/${id}`);
   };
@@ -123,6 +129,14 @@ function MostrarProfesorSede() {
 
   const closeDeletePopup = () => {
     setIsDeletePopupOpen(false);
+  };
+
+  const openChangeRolePopup = () => {
+    setIsChangeRolePopupOpen(true);
+  };
+
+  const closeChangeRolePopup = () => {
+    setIsChangeRolePopupOpen(false);
   };
 
   return (
@@ -143,6 +157,7 @@ function MostrarProfesorSede() {
             profesorInfo={profesorInfo}
             navigateToModificar={navigateToModificar}
             openDeletePopup={openDeletePopup} // Pasar la función para abrir el popup de eliminación
+            openChangeRolePopup={openChangeRolePopup} // Pasar la función para abrir el popup de cambiar rol
           />
           <ButtonGroup buttons={[{ ...buttons[0], onClick: navigateBack }]} currentUser={currentUser} />
         </div>
@@ -153,7 +168,12 @@ function MostrarProfesorSede() {
         idProfesor={id}
         nombre={profesorInfo.nombre}
         idAsistente={currentUser.id}
-        
+      />
+      <PopupCambiarRol
+        isOpenC={isChangeRolePopupOpen}
+        close={closeChangeRolePopup}
+        idProfesor={id}
+        idAsistente={currentUser.id}
       />
     </div>
   );

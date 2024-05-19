@@ -61,9 +61,13 @@ class ProfesorController {
     }
     
     static async changeProfesorRol(req, res) {
-        const { id, rol } = req.body;
+        const { id, rol, idEquipo, idAsistnete } = req.body;
+        console.log("idEquipo:", idEquipo); 
+        console.log("rol:", rol); 
+        console.log("idProfesor:", id); 
+        console.log("idAsistnete:", idAsistnete); 
         try {
-            const result = await ProfesorDAO.changeRol(rol, id);
+            const result = await ProfesorDAO.changeRol(rol, id, idAsistnete, idEquipo);
             res.status(200).json(result);
         } catch (error) {
             res.status(500).json({ error: 'Error al cambiar el rol del profesor.' });

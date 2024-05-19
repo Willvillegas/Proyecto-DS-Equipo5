@@ -109,17 +109,17 @@ class ProfesorDAO{
         }
     }
     
-    static async changeRol(rol, id, idAsistente){
+    static async changeRol(rol, id, idAsistnete, idEquipo){
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("ModificarRolProfesor", {
-                idAsistente: idAsistente,
+                idAsistnete: idAsistnete,
                 idProfesor: id, //Se pasa el id del profesor o usuario
                 rol: rol, // Se pasa el nombre del rol
+                idEquipo: idEquipo, // Se pasa el id del equipo
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
-            console.log(result)
             return result;
         } catch (error) {
             console.log('Error deleting profesor ', error); 
