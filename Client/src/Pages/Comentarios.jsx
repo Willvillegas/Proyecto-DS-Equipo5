@@ -17,10 +17,8 @@ const Comentarios = () => {
 
     useEffect(() => {
         //simulación de una actividad (Json).
-        console.log(id, "asdas")
         axios.get(`${API_ROOT}/api/actividades/actividad/${id}`)
         .then(response => {
-            console.log(response.data)
             setNombre(response.data[0].nombre);
         })
         
@@ -34,6 +32,7 @@ const Comentarios = () => {
                 element.responder = "Responder"
             });
             setComments(response.data);
+            console.log(response.data)
         })
         
     }, [id]);
@@ -60,9 +59,20 @@ const Comentarios = () => {
         }
         axios.post(`${API_ROOT}/api/comentarios`, data)
         .then(response => {
-            console.log(response.data);
+          axios.get(`${API_ROOT}/api/comentarios/${id}`)
+          .then(response => {
+              response.data.forEach(element => {
+                  element.responder = "Responder"
+              });
+              setComments(response.data);
+              console.log(response.data)
+          })
+          axios.get(`${API_ROOT}/api/respuestas`)
+          .then(response => {
+            setResponses(response.data)
+          })
+            setNewComment('');
         })
-        navigate(0, { state: { idPlan: idPlan } });
     }
 
     const handleVolver = () => {
