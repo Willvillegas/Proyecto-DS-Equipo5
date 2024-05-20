@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import API_ROOT from "../../apiRoutes";
+import { useAuthContext } from "../context/AuthContext";
 
 
 const Comentarios = () => {
@@ -14,6 +15,7 @@ const Comentarios = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const { idPlan } = location.state;
+    const { currentUser } = useAuthContext();
 
     useEffect(() => {
         //simulación de una actividad (Json).
@@ -32,7 +34,6 @@ const Comentarios = () => {
                 element.responder = "Responder"
             });
             setComments(response.data);
-            console.log(response.data)
         })
         
     }, [id]);
@@ -42,6 +43,7 @@ const Comentarios = () => {
         axios.get(`${API_ROOT}/api/respuestas`)
         .then(response => {
             setResponses(response.data)
+            console.log(response.data)
         })
         
     }, []);
@@ -53,7 +55,7 @@ const Comentarios = () => {
             titulo: '',
             fecha: '',
             cuerpo: newComment,
-            profesor: 1,
+            profesor: currentUser.id,
             actividad: id,
             respuesta: idRespuesta
         }
@@ -137,9 +139,9 @@ const Comentarios = () => {
                     <div key={response.id}>
                         {comment.id != response.idMensaje ? <div/>:
                         <div className=" ml-20 bg-gray-700 rounded p-4 mt-5 ml-2 mr-6">
-                        <p className="text-gray-300">Res- {comment.nombre} - {new Date(comment.fecha).toLocaleDateString()}</p>
+                        <p className="text-gray-300">Res- {response.nombre} - {new Date(response.fecha).toLocaleDateString()}</p>
                         <div>
-                        <p className="text-gray-300">{comment.cuerpo}</p>
+                        <p className="text-gray-300">{response.cuerpo}</p>
                         </div>  
                         </div>
                         }
