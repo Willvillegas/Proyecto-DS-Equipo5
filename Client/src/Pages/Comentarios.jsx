@@ -62,7 +62,7 @@ const Comentarios = () => {
         .then(response => {
             console.log(response.data);
         })
-        navigate(0);
+        navigate(0, { state: { idPlan: idPlan } });
     }
 
     const handleVolver = () => {
@@ -101,8 +101,8 @@ const Comentarios = () => {
           {/* Comentarios */}
           <div className="p-4 h-[480px] overflow-y-scroll ml-2">
             {comments.map((comment)=>(
-            <div>
-            <div key={comment.id} className="bg-gray-700 rounded p-4 mt-5 ml-2 mr-6">
+            <div key={comment.id}>
+            <div className="bg-gray-700 rounded p-4 mt-5 ml-2 mr-6">
               <div className="grid grid-cols-2 gap-4 mb-4">
                 {/* Usuario y fecha */}
                 <div>
@@ -124,7 +124,7 @@ const Comentarios = () => {
               {/* Respuestas */}
             </div>
                 {responses.map((response)=>(
-                    <div>
+                    <div key={response.id}>
                         {comment.id != response.idMensaje ? <div/>:
                         <div className=" ml-20 bg-gray-700 rounded p-4 mt-5 ml-2 mr-6">
                         <p className="text-gray-300">Res- {comment.nombre} - {new Date(comment.fecha).toLocaleDateString()}</p>
