@@ -80,7 +80,7 @@ class EstudianteController {
             //loop enter data to estudianteDAO one by one
             for (const estudiante of data) {
                 const { carnet, nombre, apellido1, apellido2, correo, telefono, sede } = estudiante;
-                const estudianteModel = new EstudianteModel(1, carnet, nombre, apellido1, apellido2, correo, telefono, Sede, 1, 1);
+                const estudianteModel = new EstudianteModel(1, carnet, nombre, apellido1, apellido2, correo, telefono, sede, 1, 1);
                 await EstudianteDAO.create(estudianteModel, 1);
             }
             res.status(200).json({ message: 'Estudiantes created successfully', data });
