@@ -40,6 +40,9 @@ function LoginPage() {
     // Después de autenticar al usuario, podrías redirigirlo a otra página
     };
 
+    const forgot = () => {
+      navigate('/forgot-password')
+    }
 
   return (
     <>
@@ -80,7 +83,7 @@ function LoginPage() {
                   </label>
                   <div className="text-sm">
                     {/* Enlace para recuperar contraseña */}
-                    <a href="/forgot-password" className="font-semibold text-indigo-600 hover:text-indigo-500">
+                    <a onClick={forgot} className="font-semibold text-indigo-600 hover:text-indigo-500">
                       ¿Olvidó su contraseña?
                     </a>
                   </div>
