@@ -47,7 +47,8 @@ const Comentarios = () => {
         
     }, []);
 
-    const handleSubmitComment = (event) => {
+    const handleSubmitComment = (e) => {
+        e.preventDefault();
         console.log(idRespuesta)
         const data = {
             titulo: '',
@@ -61,6 +62,7 @@ const Comentarios = () => {
         .then(response => {
             console.log(response.data);
         })
+        navigate(0);
     }
 
     const handleVolver = () => {
