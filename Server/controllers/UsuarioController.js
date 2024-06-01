@@ -32,6 +32,7 @@ class UsuarioController {
             const usuario = await UsuarioDAO.getById(correo);
             //const contr= await bycrypt.hash(contrasenna, 10);
             const objUsuario = usuario;
+            console.log(usuario);
             //hago compare (contraseña de la base de datos, contraseña que me pasaron)
             //Si la base de datos están las contraseñas encriptadas, se debe cambiar la siguiente línea
             //const passwordCorrect = objUsuario.contrasenna === contrasenna;
@@ -44,9 +45,9 @@ class UsuarioController {
                 //generate token using jwt expiresIn: 7 days
                 const token = jwt.sign({ correo: usuario},'Proyecto-DS', {expiresIn: 60 * 60 * 24 * 7});
                 res.cookie('token', token, {httpOnly: true});*/
-                res.status(200).json(usuario[0]);
+                return res.status(200).json(usuario[0]);
             }else{
-                res.status(200).json(50000);
+                return res.status(401).json(50000);
             }
         } catch (error) {
             console.error(error);
