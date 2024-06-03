@@ -8,6 +8,7 @@ const upload = multer({ storage: storage });
 // Rutas
 router.get('/:id', ActividadController.getAllActividades);
 router.get('/actividad/:id', ActividadController.getActividadById);
+router.get('/actividad/afiche/:id', ActividadController.getAficheActividadById);
 router.post('/', upload.single('afiche'),ActividadController.createActividad);
 router.put('/:id', ActividadController.updateActividad);
 router.delete('/:id/:observacion', ActividadController.deleteActividad);
