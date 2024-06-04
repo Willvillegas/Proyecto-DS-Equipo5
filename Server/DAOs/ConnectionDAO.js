@@ -85,6 +85,10 @@ class ConnectionDAO{
                     }
                 }
                 const result = await request.execute(procedure);
+                //handling database error if the outputCodeResult is 50000
+                if (result.outputCodeResult === 50000) {
+                    throw new Error('Error #50000');
+                }
                 return result.recordset;
             }
         } catch (error) {

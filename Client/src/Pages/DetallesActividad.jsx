@@ -21,16 +21,30 @@ const DetallesActividad = () => {
     const { idPlan } = location.state;
     //currentUser.tipo = 4
 
-    
+
     useEffect(() => {
         //simulación de una actividad (Json).
         console.log(id)
         axios.get(`${API_ROOT}/api/actividades/actividad/${id}`)
-        .then(response => {
-            //delete response.data[0].afiche;
-            setActividad(response.data[0]);
-        })
-        
+            .then(response => {
+                //delete response.data[0].afiche;
+                setActividad(response.data[0]);
+            })
+            .catch(error => {
+                console.log('Error getting actividad by id: ', error);
+            });
+        const fetchimage = async () => {
+            const response = await fetch(`${API_ROOT}/api/actividades/actividad/afiche/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'image/png',
+                }
+            });
+            const blob = await response.blob();
+            const imageUrl = URL.createObjectURL(blob);
+            setImageSrc(imageUrl);
+        }
+        fetchimage();
     }, [id]);
 
     const handleComentariosClick = () => {
@@ -39,7 +53,7 @@ const DetallesActividad = () => {
     /*const openPopup = () => {
       setIsOpen(true);
     };*/
-  
+
     const closePopup = () => {
         setIsOpen(false);
     };
@@ -47,7 +61,7 @@ const DetallesActividad = () => {
     const openPopup = () => {
         setIsOpen(true);
     };
-    const setEdition= ()=> {
+    const setEdition = () => {
         setModoEdicion(true);
         setIsOpen(false);
     };
@@ -59,7 +73,7 @@ const DetallesActividad = () => {
         actividad.afiche = "0";
         setIsOpen(false);
         // validar cada propiedad de la actividad si es vacía colocar un cero
-        const envio= {
+        const envio = {
             semana: actividad.semana === "" ? "0" : actividad.semana,
             fecha: actividad.fecha === "" ? "0" : actividad.fecha,
             previos: actividad.previos === "" ? "0" : actividad.previos,
@@ -79,11 +93,11 @@ const DetallesActividad = () => {
         console.log(actividad);
         console.log(envio);
         axios.put(`${API_ROOT}/api/actividades/${id}`, envio)
-        .then(response => {
-            console.log(response.data);
-            alert("Cambios guardados exitosamente: " + response.data.message);
+            .then(response => {
+                console.log(response.data);
+                alert("Cambios guardados exitosamente: " + response.data.message);
 
-        })
+            })
     };
 
     const guardarCancelacion = (valueTextArea) => {
@@ -93,28 +107,20 @@ const DetallesActividad = () => {
         );
         setIsOpen(false);
         axios.delete(`${API_ROOT}/api/actividades/${id}/${valueTextArea}`)
-        .then(response => {
-            console.log(response.data);
-            alert("Actividad cancelada exitosamente: " + response.data.message)
-        });
-        /** 
-        //llamo a la api para guardar cambios
-        console.log(actividad);
-        console.log(envio);
-        axios.put(`${API_ROOT}/api/actividades/${id}`, envio)
-        .then(response => {
-            console.log(response.data);
-        })*/
+            .then(response => {
+                console.log(response.data);
+                alert("Actividad cancelada exitosamente: " + response.data.message)
+            });
     };
 
     const finalizarActividad = (valueData) => {
         console.log("Finalizando actividad");
         setIsOpen(false);
         axios.put(`${API_ROOT}/api/actividades/finish/${id}`, valueData)
-        .then(response => {
-            console.log(response.data);
-            alert("Actividad finalizada exitosamente: " + response.data.message)
-        });
+            .then(response => {
+                console.log(response.data);
+                alert("Actividad finalizada exitosamente: " + response.data.message)
+            });
     }
     const descartarCambios = () => {
         setModoEdicion(false);
@@ -137,37 +143,29 @@ const DetallesActividad = () => {
     const openPopupFinalizar = () => {
         setIsOpenFinalizar(true);
     }
-    useEffect(() => {
-        if (actividad.afiche && actividad.afiche.data) {
-            const arrayBufferView = new Uint8Array(actividad.afiche.data);
-            const blob = new Blob([arrayBufferView], { type: 'image/png' });
-            const imageUrl = URL.createObjectURL(blob);
-            setImageSrc(imageUrl);
-        }
-    }, [actividad]);
     return (
         <div className="flex flex-1 flex-col justify-center lg:px-8 items-center min-h-screen m-9">
             <div className=" w-[800px] bg-gray-900 p-8 rounded-lg shadow-lg mx-auto m-20">
                 <div className="min-h-screen bg-gray-900 text-white">
-                <div className="px-4 sm:px-0">
-                    <h1 className="text-base text-center font-bold leading-7 text-gray-50">{actividad.nombre}</h1>
-                </div>
-                <div className="mt-6 border-t border-gray-100">
-                    <dl className="divide-y divide-gray-100">
-                        {/* Información de la actividad hacerlo en un map por medio de la variable actividad*/}
-                        {Object.entries(actividad).map(([key, value]) => (
-                            <div key={key} className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
-                                <dt className="text-sm font-medium leading-6 text-gray-50">{key.toUpperCase()}</dt>
-                                {key === 'afiche' ? (
+                    <div className="px-4 sm:px-0">
+                        <h1 className="text-base text-center font-bold leading-7 text-gray-50">{actividad.nombre}</h1>
+                    </div>
+                    <div className="mt-6 border-t border-gray-100">
+                        <dl className="divide-y divide-gray-100">
+                            {/* Información de la actividad hacerlo en un map por medio de la variable actividad*/}
+                            {Object.entries(actividad).map(([key, value]) => (
+                                <div key={key} className="p-2 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                                    <dt className="text-sm font-medium leading-6 text-gray-50">{key.toUpperCase()}</dt>
+                                    {key === 'afiche' ? (
                                         <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
-                                            {value !== undefined && value.data !==0 ? (
-                                                <img src={imageSrc} alt="Afiche"  />
+                                            {value !== undefined && value.data !== 0 ? (
+                                                <img src={imageSrc} alt="Afiche" />
                                             ) : (
                                                 <span>No hay afiche disponible</span>
                                             )}
                                         </dd>
                                     ) : (
-                                        modoEdicion ? ( ((key === 'tipo') ) ?(
+                                        modoEdicion ? (((key === 'tipo')) ? (
                                             <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
                                                 <select
 
@@ -185,7 +183,7 @@ const DetallesActividad = () => {
                                                     <option value="De recreacion">Recreacion</option>
                                                 </select>
                                             </dd>
-                                        ): ((key === 'modalidad') ) ?(
+                                        ) : ((key === 'modalidad')) ? (
                                             <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
                                                 <select
                                                     value={value}
@@ -199,7 +197,7 @@ const DetallesActividad = () => {
                                                     <option value="Remota">Remota</option>
                                                 </select>
                                             </dd>
-                                        ):((key === 'estado') || (key === 'id')) ?(
+                                        ) : ((key === 'estado') || (key === 'id')) ? (
                                             <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
                                                 <input
                                                     type="text"
@@ -212,7 +210,7 @@ const DetallesActividad = () => {
                                                     disabled
                                                 />
                                             </dd>
-                                        ):((key === 'fecha') || (key === 'fechaPublicacion')) ?(
+                                        ) : ((key === 'fecha') || (key === 'fechaPublicacion')) ? (
                                             <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
                                                 <input
                                                     type="date"
@@ -224,7 +222,7 @@ const DetallesActividad = () => {
                                                     className="border-gray-300 focus:border-indigo-500 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md p-1"
                                                 />
                                             </dd>
-                                        ):(
+                                        ) : (
                                             <dd className="mt-1 text-sm leading-6 text-gray-800 sm:col-span-2 sm:mt-0">
                                                 <input
                                                     type="text"
@@ -239,11 +237,18 @@ const DetallesActividad = () => {
                                         )) : (
                                             <dd className="mt-1 text-sm leading-6 text-gray-50 sm:col-span-2 sm:mt-0">{value}</dd>
                                         )
-                                )}
+                                    )}
+                                </div>
+
+                            ))}
+                            <div className='flex justify-center items-center'>
+                                <img src={imageSrc}
+                                    alt="Afiche"
+                                    className='pt-6'
+                                    style={{ width: '400px', height: '500px' }}
+                                />
                             </div>
-                        ))}
-                    
-                    {/*<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
+                            {/*<div className="px-4 py-6 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-0">
                         <dt className="text-sm font-medium leading-6 text-gray-900">Attachments</dt>
                         <dd className="mt-2 text-sm text-gray-900 sm:col-span-2 sm:mt-0">
                         <ul role="list" className="divide-y divide-gray-100 rounded-md border border-gray-200">
@@ -278,55 +283,55 @@ const DetallesActividad = () => {
                         </ul>
                         </dd>
                     </div>*/}
-                    </dl>
-                </div>
+                        </dl>
+                    </div>
                 </div>
                 <button onClick={handleVolver} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2">
-                Volver
+                    Volver
                 </button>
                 {currentUser.tipo === 3 || currentUser.tipo === 4 ? (
-                 <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2" onClick={handleComentariosClick}>
-                 Comentarios
-                </button>
+                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded ml-2" onClick={handleComentariosClick}>
+                        Comentarios
+                    </button>
                 ) : null}
-              {(currentUser.tipo != 4) || (actividad.estado === "Realizada")|| (actividad.estado === "Cancelada") ? <div/>:
-                <button
-                    onClick={openPopup}
-                    className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
-                    {modoEdicion ? "Guardar" : "Modificar"}
-                </button>
-              }
-                {(currentUser.tipo != 4) || (actividad.estado === "Cancelada") || (actividad.estado === "Realizada")? <div/>:
-                <button
-                    onClick={openPopupCancelar}
-                    className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
-                    Cancelar
-                </button>
+                {(currentUser.tipo != 4) || (actividad.estado === "Realizada") || (actividad.estado === "Cancelada") ? <div /> :
+                    <button
+                        onClick={openPopup}
+                        className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
+                        {modoEdicion ? "Guardar" : "Modificar"}
+                    </button>
                 }
-                {(currentUser.tipo != 4) || (actividad.estado === "Cancelada") || (actividad.estado === "Realizada") ? <div/>:
-                <button
-                    onClick={openPopupFinalizar}
-                    className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
-                    Finalizar Actividad
-                </button>
-                
+                {(currentUser.tipo != 4) || (actividad.estado === "Cancelada") || (actividad.estado === "Realizada") ? <div /> :
+                    <button
+                        onClick={openPopupCancelar}
+                        className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
+                        Cancelar
+                    </button>
                 }
-                
-                <Popup isOpen={isOpenAc} 
-                        close={closePopup} 
-                        edit={setEdition} 
-                        modoEdicion={modoEdicion} 
-                        cambios={guardarCambios}
-                        descartarCambios={descartarCambios} 
+                {(currentUser.tipo != 4) || (actividad.estado === "Cancelada") || (actividad.estado === "Realizada") ? <div /> :
+                    <button
+                        onClick={openPopupFinalizar}
+                        className="rounded-md bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 ml-2">
+                        Finalizar Actividad
+                    </button>
+
+                }
+
+                <Popup isOpen={isOpenAc}
+                    close={closePopup}
+                    edit={setEdition}
+                    modoEdicion={modoEdicion}
+                    cambios={guardarCambios}
+                    descartarCambios={descartarCambios}
                 />
-                <PopupCancelar isOpenC={isOpenCancelar} 
-                                close={closePopupCancelar}
-                                cancelar ={guardarCancelacion} 
+                <PopupCancelar isOpenC={isOpenCancelar}
+                    close={closePopupCancelar}
+                    cancelar={guardarCancelacion}
                 />
                 <PopupFinalizar isOpenF={isOpenFinalizar}
-                                close={closePopupFinalizar}
-                                finalizar={finalizarActividad}
-                />  
+                    close={closePopupFinalizar}
+                    finalizar={finalizarActividad}
+                />
 
 
             </div>

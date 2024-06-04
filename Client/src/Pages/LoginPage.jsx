@@ -34,6 +34,10 @@ function LoginPage() {
             navigate(`/menu`);
           }
         })
+        .catch(error => {
+          console.log(error)
+          alert("Usuario o contraseña incorrecta: "+error.response.statusText);
+        })
     }catch (error){
       console.log(error)
     }

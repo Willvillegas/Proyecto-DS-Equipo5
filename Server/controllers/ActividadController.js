@@ -15,7 +15,22 @@ class ActividadController {
     static async getActividadById(req, res) {
         try {
             const actividad = await ActividadDAO.getById(req.params.id);
+            delete actividad[0].afiche;
             res.status(200).json(actividad);
+        } catch (error) {
+            console.log('Error getting actividad by id: ', error);
+            res.status(500).json({ error: 'Error obteniendo actividad por ID.' });
+        }
+    }
+
+    static async getAficheActividadById(req, res) {
+        try {
+            const actividad = await ActividadDAO.getById(req.params.id);
+            if (actividad.length === 0){
+                return res.status(404).json({ error: 'No se encontró afiche para la actividad.' });
+            }
+            res.set('Content-Type', 'image/png');
+            res.send(actividad[0].afiche);
         } catch (error) {
             console.log('Error getting actividad by id: ', error);
             res.status(500).json({ error: 'Error obteniendo actividad por ID.' });
