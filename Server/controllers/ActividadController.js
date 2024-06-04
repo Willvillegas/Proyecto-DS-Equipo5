@@ -5,6 +5,10 @@ class ActividadController {
     static async getAllActividades(req, res) {
         try {
             const actividades = await ActividadDAO.getAll(req.params.id);
+            //delete all afiche element of actividades.
+            actividades.forEach(actividad => {
+                delete actividad.afiche;
+            });
             res.status(200).json(actividades);
         } catch (error) {
             console.log('Error getting actividades: ', error);
