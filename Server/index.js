@@ -18,7 +18,8 @@ const bodyParser = require('body-parser');
 app.use(express.urlencoded({extended: true}));
 app.use(cors(
     {
-        origin: ["https://proyecto-ds-equipo5.vercel.app"],
+        origin: ["http://localhost:5173"],
+        //origin: ["https://proyecto-ds-equipo5.vercel.app"],
         methods: ["POST", "GET", "PUT", "DELETE"],
         credentials: true
     }
