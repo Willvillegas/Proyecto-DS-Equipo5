@@ -14,7 +14,6 @@ function ActividadPage() {
  
   useEffect(() => {
     // Simulación de datos de prueba
-
     console.log(id)
     axios.get(`${API_ROOT}/api/actividades/${id}`)
       .then(response => {
@@ -23,16 +22,23 @@ function ActividadPage() {
     // Establecer los datos de prueba en el estado
   }, [id]);
 
-  //Establecer fecha actual como fecha default
+  // Obtener la fecha del servidor y establecerla como la fecha predeterminada
   useEffect(() => {
-    const today = new Date();
-    const yyyy = today.getFullYear();
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const dd = String(today.getDate()).padStart(2, '0');
-    const formattedToday = `${yyyy}-${mm}-${dd}`;
-    setSystemDate(formattedToday);
+    axios.get(`${API_ROOT}/api/server-time`)
+      .then(response => {
+        console.log("Server time:", response.data)
+        if (response.data) {
+          const serverTime = response.data;
+          setSystemDate(serverTime.split(' ')[0]); // Toma solo la parte de la fecha
+        } else {
+          console.error("serverTime is not defined in the response");
+        }
+      })
+      .catch(error => {
+        console.error("Error fetching server time:", error);
+      });
   }, []);
-
+  
   const clickVer = (id, idPlan) => {
     navigate(`/detalle-actividad/${id}`, { state: { idPlan: idPlan } })
   }
@@ -41,9 +47,19 @@ function ActividadPage() {
   }
 
   const handleSystemDateChange = (e) => {
-    setSystemDate(e.target.value);
-    console.log(e.target.value)
-  }
+    const newDate = e.target.value;
+    setSystemDate(newDate);
+    console.log("Nueva fecha:", newDate);
+
+    // Enviar la nueva fecha al servidor
+    axios.post(`${API_ROOT}/api/server-time`, { newTime: newDate + ' 00:00:00' })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error("Error setting server time:", error);
+      });
+  };
 
   const filteredActividades = ActividadInfo.filter((actividad) => {
     const nombreCompleto = `${actividad.nombre}`.toLowerCase();

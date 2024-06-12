@@ -3,6 +3,7 @@ const moment = require('moment-timezone');
 let serverTime = moment().tz('America/Costa_Rica');
 
 const getServerTime = () => {
+  console.log("Fecha del sistema:", serverTime)
   return serverTime.format('YYYY-MM-DD HH:mm:ss');
 };
 
