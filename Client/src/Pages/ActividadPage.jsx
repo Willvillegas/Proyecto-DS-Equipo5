@@ -10,6 +10,7 @@ function ActividadPage() {
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
+  const [systemDate, setSystemDate] = useState('');
  
   useEffect(() => {
     // Simulación de datos de prueba
@@ -22,11 +23,26 @@ function ActividadPage() {
     // Establecer los datos de prueba en el estado
   }, [id]);
 
+  //Establecer fecha actual como fecha default
+  useEffect(() => {
+    const today = new Date();
+    const yyyy = today.getFullYear();
+    const mm = String(today.getMonth() + 1).padStart(2, '0');
+    const dd = String(today.getDate()).padStart(2, '0');
+    const formattedToday = `${yyyy}-${mm}-${dd}`;
+    setSystemDate(formattedToday);
+  }, []);
+
   const clickVer = (id, idPlan) => {
     navigate(`/detalle-actividad/${id}`, { state: { idPlan: idPlan } })
   }
   const clickCrear = (idPlan) => {
     navigate(`/add-actividad`,{ state: { idPlan: idPlan } });
+  }
+
+  const handleSystemDateChange = (e) => {
+    setSystemDate(e.target.value);
+    console.log(e.target.value)
   }
 
   const filteredActividades = ActividadInfo.filter((actividad) => {
@@ -79,13 +95,24 @@ function ActividadPage() {
           </button>
         </div>
       </div>
-      {currentUser.tipo != 4 ? <div/>:
-      <div className="flex space-x-4">
-      <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10" 
-      onClick={ () => clickCrear(id) }>
-        Crear actividad
-      </button>
-    </div>}
+      {currentUser.tipo === 4 && (
+              <div className="flex flex-col items-center space-y-2 mr-10">
+                <div className="flex space-x-4">
+                  <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10"
+                    onClick={() => clickCrear(id)}>
+                    Crear actividad
+                  </button>
+                  <label className="text-white mb-2 mt-2 ">Fecha del Sistema</label>
+                  <input
+                    type="date"
+                    value={systemDate}
+                    onChange={handleSystemDateChange}
+                    className="bg-gray-700 text-white rounded-lg p-2"
+                    style={{ colorScheme: "dark" }}
+                  />
+                </div>
+              </div>
+        )}
     </div>
       {/* Contenido */}
       <main className="p-4 h-[calc(100vh - 200px)] ml-2 overflow-y-auto overflow-x-hidden">
