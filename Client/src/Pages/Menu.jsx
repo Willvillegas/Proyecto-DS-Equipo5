@@ -4,7 +4,7 @@ import { useAuthContext } from '../context/AuthContext';
 
 const Menu = () => {
   const { currentUser } = useAuthContext();
-  //currentUser.tipo = 5 // por el momento para probar que el usuario sea de tipo 5 (estudiante) solo comente esta línea si necesita que el menú
+  currentUser.tipo = 5 // por el momento para probar que el usuario sea de tipo 5 (estudiante) solo comente esta línea si necesita que el menú
                        // aparezca según el usuario logueado
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white p-11">
@@ -51,7 +51,9 @@ const Menu = () => {
                 Cambiar contraseña
               </button>
             </Link>
-            <Link to="/mi-perfil">
+             {/* SE DEBE DESCOMENTAR LA LÍNEA DE ABAJO Y COMENTAR LA OTRA YA CUENDO EL ESTUDIANTE TENGA LA OPCIÓN DE LOGUEARSE */}
+          {/* <Link to={`/detalle-estudiantes/${estudiante.id}`}>*/}
+            <Link to={`/detalle-estudiantes/${3}`}>
               <button className="active:scale-[.98] active:duration-75 hover:scale-[1.01]  w-full bg-indigo-600 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mb-4">
                 Mi perfil
               </button>
@@ -79,5 +81,8 @@ const Menu = () => {
 };
 
 export default Menu;
+
+
+
 
 

@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -12,7 +13,7 @@ const buttons = [
   },
   {
     text: 'Modificar',
-    roles: [3,4]
+    roles: [3,4,5]
   }
 ];
 
@@ -29,10 +30,10 @@ const Button = ({ text, onClick, key }) => (
 const ButtonGroup = ({ buttons, userType, navigateToModificar, currentUserSede, estudianteSede }) => (
   <div className="flex justify-center">
     {buttons
-      .filter(button => button.roles.some(role => role === userType))
+      .filter(button => button.roles.some(role => role === userType) || (button.text === 'Modificar' && userType === 5))
       .map((button, index) => {
         // Agrega esta condición para verificar si el botón "Modificar" debe mostrarse
-        if (button.text === 'Modificar' && currentUserSede !== estudianteSede) {
+        if (button.text === 'Modificar' && currentUserSede !== estudianteSede && userType !== 5) {
           return null; // No renderizar el botón "Modificar"
         }
         return <Button key={index} text={button.text} onClick={button.onClick || navigateToModificar} />;
@@ -71,7 +72,6 @@ const ProfileInfo = ({ estudianteInfo }) => (
   </div>
 );
 
-
 function DetallesEstudiante() {
   const { id } = useParams(); // Obtener el ID del estudiante de los parámetros de la URL
   const navigate = useNavigate();
@@ -79,7 +79,7 @@ function DetallesEstudiante() {
   const navigateBack = () => navigate(-1);
   const [estudianteInfo, setEstudianteInfo] = useState([]);
   const currentUserSede = currentUser.sede;
-
+  
   useEffect(() => {
     axios.get(`${API_ROOT}/api/estudiantes/${id}`)
       .then(response => {
@@ -98,6 +98,17 @@ function DetallesEstudiante() {
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
       <div className="max-w-md w-full">
         <h1 className="text-white text-center text-3xl font-bold mb-4">Estudiante</h1>
+        <div className="flex justify-center items-center flex-col mb-8">
+          {/* Círculo de la foto de perfil */}
+          <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
+          {/* Botón Subir foto de perfil */}
+          {currentUser.tipo === 5 && (
+            <Button
+              text="Subir foto de perfil"
+              onClick={() => console.log('Subir foto de perfil')}
+            />
+          )}
+        </div>
         <ProfileInfo estudianteInfo={estudianteInfo} />
         <div className="flex justify-center">
           {/* Pasar currentUserSede y estudianteInfo.Sede como propiedades */}
@@ -121,3 +132,4 @@ function DetallesEstudiante() {
 }
 
 export default DetallesEstudiante;
+
