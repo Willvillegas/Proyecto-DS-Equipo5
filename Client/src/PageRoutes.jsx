@@ -17,6 +17,8 @@ import ModificarEstudiante from "./Pages/ModificarEstudiante";
 import RegistrarProfesor from "./Pages/RegistrarProfesor";
 import NotFoundPage from "./Pages/NotFound";
 import AddActividad from "./Pages/AddActividad";
+import Calendario from "./Pages/Calendario";
+import ProximaActividad from "./Pages/ProximaActividad";
 
 const RoutesPages = () => (
   <Routes>  
@@ -37,7 +39,9 @@ const RoutesPages = () => (
     <Route path="/modificar-profesor/:id" element={<ModificarProfesor/>} />
     <Route path="/registrar-profesor" element={<RegistrarProfesor/>} />
     <Route path="*" element={<NotFoundPage/>} />
+    <Route path="/calendario" element={<Calendario/>} />
     <Route path="/add-actividad" element={<AddActividad/>} />
+    <Route path="/proxima-actividad" element={<ProximaActividad/>} />
   </Routes>
 );
 
