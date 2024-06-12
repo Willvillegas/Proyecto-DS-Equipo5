@@ -4,7 +4,7 @@ import { useAuthContext } from '../context/AuthContext';
 
 const Menu = () => {
   const { currentUser } = useAuthContext();
- c // por el momento para probar que el usuario sea de tipo 5 (estudiante) solo comente esta línea si necesita que el menú
+  currentUser.tipo = 5 // por el momento para probar que el usuario sea de tipo 5 (estudiante) solo comente esta línea si necesita que el menú
                        // aparezca según el usuario logueado
   return (
     <div className="min-h-screen flex flex-col items-center justify-center bg-white p-11">
