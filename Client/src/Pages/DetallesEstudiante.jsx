@@ -127,13 +127,7 @@ function DetallesEstudiante() {
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4">
             {/*<img src={imageSrc} alt="imágen del estudiante" />*/}
           </div>
-          {/* Botón Subir foto de perfil */}
-          {currentUser.tipo === 5 && (
-            <Button
-              text="Subir foto de perfil"
-              onClick={() => console.log('Subir foto de perfil')}
-            />
-          )}
+          {/* Aquí estaba el botón Subir foto de perfil, ahora eliminado */}
         </div>
         <ProfileInfo estudianteInfo={estudianteInfo} />
         <div className="flex justify-center">
