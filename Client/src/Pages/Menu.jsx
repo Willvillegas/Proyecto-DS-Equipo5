@@ -4,6 +4,7 @@ import { useAuthContext } from '../context/AuthContext';
 
 const Menu = () => {
   const { currentUser } = useAuthContext();
+  const userId = currentUser.id; // Obtiene el id del usuario logueado
   currentUser.tipo = 5 // por el momento para probar que el usuario sea de tipo 5 (estudiante) solo comente esta línea si necesita que el menú
                        // aparezca según el usuario logueado
   return (
@@ -46,7 +47,7 @@ const Menu = () => {
         {/* Botones para usuario tipo 5 */}
         {currentUser.tipo == 5 && (
           <>
-            <Link to="/cambiar-contrasena">
+              <Link to={`/cambiar-contrasenna-e/${userId}`}>*
               <button className="active:scale-[.98] active:duration-75 hover:scale-[1.01]  w-full bg-indigo-600 text-white py-2 px-4 rounded-md focus:outline-none focus:shadow-outline mb-4">
                 Cambiar contraseña
               </button>

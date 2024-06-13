@@ -19,6 +19,7 @@ import NotFoundPage from "./Pages/NotFound";
 import AddActividad from "./Pages/AddActividad";
 import Calendario from "./Pages/Calendario";
 import ProximaActividad from "./Pages/ProximaActividad";
+import CambiarContrasennaE from "./Pages/CambiarContrasennaE";
 
 const RoutesPages = () => (
   <Routes>  
@@ -42,6 +43,7 @@ const RoutesPages = () => (
     <Route path="/calendario" element={<Calendario/>} />
     <Route path="/add-actividad" element={<AddActividad/>} />
     <Route path="/proxima-actividad" element={<ProximaActividad/>} />
+    <Route path="/cambiar-contrasenna-e/:id" element={<CambiarContrasennaE/>} />
   </Routes>
 );
 
