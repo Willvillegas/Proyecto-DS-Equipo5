@@ -92,6 +92,21 @@ function ModificarEstudiante() {
       .catch(error => {
         console.error('Error al guardar los cambios:', error);
       });
+    /**
+     * Enpoint para actualizar la foto de perfil (FALTA que la BD implemente el SP para actualizar la foto de perfil)
+     */
+    /**
+     * const formData = new FormData();
+     * formData.append('profileImage', profileImage);
+     * axios.put(`${API_ROOT}/api/estudiantes/photo/${id}`, formData)
+     *  .then(response => {
+     *   console.log('Foto de perfil actualizada:', response.data);
+     * })
+     * .catch(error => {
+     *  console.error('Error al actualizar la foto de perfil:', error);
+     * });
+     * 
+     */
   };
 
   const profileButtons = [
@@ -104,14 +119,14 @@ function ModificarEstudiante() {
 
   return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
-      <div className="max-w-md w-full">
+      <div className="max-w-md w-full mt-16">
         <div className="flex justify-center items-center flex-col mb-8">
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
           {currentUser.tipo === 5 &&(
             <input
               type="file"
               onChange={handleProfileImageChange}
-              accept="image/*"
+              accept="image/png"
             />
           )}
           <ButtonGroup buttons={profileButtons} userType={currentUser.tipo} />

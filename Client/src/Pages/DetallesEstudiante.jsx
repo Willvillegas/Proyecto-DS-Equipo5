@@ -78,6 +78,7 @@ function DetallesEstudiante() {
   const { currentUser } = useAuthContext();
   const navigateBack = () => navigate(-1);
   const [estudianteInfo, setEstudianteInfo] = useState([]);
+  const [imageSrc, setImageSrc] = useState('');
   const currentUserSede = currentUser.sede;
   
   useEffect(() => {
@@ -86,7 +87,30 @@ function DetallesEstudiante() {
         setEstudianteInfo(response.data[0])
         console.log(response.data)
       })
- }, []);
+      .catch(error => console.log(error));
+    /**
+     * Enpoint para obtener la foto de perfil
+     */
+    /**
+     * const fetchPhoto = async () => {
+     * const respuesta = await fetch(`${API_ROOT}/api/estudiantes/photo/${id}`, {
+     * method: 'GET',
+     * headers: {
+     * 'Content-Type': 'image/png',
+     * },
+     * });
+     * 
+     * const blob = await respuesta.blob();
+     * const url = URL.createObjectURL(blob);
+     * console.log(url);
+     * setImageSrc(url);
+     * }
+     * fetchPhoto();
+     * 
+     */
+
+
+ }, [id]);
 
   const navigateToModificar = () => {
     navigate(`/modificar-estudiante/${id}`); // Redirigir a la pantalla de modificación con el ID del estudiante
@@ -96,11 +120,13 @@ function DetallesEstudiante() {
 
    return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
-      <div className="max-w-md w-full">
+      <div className="max-w-md w-full mt-16">
         <h1 className="text-white text-center text-3xl font-bold mb-4">Estudiante</h1>
         <div className="flex justify-center items-center flex-col mb-8">
           {/* Círculo de la foto de perfil */}
-          <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
+          <div className="border border-gray-400 w-36 h-36 rounded-full mb-4">
+            {/*<img src={imageSrc} alt="imágen del estudiante" />*/}
+          </div>
           {/* Botón Subir foto de perfil */}
           {currentUser.tipo === 5 && (
             <Button
