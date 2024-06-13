@@ -28,7 +28,7 @@ function CalendarioPage() {
 
   const filteredActividades = ActividadInfo.filter((actividad) => {
     const nombreCompleto = `${actividad.nombre}`.toLowerCase();
-    return nombreCompleto.includes(searchTerm.toLowerCase());
+    return nombreCompleto.includes(searchTerm.toLowerCase()) && actividad.estado === 'Notificada';
   });
 
   return (

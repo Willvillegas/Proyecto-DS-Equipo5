@@ -42,10 +42,11 @@ function ProximaActividadPage() {
       
   //Obtener actividad mas proxima segun fecha del servidor (modificable por el profesor coordinador)  
   const getProximaActividad = () => {
-    const actividades = ActividadInfo.filter(actividad => new Date(actividad.fecha) >= new Date(systemDate));
-    actividades.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
-    return actividades[0];
-    };
+    const actividadesNotificadas = ActividadInfo.filter(actividad => 
+      actividad.estado === 'Notificada' && new Date(actividad.fecha) >= new Date(systemDate));
+    actividadesNotificadas.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
+    return actividadesNotificadas[0];
+  };
 
   const proximaActividad = getProximaActividad();
 
