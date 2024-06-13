@@ -106,5 +106,44 @@ class EstudianteDAO{
             await ConnectionDAO.disconnect();
         }
     }
+    /**
+     * Fase 3:
+     */
+    //Method to get the photo of an estudiante
+    static async getPhoto(id){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("BuscarFotoEstudiante", {
+                id: id,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            return result;
+        } catch (error) {
+            console.log('Error getting estudiante photo: ', error);
+            throw error;
+        }finally{
+            await ConnectionDAO.disconnect();
+        }
+    }
+    //Method to update the photo of an estudiante
+    static async updatePhoto(id, file){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            const fileBuffer = Buffer.from(file, 'base64');
+            await connection.connect();
+            const result = await connection.executeProcedures("ModificarFotoEstudiante", {
+                id: id,
+                foto: fileBuffer,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            return result;
+        } catch (error) {
+            console.log('Error updating estudiante photo: ', error);
+            throw error;
+        }finally{
+            await ConnectionDAO.disconnect();
+        }
+    }
 }
 module.exports = EstudianteDAO;

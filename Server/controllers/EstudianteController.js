@@ -137,6 +137,32 @@ class EstudianteController {
             res.status(500).json({ error: 'Error creating file' });
         }
     }
+
+    //Method for getting the photo of the student
+    static async getPhoto(req, res) {
+        const { id } = req.params;
+        try {
+            const photo = await EstudianteDAO.getPhoto(id);
+            if (photo.length === 0) {
+                return res.status(404).json({ error: 'No photo found for student' });
+            }
+            res.set('Content-Type', 'image/png');
+            res.send(photo[0].foto);
+        } catch (error) {
+            res.status(500).json({ error: 'Error getting photo' });
+        }
+    }
+    //Method for updating the photo of the student
+    static async updatePhoto(req, res) {
+        const { id } = req.params;
+        const file = req.file.buffer;
+        try {
+            const result = await EstudianteDAO.updatePhoto(id, file);
+            res.status(200).json({ message: 'Photo updated successfully', result });
+        } catch (error) {
+            res.status(500).json({ error: 'Error updating photo' });
+        }
+    }
     
 }
 
