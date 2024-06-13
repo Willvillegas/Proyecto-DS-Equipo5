@@ -1,12 +1,4 @@
 const {ConnectionDAO}   = require('./ConnectionDAO');
-/**
- * const {Actividad} = require('../models/Actividad.js');
- */
-/**
- * Consideratios for the ActividadDAO
- * the entity Actividad is a  (todo y parte) class with EquipoGuia and is important to take considetrations about the relationship between them
- * to follow the SOLID principles. tobe implemented in the future.....
- */
 
 // class that represents the ActividadDAO
 class ActividadDAO{

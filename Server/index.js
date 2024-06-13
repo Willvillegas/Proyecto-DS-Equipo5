@@ -67,6 +67,7 @@ app.post('/api/server-time', (req, res) => {
             throw new Error('newTime is required');
         }
         setServerTime(newTime);
+        /**A definirse si implementar aqui el comportamiento de las actividades con respecto a las fechas */
         res.send(getServerTime());
     } catch (e) {
         res.status(400).send(e.message);
