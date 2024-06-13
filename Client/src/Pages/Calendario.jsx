@@ -13,10 +13,17 @@ function CalendarioPage() {
  
   useEffect(() => {
     console.log(id)
-    axios.get(`${API_ROOT}/api/actividades/1`)
-      .then(response => {
-        setActividadInfo(response.data)
-      })
+    const fetchActividades = async () => {
+      /**Con "...actividades/0" obtiene todas las actividades sin importar su plan */
+      axios.get(`${API_ROOT}/api/actividades/0`)
+        .then(response => {
+          setActividadInfo(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        });
+      }
+    fetchActividades();
   }, [id]);
 
   const filteredActividades = ActividadInfo.filter((actividad) => {

@@ -10,6 +10,7 @@ function ProximaActividadPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const fetchServerTime = async () => {
     // Obtener la fecha del servidor y establecerla como la fecha predeterminada
     axios.get(`${API_ROOT}/api/server-time`)
       .then(response => {
@@ -24,22 +25,27 @@ function ProximaActividadPage() {
       .catch(error => {
         console.error("Error fetching server time:", error);
       });
-
-    axios.get(`${API_ROOT}/api/actividades/1`)
-      .then(response => {
-        setActividadInfo(response.data)
+    }
+    /*Con "...actividades/0" obtiene todas las actividades sin importar su plan */
+    const fetchActividades = async () => {
+    axios.get(`${API_ROOT}/api/actividades/0`)
+    .then(response => {
+      setActividadInfo(response.data)
       })
       .catch(error => {
         console.error("Error fetching activities:", error);
-      });
-  }, [id]);
-
+        });
+    }
+    fetchServerTime();
+    fetchActividades();
+      }, [id]);
+      
   //Obtener actividad mas proxima segun fecha del servidor (modificable por el profesor coordinador)  
   const getProximaActividad = () => {
     const actividades = ActividadInfo.filter(actividad => new Date(actividad.fecha) >= new Date(systemDate));
     actividades.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
     return actividades[0];
-  };
+    };
 
   const proximaActividad = getProximaActividad();
 
