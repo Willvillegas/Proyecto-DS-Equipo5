@@ -17,4 +17,10 @@ router.post('/usuario/logout', usuarioMiddleware.usuarioLogged, usuarioControlle
  */
 router.post('/usuario/resetpassword-request', usuarioController.resetPassword);
 router.post('/usuario/resetpassword', usuarioController.resetPasswordToken);
+/**
+ * Restablecer contrasenna para el estudiante
+ * @param {id} id debe de ser correo del estudiante
+ */
+router.put('/usuario/resetpassword/:id', usuarioController.resetPasswordEstudiante);
+
 module.exports = router;

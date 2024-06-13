@@ -107,5 +107,28 @@ class UsuarioController {
             }
         }
 
+    //Method to reset password for student
+    static async resetPasswordEstudiante(req, res) {
+        const { id } = req.params;
+        const { contrasenna } = req.body;
+        if (!contrasenna) {
+            res.status(400).json({ error: 'Contraseña requerida' });
+            return;
+        }
+        try {
+            const usuario = await UsuarioDAO.getById(id);
+            if (usuario.length === 0) {
+                res.status(404).json({ error: 'Usuario no encontrado' });
+                return;
+            }
+            //Actualizar contraseña IMPLEMENTAR HASH EN FUTURO
+            usuario[0].contrasenna = contrasenna;
+            await UsuarioDAO.update(usuario[0]);
+            res.status(200).json({ message: 'Contraseña actualizada' });
+        } catch (error) {
+            res.status(500).json({ error: 'Error al resetear la contraseña' });
+        }
+    }
+
 }
 module.exports = UsuarioController;
