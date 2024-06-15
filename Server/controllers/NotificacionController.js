@@ -8,7 +8,7 @@ class NotificacionController {
             if (!idEstudiante) {
                 res.status(400).json({ error: 'idEstudiante is required' });
             }
-
+            /**modificacion para incluir la fecha del servidor y recupere la info con respecto a la fecha */
             const notificaciones = await NotificacionDAO.getAll(idEstudiante);
 
             if (notificaciones.length === 0) {

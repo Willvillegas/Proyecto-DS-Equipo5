@@ -108,6 +108,14 @@ class UsuarioController {
         }
 
     //Method to reset password for student
+    /**
+     * En el req.params se espera el correo del estudiante
+     * En el req.body se espera la nueva contraseña
+     * ejemplo de como lo recibe el body:
+     * {
+     * "contrasenna":"nuevaContraseña"
+     * }
+     */
     static async resetPasswordEstudiante(req, res) {
         const { id } = req.params;
         const { contrasenna } = req.body;

@@ -7,6 +7,7 @@ class NotificacionDAO {
             await connection.connect();
             const result = await connection.executeProcedures("BuscarNotificacion", {
                 idEstudianteUsuario: idEstudiante,
+                /**fecha del servidor. */
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             return result;
