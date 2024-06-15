@@ -13,13 +13,13 @@ function CambiarContrasennaE() {
   const navigate = useNavigate();
   const { currentUser } = useAuthContext(); // Obtén el usuario actual del contexto de autenticación
   const userId = currentUser.id;
-
+  const userMail = currentUser.correo;
   // useEffect para imprimir el id del usuario en la consola al montar el componente
   useEffect(() => {
     console.log('User ID:', userId);
   }, [userId]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit  = async (e)  => {
     e.preventDefault();
     setError('');
 
@@ -37,10 +37,9 @@ function CambiarContrasennaE() {
       if (nuevaContrasenna === confirmar) {
         console.log('Contraseña confirmada:', confirmar); // Imprimir en consola la contraseña confirmada
         const data = {
-          id: userId, // Incluye el id en el objeto data
           contrasenna: confirmar
         };
-        axios.post(`${API_ROOT}/api/usuario/cambiar-contrasenna-e`, data)
+        await axios.put(`${API_ROOT}/api/usuario/resetpassword/${userMail}`, data)
           .then(response => {
             if ('message' in response.data) {
               navigate('/');
