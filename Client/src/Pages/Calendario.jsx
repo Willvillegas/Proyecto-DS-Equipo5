@@ -15,7 +15,7 @@ function CalendarioPage() {
     console.log(id)
     const fetchActividades = async () => {
       /**Con "...actividades/0" obtiene todas las actividades sin importar su plan */
-      axios.get(`${API_ROOT}/api/actividades/0`)
+      await axios.get(`${API_ROOT}/api/actividades/0`)
         .then(response => {
           setActividadInfo(response.data)
         })

@@ -42,7 +42,8 @@ function BuzonPage() {
       setNotificacionInfo(exampleData);
 
       // API
-      // axios.get(`${API_ROOT}/api/notificaciones/0`)
+      // Se necesita recuperar las notificaciones con respecto a un estudiante (su id).....
+      // await axios.get(`${API_ROOT}/api/estudiantes/notificaciones/${id}`)
       //   .then(response => {
       //     setNotificacionInfo(response.data);
       //   })
@@ -58,10 +59,31 @@ function BuzonPage() {
       ...prevStatus,
       [notificacionId]: !prevStatus[notificacionId]
     }));
+    /**
+     * Endpoint para marcar una notificación como leída (definir esta funcion como async )
+     * await axios.put(`${API_ROOT}/api/estudiantes/notificaciones/${notificacionId}`)
+     * .then(response => {
+     * console.log(response.data);
+     * })
+     * .catch(error => {
+     * console.log(error);
+     * });
+     * 
+     */
   };
 
   const deleteNotificacion = (notificacionId) => {
     setNotificacionInfo(prevNotificaciones => prevNotificaciones.filter(notificacion => notificacion.id !== notificacionId));
+    /**
+     * Endpoint para eliminar una notificación (definir esta funcion como async )
+     * await axios.delete(`${API_ROOT}/api/estudiantes/notificaciones/${notificacionId}/${id}`)
+     * .then(response => {
+     * console.log(response.data);
+     * })
+     * .catch(error => {
+     * console.log(error);
+     * });
+     */
   };
 
   const filteredNotificaciones = NotificacionInfo.filter((notificacion) => {

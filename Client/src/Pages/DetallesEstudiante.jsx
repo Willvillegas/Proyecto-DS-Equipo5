@@ -82,7 +82,8 @@ function DetallesEstudiante() {
   const currentUserSede = currentUser.sede;
   
   useEffect(() => {
-    axios.get(`${API_ROOT}/api/estudiantes/${id}`)
+    const fetchEstudiante = async () => {
+    await axios.get(`${API_ROOT}/api/estudiantes/${id}`)
       .then(response => {
         setEstudianteInfo(response.data[0])
         console.log(response.data)
@@ -108,7 +109,8 @@ function DetallesEstudiante() {
      * fetchPhoto();
      * 
      */
-
+    };
+    fetchEstudiante();
 
  }, [id]);
 

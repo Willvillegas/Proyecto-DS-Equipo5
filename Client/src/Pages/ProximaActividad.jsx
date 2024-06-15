@@ -12,7 +12,7 @@ function ProximaActividadPage() {
   useEffect(() => {
     const fetchServerTime = async () => {
     // Obtener la fecha del servidor y establecerla como la fecha predeterminada
-    axios.get(`${API_ROOT}/api/server-time`)
+     await axios.get(`${API_ROOT}/api/server-time`)
       .then(response => {
         console.log("Server time:", response.data)
         if (response.data) {
@@ -28,7 +28,7 @@ function ProximaActividadPage() {
     }
     /*Con "...actividades/0" obtiene todas las actividades sin importar su plan */
     const fetchActividades = async () => {
-    axios.get(`${API_ROOT}/api/actividades/0`)
+    await axios.get(`${API_ROOT}/api/actividades/0`)
     .then(response => {
       setActividadInfo(response.data)
       })
