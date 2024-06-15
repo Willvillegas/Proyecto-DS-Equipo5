@@ -18,6 +18,7 @@ import RegistrarProfesor from "./Pages/RegistrarProfesor";
 import NotFoundPage from "./Pages/NotFound";
 import AddActividad from "./Pages/AddActividad";
 import Calendario from "./Pages/Calendario";
+import Buzon from "./Pages/Buzon";
 import ProximaActividad from "./Pages/ProximaActividad";
 import CambiarContrasennaE from "./Pages/CambiarContrasennaE";
 
@@ -41,6 +42,7 @@ const RoutesPages = () => (
     <Route path="/registrar-profesor" element={<RegistrarProfesor/>} />
     <Route path="*" element={<NotFoundPage/>} />
     <Route path="/calendario" element={<Calendario/>} />
+    <Route path="/buzon" element={<Buzon/>} />
     <Route path="/add-actividad" element={<AddActividad/>} />
     <Route path="/proxima-actividad" element={<ProximaActividad/>} />
     <Route path="/cambiar-contrasenna-e/:id" element={<CambiarContrasennaE/>} />
