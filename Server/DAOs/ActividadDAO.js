@@ -100,9 +100,6 @@ class ActividadDAO{
             await ConnectionDAO.disconnect();
         }
     }
-    /**
-     * Delete method (tobe a define in the future)
-     */
     static async delete(id, observacion){
         const connection = await ConnectionDAO.getInstance();
         try {
@@ -132,6 +129,42 @@ class ActividadDAO{
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             //console.log(result)
+            return result;
+        } catch (error) {
+            console.log('Error getting actividad by id: ', error);
+            throw error;
+        }finally{
+            await ConnectionDAO.disconnect();
+        }
+    }
+    /**
+     * Fase 3:
+     * Definición de los métodos que se encargan de publicar y generar recordatorios de una actividad
+     */
+    static async post(actividad){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("PublicarActividad", {
+                id: actividad.id,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            return result;
+        } catch (error) {
+            console.log('Error getting actividad by id: ', error);
+            throw error;
+        }finally{
+            await ConnectionDAO.disconnect();
+        }
+    }
+    static async reminder(actividad){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("RecordatorioActividad", {
+                id: actividad.id,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
             return result;
         } catch (error) {
             console.log('Error getting actividad by id: ', error);

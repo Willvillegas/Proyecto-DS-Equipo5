@@ -14,6 +14,7 @@ const estudianteRoute = require('./routes/EstudianteRoute');
 const planTrabajoRoute = require('./routes/PlanTrabajoRoutes');
 const profesorRoute = require('./routes/ProfesorRoute');//
 const usuarioRoute = require('./routes/UsuarioRoute');
+const actividadModel = require('./models/ActividadModel');
 const bodyParser = require('body-parser');
 
 app.use(express.urlencoded({ extended: true }));
@@ -68,6 +69,8 @@ app.post('/api/server-time', (req, res) => {
         }
         setServerTime(newTime);
         /**A definirse si implementar aqui el comportamiento de las actividades con respecto a las fechas */
+        actividadModel.revisarActividades(new Date(newTime));
+        console.log(`Server time set to ${newTime}`);
         res.send(getServerTime());
     } catch (e) {
         res.status(400).send(e.message);
