@@ -12,78 +12,63 @@ function BuzonPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [readStatus, setReadStatus] = useState({});
   const [filter, setFilter] = useState('todos');
+  const [systemDate, setSystemDate] = useState('');
 
   useEffect(() => {
-    console.log(id);
-    const fetchNotificaciones = async () => {
-      // Datos de ejemplo
-      const exampleData = [
-        {
-          id: 1,
-          idEstudianteUsuario: 101,
-          idActividad: 201,
-          creacion: '2024-06-01T12:00:00Z',
-          emisor: 'Profesor 1',
-          contenido: 'Notificación sobre la actividad 1',
-          idEstado: 1,
-          visto: 0
-        },
-        {
-          id: 2,
-          idEstudianteUsuario: 102,
-          idActividad: 202,
-          creacion: '2024-06-02T13:00:00Z',
-          emisor: 'Profesor 2',
-          contenido: 'Notificación sobre la actividad 2',
-          idEstado: 1,
-          visto: 1
+    const fetchServerTime = async () => {
+      try {
+        const response = await axios.get(`${API_ROOT}/api/server-time`);
+        console.log("Server time:", response.data);
+        if (response.data) {
+          const serverTime = response.data;
+          setSystemDate(serverTime.split(' ')[0]); // Toma solo la parte de la fecha
+        } else {
+          console.error("serverTime is not defined in the response");
         }
-      ];
-      setNotificacionInfo(exampleData);
-
-      // API
-      // Se necesita recuperar las notificaciones con respecto a un estudiante (su id).....
-      // await axios.get(`${API_ROOT}/api/estudiantes/notificaciones/${id}`)
-      //   .then(response => {
-      //     setNotificacionInfo(response.data);
-      //   })
-      //   .catch(error => {
-      //     console.log(error);
-      //   });
+      } catch (error) {
+        console.error("Error fetching server time:", error);
+      }
     };
-    fetchNotificaciones();
-  }, [id]);
 
-  const toggleReadStatus = (notificacionId) => {
+    const fetchNotificaciones = async () => {
+      try {
+        console.log(`notificacion ${currentUser.id}`)
+        const response = await axios.get(`${API_ROOT}/api/estudiantes/notificaciones/${currentUser.id}`, {
+          params: { fecha: systemDate }
+        });
+        setNotificacionInfo(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchServerTime();
+    fetchNotificaciones();
+  }, [id, systemDate]);
+
+  const toggleReadStatus = async (notificacionId) => {
     setReadStatus(prevStatus => ({
       ...prevStatus,
       [notificacionId]: !prevStatus[notificacionId]
     }));
-    /**
-     * Endpoint para marcar una notificación como leída (definir esta funcion como async )
-     * await axios.put(`${API_ROOT}/api/estudiantes/notificaciones/${notificacionId}`)
-     * .then(response => {
-     * console.log(response.data);
-     * })
-     * .catch(error => {
-     * console.log(error);
-     * });
-     * 
-     */
+
+    try {
+      await axios.put(`${API_ROOT}/api/estudiantes/notificaciones/${notificacionId}`);
+      console.log("Notificación actualizada");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const deleteNotificacion = (notificacionId) => {
+  const deleteNotificacion = async (notificacionId) => {
     setNotificacionInfo(prevNotificaciones => prevNotificaciones.filter(notificacion => notificacion.id !== notificacionId));
-    /**
-     * Endpoint para eliminar una notificación (definir esta funcion como async )
-     * await axios.delete(`${API_ROOT}/api/estudiantes/notificaciones/${notificacionId}/${id}`)
-     * .then(response => {
-     * console.log(response.data);
-     * })
-     * .catch(error => {
-     * console.log(error);
-     * });
-     */
+    
+    try {
+      await axios.delete(`${API_ROOT}/api/estudiantes/notificaciones/${notificacionId}`);
+      console.log("Notificación eliminada");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const filteredNotificaciones = NotificacionInfo.filter((notificacion) => {

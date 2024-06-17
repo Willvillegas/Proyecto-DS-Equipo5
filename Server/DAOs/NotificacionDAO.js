@@ -1,13 +1,14 @@
 const {ConnectionDAO} = require('./ConnectionDAO');
 
 class NotificacionDAO {
-    static async getAll(idEstudiante) {
+    static async getAll(idEstudiante, fecha) {
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
+            console.log("Id estudiante:", idEstudiante, "Fecha:", fecha);
             const result = await connection.executeProcedures("BuscarNotificacion", {
                 idEstudianteUsuario: idEstudiante,
-                /**fecha del servidor. */
+                fecha: fecha,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             return result;
@@ -19,13 +20,12 @@ class NotificacionDAO {
         }
     }
     //method to delete an notificacion by notification id and estudianteUsuario id from the database
-    static async delete(idNotificacion, idEstudianteUsuario) {
+    static async delete(idNotificacion) {
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("EliminarNotificacion", {
-                idNotificacion: idNotificacion,
-                idEstudianteUsuario: idEstudianteUsuario,
+                id: idNotificacion,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             return result;

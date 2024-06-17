@@ -29,7 +29,7 @@ router.put('/photo/:id', upload.single('file'), EstudianteController.updatePhoto
  * Rutas para obtener y realizar operaciones con las notificaciones de un estudiante
  */
 router.get('/notificaciones/:idEstudiante', NotificacionController.getAllNotificacion);
-router.delete('/notificaciones/:idNotificacion/:idEstudianteUsuario', NotificacionController.deleteNotificacion);
+router.delete('/notificaciones/:idNotificacion', NotificacionController.deleteNotificacion);
 router.put('/notificaciones/:idNotificacion', NotificacionController.markNotificacion);
 
 module.exports = router;
