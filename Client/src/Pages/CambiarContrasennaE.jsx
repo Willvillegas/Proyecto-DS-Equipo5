@@ -24,8 +24,8 @@ function CambiarContrasennaE() {
     setError('');
 
     if (nuevaContrasenna !== '' && confirmar !== '') {
-      if (nuevaContrasenna.length > 6 || confirmar.length > 6) {
-        setError('La contraseña debe tener un máximo de 6 caracteres.');
+      if (nuevaContrasenna.length > 15 || confirmar.length > 15) {
+        setError('La contraseña debe tener un máximo de 15 caracteres.');
         return;
       }
 
@@ -80,7 +80,7 @@ function CambiarContrasennaE() {
                 value={nuevaContrasenna}
                 onChange={(event) => setNueva(event.target.value)}
                 placeholder="Contraseña nueva"
-                maxLength={6} // Limitar a 6 caracteres
+               // maxLength={6} // Limitar a 6 caracteres
               />
             </div>
             <div className="mt-2">
@@ -93,7 +93,7 @@ function CambiarContrasennaE() {
                 value={confirmar}
                 onChange={(event) => setConfirmar(event.target.value)}
                 placeholder="Confirmar contraseña"
-                maxLength={6} // Limitar a 6 caracteres
+               // maxLength={6} // Limitar a 6 caracteres
               />
             </div>
             <div className="mt-6 flex justify-between space-x-4">
