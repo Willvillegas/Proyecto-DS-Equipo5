@@ -48,17 +48,24 @@ function ModificarEstudiante() {
 
   useEffect(() => {
     const fetchEstudiante = async () => {
-      await axios.get(`${API_ROOT}/api/estudiantes/usuarioEstudiante/${currentUser.id}`)
-      .then(response => {
-          setEstudianteInfo(response.data[0]);
-          setModifiedEstudianteInfo(response.data[0]);
-        })
-      .catch(error => {
-          console.error('Error al obtener la información del estudiante:', error);
-        });
+      try {
+        let response;
+        if (currentUser.tipo === 5) {
+          // Usuario de tipo 5 (profesor guía)
+          response = await axios.get(`${API_ROOT}/api/estudiantes/usuarioEstudiante/${currentUser.id}`);
+        } else {
+          // Otros tipos de usuario
+          response = await axios.get(`${API_ROOT}/api/estudiantes/${id}`);
+        }
+        setEstudianteInfo(response.data[0]);
+        setModifiedEstudianteInfo(response.data[0]);
+      } catch (error) {
+        console.error('Error al obtener la información del estudiante:', error);
       }
+    };
+
     fetchEstudiante();
-  }, []);
+  }, [id, currentUser.id, currentUser.tipo]);
 
   const handleSaveChanges = () => {
     if (modifiedEstudianteInfo.telefono && modifiedEstudianteInfo.telefono.length!== 8) {
