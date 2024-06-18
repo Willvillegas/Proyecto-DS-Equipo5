@@ -12,7 +12,6 @@ function CalendarioPage() {
   const [searchTerm, setSearchTerm] = useState('');
  
   useEffect(() => {
-    console.log(id)
     const fetchActividades = async () => {
       /**Con "...actividades/0" obtiene todas las actividades sin importar su plan */
       await axios.get(`${API_ROOT}/api/actividades/0`)

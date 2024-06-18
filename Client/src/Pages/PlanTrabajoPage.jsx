@@ -15,15 +15,50 @@ function PlanTrabajoPage() {
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState(''); // Estado input busqueda
+  const [systemDate, setSystemDate] = useState('');
 
   useEffect(() => {
-    // Simulación de datos de prueba
+    // Fetch system date
+    const fetchServerTime = async () => {
+      try {
+        const response = await axios.get(`${API_ROOT}/api/server-time`);
+        if (response.data) {
+          const serverTime = response.data;
+          setSystemDate(serverTime.split(' ')[0]); // Toma solo la parte de la fecha
+        } else {
+          console.error("serverTime is not defined in the response");
+        }
+      } catch (error) {
+        console.error("Error fetching server time:", error);
+      }
+    };
+
+    fetchServerTime();
+
+    // Fetch Plan Trabajo data
     axios.get(`${API_ROOT}/api/planTrabajo`)
       .then(response => {
-        setPlanTrabajoInfo(response.data)
+        setPlanTrabajoInfo(response.data);
       })
-    // Establecer los datos de prueba en el estado
+      .catch(error => {
+        console.error(error);
+      });
   }, []);
+
+  const handleSystemDateChange = (e) => {
+    const newDate = e.target.value;
+    setSystemDate(newDate);
+    console.log("Nueva fecha:", newDate);
+
+    // Enviar la nueva fecha al servidor
+    axios.post(`${API_ROOT}/api/server-time`, { newTime: newDate + ' 00:00:00' })
+      .then(response => {
+        console.log(response.data);
+      })
+      .catch(error => {
+        console.error("Error setting server time:", error);
+      });
+  };
 
   const clickVer = (id) => {
     navigate(`/actividad/${id}`)
@@ -93,6 +128,16 @@ function PlanTrabajoPage() {
           </button>
         </div>
       </div>
+      <div className="flex space-x-4">
+      <label className="text-white mb-2 mt-2 ">Fecha del Sistema</label>
+                  <input
+                    type="date"
+                    value={systemDate}
+                    onChange={handleSystemDateChange}
+                    className="bg-gray-700 text-white rounded-lg p-2"
+                    style={{ colorScheme: "dark" }}
+                  />
+    </div>
       {currentUser.tipo != 4 ? <div/>:
       <div className="flex space-x-4">
       <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded mr-10"
