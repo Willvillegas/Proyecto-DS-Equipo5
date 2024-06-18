@@ -163,6 +163,19 @@ class EstudianteController {
             res.status(500).json({ error: 'Error updating photo' });
         }
     }
+    /**
+     * Fase 3:
+     * Método para obtener el estudiante por medio del usuarioEstudiante
+     */
+    static async getEstudianteUSuarioById(req, res) {
+        const {id} = req.params;
+        try {
+            const estudiante = await EstudianteDAO.getUserById(id);
+            res.status(200).json(estudiante);
+        } catch (error) {
+            res.status(500).json({ error: 'Error getting estudiante by id' });
+        }
+    }
     
 }
 

@@ -19,10 +19,12 @@ router.post('/download', EstudianteController.createFileFromEstudiantes);
 
 /**
  * Fase 3:
- * Ruta para obtener y actualizar la foto del estudiante
+ * Rutas para obtener y actualizar la foto del estudiante
+ * Ruta para obtenr el usuarioEstudiante
  */
+router.get('/usuarioEstudiante/:id', EstudianteController.getEstudianteUSuarioById);
 router.get('/photo/:id', EstudianteController.getPhoto);
-router.put('/photo/:id', upload.single('file'), EstudianteController.updatePhoto);
+router.put('/photo/:id', upload.single('foto'), EstudianteController.updatePhoto);
 
 /**
  * Fase 3:

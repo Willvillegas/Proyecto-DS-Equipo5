@@ -132,7 +132,7 @@ class EstudianteDAO{
         try {
             const fileBuffer = Buffer.from(file, 'base64');
             await connection.connect();
-            const result = await connection.executeProcedures("ModificarFotoEstudiante", {
+            const result = await connection.executeProcedures("ModificarEstudianteFoto", {
                 id: id,
                 foto: fileBuffer,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
@@ -140,6 +140,22 @@ class EstudianteDAO{
             return result;
         } catch (error) {
             console.log('Error updating estudiante photo: ', error);
+            throw error;
+        }finally{
+            await ConnectionDAO.disconnect();
+        }
+    }
+    static async getUserById(id){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("BuscarEstudianteUsuarioId", {
+                id: id,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            return result;
+        } catch (error) {
+            console.log('Error getting estudiante by id: ', error);
             throw error;
         }finally{
             await ConnectionDAO.disconnect();

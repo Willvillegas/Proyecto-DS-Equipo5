@@ -47,14 +47,17 @@ function ModificarEstudiante() {
   const [profileImage, setProfileImage] = useState(null);
 
   useEffect(() => {
-    axios.get(`${API_ROOT}/api/estudiantes/${id}`)
-     .then(response => {
-        setEstudianteInfo(response.data[0]);
-        setModifiedEstudianteInfo(response.data[0]);
-      })
-     .catch(error => {
-        console.error('Error al obtener la información del estudiante:', error);
-      });
+    const fetchEstudiante = async () => {
+      await axios.get(`${API_ROOT}/api/estudiantes/usuarioEstudiante/${currentUser.id}`)
+      .then(response => {
+          setEstudianteInfo(response.data[0]);
+          setModifiedEstudianteInfo(response.data[0]);
+        })
+      .catch(error => {
+          console.error('Error al obtener la información del estudiante:', error);
+        });
+      }
+    fetchEstudiante();
   }, []);
 
   const handleSaveChanges = () => {
@@ -95,19 +98,21 @@ function ModificarEstudiante() {
     /**
      * Enpoint para actualizar la foto de perfil (FALTA que la BD implemente el SP para actualizar la foto de perfil)
      */
-    /**
-     * const formData = new FormData();
-     * formData.append('profileImage', profileImage);
-     * axios.put(`${API_ROOT}/api/estudiantes/photo/${id}`, formData)
-     *  .then(response => {
-     *   console.log('Foto de perfil actualizada:', response.data);
-     * })
-     * .catch(error => {
-     *  console.error('Error al actualizar la foto de perfil:', error);
-     * });
-     * 
-     */
+     
   };
+  const handlephotoSubmit = async (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('foto', profileImage);
+    await axios.put(`${API_ROOT}/api/estudiantes/photo/${modifiedEstudianteInfo.id}`, formData)
+      .then(response => {
+        console.log('Foto de perfil actualizada:', response.data);
+      })
+      .catch(error => {
+        console.error('Error al actualizar la foto de perfil:', error);
+      });
+  };
+
 
   const profileButtons = [
     {
@@ -123,13 +128,18 @@ function ModificarEstudiante() {
         <div className="flex justify-center items-center flex-col mb-8">
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4"></div>
           {currentUser.tipo === 5 &&(
+            <form onSubmit={handlephotoSubmit}  encType="multipart/form-data">
+
+            
             <input
               type="file"
               onChange={handleProfileImageChange}
               accept="image/png"
             />
-          )}
-          <ButtonGroup buttons={profileButtons} userType={currentUser.tipo} />
+            <button type="submit" className=" bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">Subir</button>
+            </form>
+          )}          
+          {/*<ButtonGroup buttons={profileButtons} userType={currentUser.tipo} />*/}
         </div>
         <div className="mb-4 border-b-2 border-gray-600 w-full">
           <label htmlFor="nombre" className="font-bold text-white">Nombre:</label>

@@ -83,7 +83,7 @@ function DetallesEstudiante() {
   
   useEffect(() => {
     const fetchEstudiante = async () => {
-    await axios.get(`${API_ROOT}/api/estudiantes/${id}`)
+    await axios.get(`${API_ROOT}/api/estudiantes/usuarioEstudiante/${currentUser.id}`)
       .then(response => {
         setEstudianteInfo(response.data[0])
         console.log(response.data)
@@ -92,23 +92,23 @@ function DetallesEstudiante() {
     /**
      * Enpoint para obtener la foto de perfil
      */
-    /**
-     * const fetchPhoto = async () => {
-     * const respuesta = await fetch(`${API_ROOT}/api/estudiantes/photo/${id}`, {
-     * method: 'GET',
-     * headers: {
-     * 'Content-Type': 'image/png',
-     * },
-     * });
-     * 
-     * const blob = await respuesta.blob();
-     * const url = URL.createObjectURL(blob);
-     * console.log(url);
-     * setImageSrc(url);
-     * }
-     * fetchPhoto();
-     * 
-     */
+    
+      const fetchPhoto = async () => {
+      const respuesta = await fetch(`${API_ROOT}/api/estudiantes/photo/${currentUser.id}`, {
+      method: 'GET',
+      headers: {
+      'Content-Type': 'image/png',
+      },
+      });
+      
+      const blob = await respuesta.blob();
+      const url = URL.createObjectURL(blob);
+      console.log(url);
+      setImageSrc(url);
+      }
+      fetchPhoto();
+      
+     
     };
     fetchEstudiante();
 
@@ -127,7 +127,7 @@ function DetallesEstudiante() {
         <div className="flex justify-center items-center flex-col mb-8">
           {/* Círculo de la foto de perfil */}
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4">
-            {/*<img src={imageSrc} alt="imágen del estudiante" />*/}
+            <img src={imageSrc} className="rounded-full h-36 w-36"alt="imagen del estudiante" />
           </div>
           {/* Aquí estaba el botón Subir foto de perfil, ahora eliminado */}
         </div>
