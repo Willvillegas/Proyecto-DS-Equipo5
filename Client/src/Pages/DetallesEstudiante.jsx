@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import axios from 'axios';
@@ -13,7 +12,7 @@ const buttons = [
   },
   {
     text: 'Modificar',
-    roles: [3,4,5]
+    roles: [3, 4, 5]
   }
 ];
 
@@ -68,7 +67,6 @@ const ProfileInfo = ({ estudianteInfo }) => (
       <p className="font-bold text-white">Sede:</p>
       <p className="text-white">{estudianteInfo.Sede}</p>
     </div>
-
   </div>
 );
 
@@ -80,54 +78,61 @@ function DetallesEstudiante() {
   const [estudianteInfo, setEstudianteInfo] = useState([]);
   const [imageSrc, setImageSrc] = useState('');
   const currentUserSede = currentUser.sede;
-  
+
   useEffect(() => {
     const fetchEstudiante = async () => {
-    await axios.get(`${API_ROOT}/api/estudiantes/usuarioEstudiante/${currentUser.id}`)
-      .then(response => {
-        setEstudianteInfo(response.data[0])
-        console.log(response.data)
-      })
-      .catch(error => console.log(error));
-    /**
-     * Enpoint para obtener la foto de perfil
-     */
-    
-      const fetchPhoto = async () => {
-      const respuesta = await fetch(`${API_ROOT}/api/estudiantes/photo/${currentUser.id}`, {
-      method: 'GET',
-      headers: {
-      'Content-Type': 'image/png',
-      },
-      });
-      
-      const blob = await respuesta.blob();
-      const url = URL.createObjectURL(blob);
-      console.log(url);
-      setImageSrc(url);
-      }
-      fetchPhoto();
-      
-     
-    };
-    fetchEstudiante();
+      let url = '';
 
- }, [id]);
+      if (currentUser.tipo === 5) {
+        // Usuario estudiante
+        url = `${API_ROOT}/api/estudiantes/usuarioEstudiante/${currentUser.id}`;
+      } else {
+        // Otros usuarios
+        url = `${API_ROOT}/api/estudiantes/${id}`;
+      }
+
+      await axios.get(url)
+        .then(response => {
+          setEstudianteInfo(response.data[0]);
+          console.log(response.data);
+        })
+        .catch(error => console.log(error));
+
+      // Fetch profile photo
+      const fetchPhoto = async () => {
+        const respuesta = await fetch(`${API_ROOT}/api/estudiantes/photo/${currentUser.id}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'image/png',
+          },
+        });
+
+        const blob = await respuesta.blob();
+        const url = URL.createObjectURL(blob);
+        console.log(url);
+        setImageSrc(url);
+      };
+      fetchPhoto();
+    };
+
+    fetchEstudiante();
+  }, [id, currentUser.id, currentUser.tipo]);
 
   const navigateToModificar = () => {
     navigate(`/modificar-estudiante/${id}`); // Redirigir a la pantalla de modificación con el ID del estudiante
   };
-   // Imprime currentUser.tipo en la consola del navegador
-   console.log('Tipo de usuario:', currentUser.tipo);
 
-   return (
+  // Imprime currentUser.tipo en la consola del navegador
+  console.log('Tipo de usuario:', currentUser.tipo);
+
+  return (
     <div className="min-h-screen bg-gray-800 text-white flex flex-col justify-center items-center">
       <div className="max-w-md w-full mt-16">
         <h1 className="text-white text-center text-3xl font-bold mb-4">Estudiante</h1>
         <div className="flex justify-center items-center flex-col mb-8">
           {/* Círculo de la foto de perfil */}
           <div className="border border-gray-400 w-36 h-36 rounded-full mb-4">
-            <img src={imageSrc} className="rounded-full h-36 w-36"alt="imagen del estudiante" />
+            <img src={imageSrc} className="rounded-full h-36 w-36" alt="imagen del estudiante" />
           </div>
           {/* Aquí estaba el botón Subir foto de perfil, ahora eliminado */}
         </div>
@@ -154,4 +159,3 @@ function DetallesEstudiante() {
 }
 
 export default DetallesEstudiante;
-
