@@ -78,8 +78,33 @@ function DetallesEstudiante() {
   const [estudianteInfo, setEstudianteInfo] = useState([]);
   const [imageSrc, setImageSrc] = useState('');
   const currentUserSede = currentUser.sede;
-
+  console.log('ID estudiante:', id);
   useEffect(() => {
+      // Fetch profile photo
+      const fetchPhoto = async (idStudent) => {
+        let photoUrl = '';
+
+        if (currentUser.tipo === 5) {
+          // Usuario estudiante
+          photoUrl = `${API_ROOT}/api/estudiantes/photo/${idStudent}`;
+        } else {
+          // Otros usuarios
+          photoUrl = `${API_ROOT}/api/estudiantes/photo/${id}`;
+        }
+
+        const respuesta = await fetch(photoUrl, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'image/png',
+          },
+        });
+
+        const blob = await respuesta.blob();
+        const url = URL.createObjectURL(blob);
+        console.log(url);
+        setImageSrc(url);
+      };
+      fetchPhoto();
     const fetchEstudiante = async () => {
       let url = '';
 
@@ -94,30 +119,20 @@ function DetallesEstudiante() {
       await axios.get(url)
         .then(response => {
           setEstudianteInfo(response.data[0]);
+          const idStudent = response.data[0].id;
           console.log(response.data);
+          console.log('Estudiante obtenido a:',response.data[0].id);
+          console.log('id:',idStudent);
+          fetchPhoto(idStudent);
+
         })
         .catch(error => console.log(error));
 
-      // Fetch profile photo
-      const fetchPhoto = async () => {
-        const respuesta = await fetch(`${API_ROOT}/api/estudiantes/photo/${currentUser.id}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'image/png',
-          },
-        });
-
-        const blob = await respuesta.blob();
-        const url = URL.createObjectURL(blob);
-        console.log(url);
-        setImageSrc(url);
-      };
-      fetchPhoto();
+    
     };
 
     fetchEstudiante();
   }, [id, currentUser.id, currentUser.tipo]);
-
   const navigateToModificar = () => {
     navigate(`/modificar-estudiante/${id}`); // Redirigir a la pantalla de modificación con el ID del estudiante
   };
