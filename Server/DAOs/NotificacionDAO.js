@@ -43,7 +43,7 @@ class NotificacionDAO {
         try {
             await connection.connect();
             const result = await connection.executeProcedures("MarcarNotificacion", {
-                idNotificacion: idNotificacion,
+                id: idNotificacion,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             return result;

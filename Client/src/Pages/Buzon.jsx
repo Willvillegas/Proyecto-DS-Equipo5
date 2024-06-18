@@ -10,7 +10,6 @@ function BuzonPage() {
   const { currentUser } = useAuthContext();
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
-  const [readStatus, setReadStatus] = useState({});
   const [filter, setFilter] = useState('todos');
   const [systemDate, setSystemDate] = useState('');
 
@@ -46,12 +45,13 @@ function BuzonPage() {
     fetchNotificaciones();
   }, [id, systemDate]);
 
-  const toggleReadStatus = async (notificacionId) => {
-    setReadStatus(prevStatus => ({
-      ...prevStatus,
-      [notificacionId]: !prevStatus[notificacionId]
-    }));
-
+  const toggleReadStatus = async (notificacionId, currentStatus) => {
+    const newStatus = currentStatus === 1 ? 2 : 1;
+    setNotificacionInfo(prevNotificaciones =>
+      prevNotificaciones.map(notificacion =>
+        notificacion.id === notificacionId ? { ...notificacion, visto: newStatus } : notificacion
+      )
+    );
     try {
       await axios.put(`${API_ROOT}/api/estudiantes/notificaciones/${notificacionId}`);
       console.log("Notificación actualizada");
@@ -75,8 +75,8 @@ function BuzonPage() {
     const contenido = `${notificacion.contenido}`.toLowerCase();
     const matchSearchTerm = contenido.includes(searchTerm.toLowerCase());
     const matchFilter = (filter === 'todos') ||
-      (filter === 'leidos' && readStatus[notificacion.id]) ||
-      (filter === 'noLeidos' && !readStatus[notificacion.id]);
+      (filter === 'leidos' && notificacion.visto === 2) ||
+      (filter === 'noLeidos' && notificacion.visto === 1);
 
     return matchSearchTerm && matchFilter;
   }).sort((a, b) => new Date(b.creacion) - new Date(a.creacion));
@@ -111,12 +111,12 @@ function BuzonPage() {
                   <p className="text-gray-300 mb-1"><strong>Fecha:</strong> {new Date(notificacion.creacion).toLocaleString()}</p>
                   <p className="text-gray-300 mb-1"><strong>Contenido:</strong> {notificacion.contenido}</p>
                   <button
-                    className={`absolute bottom-4 right-4 font-bold py-2 px-4 rounded ${readStatus[notificacion.id] ? 'bg-gray-500 hover:bg-blue-700 text-white' : 'bg-blue-500 hover:bg-gray-700 text-black'}`}
-                    onClick={() => toggleReadStatus(notificacion.id)}
+                    className={`absolute bottom-4 right-4 font-bold py-2 px-4 rounded ${notificacion.visto === 2 ? 'bg-gray-500 hover:bg-blue-700 text-white' : 'bg-blue-500 hover:bg-gray-700 text-black'}`}
+                    onClick={() => toggleReadStatus(notificacion.id, notificacion.visto)}
                   >
-                    {readStatus[notificacion.id] ? 'Marcar como no leído' : 'Marcar como leído'}
+                    {notificacion.visto === 2 ? 'Marcar como no leído' : 'Marcar como leído'}
                   </button>
-                  {readStatus[notificacion.id] && (
+                  {notificacion.visto === 2 && (
                     <button
                       className="absolute top-4 right-2 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mr-2"
                       onClick={() => deleteNotificacion(notificacion.id)}
