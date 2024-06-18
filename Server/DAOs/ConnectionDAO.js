@@ -77,11 +77,16 @@ class ConnectionDAO{
                 const request = this.connection.request();
 
                 for (const key in params) {
-                    // Revisamos si no es undefined y si es de salida
-                    if (params[key]!==undefined && params[key].direction === "OUTPUT") {
-                        request.output(key, sql.Int); 
+                    if (params[key] !== undefined && params[key] !== null) {
+                        // Revisamos si no es undefined y si es de salida
+                        if (params[key]!==undefined && params[key].direction === "OUTPUT") {
+                            request.output(key, sql.Int); 
+                        } else {
+                            request.input(key, params[key]);
+                        }
                     } else {
-                        request.input(key, params[key]);
+                        // Define el tipo de datos por defecto, por ejemplo, sql.NVarChar
+                        request.input(key, sql.DateTime, null);
                     }
                 }
                 const result = await request.execute(procedure);

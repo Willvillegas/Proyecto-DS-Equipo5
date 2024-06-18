@@ -129,8 +129,8 @@ class ActividadModel {
    *  Definir un método estático que se comporte como un elemento del patrón Visitor
    */
     // Patrón visitor
-    static accept(visitor,actividad) {
-        visitor.visit(actividad);
+    static accept(visitor,actividad,fecha = null,fechaRecordatorio= null) {
+        visitor.visit(actividad,fecha,fechaRecordatorio);
     }
     // Patrón observer
     /*static addObserver(p_observer){
@@ -148,7 +148,7 @@ class ActividadModel {
     static async revisarActividades(fechaSistema){
         const fecha_Sistema = new Date(fechaSistema);
         const actividades = await ActividadDAO.getAll("0");
-        console.log("Revisando actividades: ", fechaSistema,);
+        //console.log("Revisando actividades: ", fechaSistema,);
         actividades.forEach( actividad => {
             /**
              * Si el estado de la actividad es "Planeada" y actividad.fecha es menor o igual a la fecha del sistema
@@ -158,7 +158,7 @@ class ActividadModel {
             console.log("Fecha de la actividad: ", fecha, "Fecha del sistema: ", fecha_Sistema);
             if(actividad.estado === "Planeada" && fecha <= fecha_Sistema){
                 //cuando hago acept en el visitor, se cambia el estado de la actividad a "Notificada"
-                ActividadModel.accept(PublicarActividadVisitor, actividad);
+                ActividadModel.accept(PublicarActividadVisitor, actividad,fecha_Sistema);
             }
             /**
              * Si el estado de la actividad es "Notificada"
@@ -169,7 +169,9 @@ class ActividadModel {
                 console.log(`Fechas de recordatorio para :${actividad.nombre}  `, vfechaRecordatorio);
                 if (vfechaRecordatorio.some(fecha => new Date(fecha) <= fechaSistema)){
                     //cuando hago acept en el visitor, se generan los recordatorios de la actividad
-                    ActividadModel.accept(RecordatorioActividadVisitor, actividad);
+                    vfechaRecordatorio.forEach(fecha2 => {
+                        ActividadModel.accept(RecordatorioActividadVisitor, actividad,fecha_Sistema,fecha2);
+                    });
                 }
             }
             /*
