@@ -1,4 +1,6 @@
 const {ConnectionDAO}   = require('./ConnectionDAO');
+const CentroNotificacionesModel = require('../models/CentroNotificacionesModel');
+const { Int } = require('mssql');
 
 // class that represents the ActividadDAO
 class ActividadDAO{
@@ -100,7 +102,7 @@ class ActividadDAO{
             await ConnectionDAO.disconnect();
         }
     }
-    static async delete(id, observacion){
+    static async delete(id, observacion,nombre){
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
@@ -110,6 +112,16 @@ class ActividadDAO{
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             //console.log(result)
+
+            const dados = {
+                idActividad: id,
+                    creacion: new Date(),
+                    emisor: 'SISTEMA',
+                    contenido: `La actividad con el nombre: ${nombre} ha sido finalizada`,
+                    recordatorio: null,
+               };
+        await ActividadDAO.post(dados);
+            
             return result;
         } catch (error) {
             console.log('Error getting actividad by id: ', error);
@@ -121,6 +133,7 @@ class ActividadDAO{
     static async finish(id, datos){
         const connection = await ConnectionDAO.getInstance();
         try {
+            
             await connection.connect();
             const datosBuffer = Buffer.from(datos, 'utf-8');
             const result = await connection.executeProcedures("FinalizarActividad", {
@@ -129,6 +142,9 @@ class ActividadDAO{
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             //console.log(result)
+            /*
+            enviar un mensaje de cancelación
+            */
             return result;
         } catch (error) {
             console.log('Error getting actividad by id: ', error);

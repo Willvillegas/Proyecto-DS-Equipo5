@@ -71,9 +71,9 @@ class ActividadController {
 
 
     static async deleteActividad(req, res) {
-        const { id, observacion } = req.params;
+        const { id, observacion, nombre } = req.params;
         try {
-            const result = await ActividadDAO.delete(id, observacion);
+            const result = await ActividadDAO.delete(id, observacion,nombre);
             res.status(200).json(result);
         } catch (error) {
             console.log('Error deleting actividad: ', error);

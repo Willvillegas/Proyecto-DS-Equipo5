@@ -106,7 +106,7 @@ const DetallesActividad = () => {
         console.log(valueTextArea
         );
         setIsOpen(false);
-        axios.delete(`${API_ROOT}/api/actividades/${id}/${valueTextArea}`)
+        axios.delete(`${API_ROOT}/api/actividades/${id}/${valueTextArea}/${actividad.nombre}`)
             .then(response => {
                 console.log(response.data);
                 alert("Actividad cancelada exitosamente: " + response.data.message)
