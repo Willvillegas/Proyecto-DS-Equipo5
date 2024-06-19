@@ -198,5 +198,21 @@ class ActividadDAO{
             await ConnectionDAO.disconnect();
         }
     }
+    static async tomarNotificaciones(fecha){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("BuscarNotificacionesHechas", {
+                fecha: fecha,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            return result;
+        } catch (error) {
+            console.log('Error get notifications activity by id: ', error);
+            throw error;
+        }finally{
+            await ConnectionDAO.disconnect();
+        }
+    }
 }
 module.exports = {ActividadDAO};

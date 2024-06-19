@@ -148,26 +148,39 @@ class ActividadModel {
     static async revisarActividades(fechaSistema) {
         const fecha_Sistema = new Date(fechaSistema);
         const actividades = await ActividadDAO.getAll("0");
+        const notificaiones = await ActividadDAO.tomarNotificaciones(fecha_Sistema)
         //console.log("Revisando actividades: ", fechaSistema,);
         
         let notificacionesActividad = []
         actividades.forEach(actividad => {
+            let cantidad = 0;
+            let notificacionCreada = false;
+            
             /**
              * Si el estado de la actividad es "Planeada" y actividad.fecha es menor o igual a la fecha del sistema
             */
             console.log("Actividad: ", actividad);
             let fecha = new Date(actividad.fechaPublicacion);
             console.log("Fecha de la actividad: ", fecha, "Fecha del sistema: ", fecha_Sistema);
-            
-            if (actividad.estado === "Planeada" && fecha <= fecha_Sistema) {
+            notificaiones.forEach(notificacion =>{
+                console.log(notificacion, "aqi")
+                if (notificacion.idActividad == actividad.id){
+                    if (Date(notificacion.fechaRecordatorio) == fecha_Sistema){
+                        notificacionCreada = true
+                    }
+                    cantidad++
+                }
+            })
+            console.log(cantidad, notificacionCreada)
+            if (actividad.estado === "Planeada" && fecha <= fecha_Sistema && cantidad<actividad.recordatorios && !notificacionCreada) {
                 //cuando hago acept en el visitor, se cambia el estado de la actividad a "Notificada"
                 let notificacion = ActividadModel.accept(PublicarActividadVisitor, actividad, fecha_Sistema);
                 notificacionesActividad.push(notificacion);
             }
             /**
              * Si el estado de la actividad es "Notificada"
-         */
-            if (actividad.estado === "Notificada") {
+            */
+            if (actividad.estado === "Notificada" && cantidad<actividad.recordatorios && !notificacionCreada) {
                 //Calcular fecha de recordatorio
                 const vfechaRecordatorio = calcularFechasRecordatorio(actividad.fecha, actividad.recordatorios);
                 console.log(`Fechas de recordatorio para :${actividad.nombre}  `, vfechaRecordatorio);
@@ -179,8 +192,10 @@ class ActividadModel {
                     });
                 }
             }
+            cantidad = 0
+            notificacionCreada = false
         });
-        console.log(notificacionesActividad)
+        //console.log(notificacionesActividad)
         ActividadModel.notifyObservers(notificacionesActividad);
     }
 }
