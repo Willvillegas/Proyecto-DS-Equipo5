@@ -7,14 +7,14 @@ const ActividadModel = require('./ActividadModel.js');
  * esta clase se encarga de publicar una actividad
  */
 class PublicarActividadVisitor extends IVisitor {
-    static async visit(actividad, fecha, fechaRecordatorio) {
+    static visit(actividad, fecha, fechaRecordatorio) {
         /**
          * Primero, se cambia el estado de la actividad a "Publicada"
          * Luego, se llama a una SP que se encarga de publicar la actividad
          */
         actividad.estado = "Notificada";
         //const actividade = new ActividadModel(actividad.id,actividad.semana,actividad.fecha,actividad.previos,actividad.fechaPublicacion,actividad.recordatorios,actividad.enlace,null,actividad.tipo,actividad.modalidad,actividad.estado,actividad.idPlan,actividad.responsables,actividad.nombre);
-        //await ActividadDAO.update(actividade);
+        ActividadDAO.modificarEstado(actividad.id, actividad.estado);
         //Se genera la notificación en el patrón observer.
         //await ActividadDAO.post(actividad, actividad.fechaPublicacion);
         

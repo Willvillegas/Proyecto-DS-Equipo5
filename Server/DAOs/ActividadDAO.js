@@ -141,15 +141,15 @@ class ActividadDAO{
      * Fase 3:
      * Definición de los métodos que se encargan de publicar y generar recordatorios de una actividad
      */
-    static async post(actividad,fecha){
+    static async post(actividad){
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("CrearNotificacion", {
-                idActividad: actividad.id,
-                creacion: fecha,
-                emisor: actividad.responsables,
-                contenido: 'Se ha publicado la actividad: '+actividad.nombre,
+                idActividad: actividad.idActividad,
+                creacion: actividad.creacion,
+                emisor: actividad.emisor,
+                contenido: actividad.contenido,
                 recordatorio: null,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
@@ -161,16 +161,16 @@ class ActividadDAO{
             await ConnectionDAO.disconnect();
         }
     }
-    static async reminder(actividad,fecha,fechaRecordatorio){
+    static async reminder(actividad){
         const connection = await ConnectionDAO.getInstance();
         try {
             await connection.connect();
             const result = await connection.executeProcedures("CrearNotificacion", {
-                idActividad: actividad.id,
-                creacion: fechaRecordatorio,
-                emisor: actividad.responsables,
-                contenido: 'Se ha generado un recordatorio de la actividad: '+actividad.nombre,
-                recordatorio: fechaRecordatorio,
+                idActividad: actividad.idActividad,
+                creacion: actividad.creacion,
+                emisor: actividad.emisor,
+                contenido: actividad.contenido,
+                recordatorio: actividad.recordatorio,
                 outCodeResult: { type: "INT", direction: "OUTPUT" }
             });
             return result;

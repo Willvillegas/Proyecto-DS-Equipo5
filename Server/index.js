@@ -70,8 +70,8 @@ app.post('/api/server-time', (req, res) => {
         }
         setServerTime(newTime);
         /**A definirse si implementar aqui el comportamiento de las actividades con respecto a las fechas */
+        actividadModel.addObserver(centroNotificacionesModel);
         actividadModel.revisarActividades(new Date(newTime));
-        actividadModel.addObserver(CentroNotificacionesModel);
         console.log(`Server time set to ${newTime}`);
         res.send(getServerTime());
     } catch (e) {

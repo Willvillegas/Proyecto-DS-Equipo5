@@ -141,8 +141,8 @@ class ActividadModel {
     }
 
     static notifyObservers(actividad) {
-        ActividadModel.observer.forEach(observer => {
-            observer.update(actividad);
+        ActividadModel.observer.forEach(observerSuscribe => {
+            observerSuscribe.update(actividad);
         });
     }
     static async revisarActividades(fechaSistema) {
@@ -179,11 +179,8 @@ class ActividadModel {
                     });
                 }
             }
-            /*
-            if(actividad.fecha === fechaSistema){
-                ActividadModel.notifyObservers(actividad);
-                }*/
         });
+        console.log(notificacionesActividad)
         ActividadModel.notifyObservers(notificacionesActividad);
     }
 }

@@ -6,7 +6,7 @@ const { ActividadDAO } = require('../DAOs/ActividadDAO');
  * esta clase se encarga de generar los recordatorios de una actividad
  */
 class RecordatorioActividadVisitor extends IVisitor{
-    static async visit(actividad,fecha,fechaRecordatorio) {
+    static visit(actividad,fecha,fechaRecordatorio) {
         /**
          * Se llama a una SP que se encarga de generar los recordatorios de la actividad
         */
@@ -17,7 +17,7 @@ class RecordatorioActividadVisitor extends IVisitor{
             creacion: fecha,
             emisor: actividad.responsables,
             contenido: 'Se ha generado un recordatorio de la actividad: '+actividad.nombre,
-            recordatorio: null
+            recordatorio: fechaRecordatorio
         }
         return notificacion;
     }
