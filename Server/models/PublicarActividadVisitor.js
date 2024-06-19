@@ -17,13 +17,13 @@ class PublicarActividadVisitor extends IVisitor {
         ActividadDAO.modificarEstado(actividad.id, actividad.estado);
         //Se genera la notificación en el patrón observer.
         //await ActividadDAO.post(actividad, actividad.fechaPublicacion);
-        
+        const fechaAcividad = new Date(actividad.fecha).toLocaleString()
         console.log(`Actividad ${actividad.nombre}publicada`);
         let notificacion = {
             idActividad: actividad.id,
             creacion: fecha,
             emisor: actividad.responsables,
-            contenido: 'Se ha publicado la actividad: '+actividad.nombre,
+            contenido: 'Se ha publicado la actividad: '+actividad.nombre+", para la fecha de "+fechaAcividad.slice(0, 9)+".",
             recordatorio: null
         }
         return notificacion

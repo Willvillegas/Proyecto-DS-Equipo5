@@ -108,8 +108,11 @@ function BuzonPage() {
               {filteredNotificaciones.map((notificacion) => (
                 <div key={notificacion.id} className="bg-gray-900 rounded-lg p-4 shadow-md w-full relative">
                   <h3 className="text-xl font-bold text-white mb-2">{notificacion.emisor}</h3>
-                  <p className="text-gray-300 mb-1"><strong>Fecha:</strong> {new Date(notificacion.creacion).toLocaleString()}</p>
+                  <p className="text-gray-300 mb-1"><strong>Fecha:</strong> {new Date(notificacion.creacion).toLocaleString().slice(0, 9)}</p>
                   <p className="text-gray-300 mb-1"><strong>Contenido:</strong> {notificacion.contenido}</p>
+                  {notificacion.contenido.includes("recordatorio") ? 
+                    <p className="text-gray-300 mb-1"><strong>Fecha recordatorio:</strong> {new Date(notificacion.creacion).toLocaleString().slice(0, 9)}</p>:
+                    <></>}
                   <button
                     className={`absolute bottom-4 right-4 font-bold py-2 px-4 rounded ${notificacion.visto === 2 ? 'bg-gray-500 hover:bg-blue-700 text-white' : 'bg-blue-500 hover:bg-gray-700 text-black'}`}
                     onClick={() => toggleReadStatus(notificacion.id, notificacion.visto)}
