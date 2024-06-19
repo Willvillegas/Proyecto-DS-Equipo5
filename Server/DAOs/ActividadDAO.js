@@ -181,5 +181,22 @@ class ActividadDAO{
             await ConnectionDAO.disconnect();
         }
     }
+    static async modificarEstado(id,estado){
+        const connection = await ConnectionDAO.getInstance();
+        try {
+            await connection.connect();
+            const result = await connection.executeProcedures("ModificarEstadoActividad", {
+                id: id,
+                estado: estado,
+                outCodeResult: { type: "INT", direction: "OUTPUT" }
+            });
+            return result;
+        } catch (error) {
+            console.log('Error modify state activity by id: ', error);
+            throw error;
+        }finally{
+            await ConnectionDAO.disconnect();
+        }
+    }
 }
 module.exports = {ActividadDAO};
