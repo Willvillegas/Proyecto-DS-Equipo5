@@ -134,7 +134,9 @@ class ActividadModel {
     }
     // Patrón observer
     static addObserver(p_observer) {
-        ActividadModel.observer.push(p_observer);
+        if (!ActividadModel.observer.includes(p_observer)) {
+            ActividadModel.observer.push(p_observer);
+        }
     }
     static removeObserver(p_observer) {
         ActividadModel.observer = ActividadModel.observer.filter(observer => observer !== p_observer);
@@ -163,12 +165,14 @@ class ActividadModel {
             let fecha = new Date(actividad.fechaPublicacion);
             console.log("Fecha de la actividad: ", fecha, "Fecha del sistema: ", fecha_Sistema);
             notificaiones.forEach(notificacion =>{
-                console.log(notificacion, "aqi")
                 if (notificacion.idActividad == actividad.id){
-                    if (Date(notificacion.fechaRecordatorio) == fecha_Sistema){
+                    console.log(Date(notificacion.fechaRecordatorio), Date(fecha_Sistema))
+                    if (notificacion.fechaRecordatorio == fecha_Sistema){
                         notificacionCreada = true
                     }
-                    cantidad++
+                    if (notificacion.fechaRecordatorio != null) {
+                        cantidad++
+                    }
                 }
             })
             console.log(cantidad, notificacionCreada)
@@ -182,18 +186,17 @@ class ActividadModel {
             */
             if (actividad.estado === "Notificada" && cantidad<actividad.recordatorios && !notificacionCreada) {
                 //Calcular fecha de recordatorio
-                const vfechaRecordatorio = calcularFechasRecordatorio(actividad.fecha, actividad.recordatorios);
+                const vfechaRecordatorio = calcularFechasRecordatorio(actividad.fecha, actividad.recordatorios, fecha_Sistema);
                 console.log(`Fechas de recordatorio para :${actividad.nombre}  `, vfechaRecordatorio);
                 if (vfechaRecordatorio.some(fecha => new Date(fecha) <= fechaSistema)) {
                     //cuando hago acept en el visitor, se generan los recordatorios de la actividad
                     vfechaRecordatorio.forEach(fecha2 => {
-                        let notificacionRecordatorio = ActividadModel.accept(RecordatorioActividadVisitor, actividad, fecha_Sistema, fecha2);
-                        notificacionesActividad.push(notificacionRecordatorio);
+                            console.log(Date(fecha2), Date(fecha_Sistema))
+                                let notificacionRecordatorio = ActividadModel.accept(RecordatorioActividadVisitor, actividad, fecha_Sistema, fecha2);
+                                notificacionesActividad.push(notificacionRecordatorio);
                     });
                 }
             }
-            cantidad = 0
-            notificacionCreada = false
         });
         //console.log(notificacionesActividad)
         ActividadModel.notifyObservers(notificacionesActividad);

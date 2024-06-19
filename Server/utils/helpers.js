@@ -1,15 +1,20 @@
-const calcularFechasRecordatorio = (fechaRealizacion, diasParaRecordatorio) => {
+const { ActividadDAO } = require('../DAOs/ActividadDAO');
+
+const calcularFechasRecordatorio = (fechaRealizacion, diasParaRecordatorio, fechaSistema) => {
     let fechas = [];
-    //diasParaRecordatorio es un numero entero ejemplo:
-    /**
-     * diasParaRecordatorio = 7
-     * entonces se generan 7 fechas de recordatorio
-     */
+    let fechaSistemaISO = new Date(fechaSistema).toISOString().slice(0, 10);
+    
     for (let i = 1; i <= diasParaRecordatorio; i++) {
         let fecha = new Date(fechaRealizacion);
         fecha.setDate(fecha.getDate() - i);
-        fechas.push(fecha.toISOString().slice(0, 10));
+        let fechaISO = fecha.toISOString().slice(0, 10);
+        
+        if (fechaISO === fechaSistemaISO) {
+            fechas.push(fechaISO);
+        }
     }
+    
     return fechas;
 };
-module.exports = {calcularFechasRecordatorio};
+
+module.exports = { calcularFechasRecordatorio };
