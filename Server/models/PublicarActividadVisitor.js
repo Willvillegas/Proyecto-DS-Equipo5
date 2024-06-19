@@ -15,9 +15,18 @@ class PublicarActividadVisitor extends IVisitor {
         actividad.estado = "Notificada";
         //const actividade = new ActividadModel(actividad.id,actividad.semana,actividad.fecha,actividad.previos,actividad.fechaPublicacion,actividad.recordatorios,actividad.enlace,null,actividad.tipo,actividad.modalidad,actividad.estado,actividad.idPlan,actividad.responsables,actividad.nombre);
         //await ActividadDAO.update(actividade);
-        await ActividadDAO.post(actividad, actividad.fechaPublicacion);
-
+        //Se genera la notificación en el patrón observer.
+        //await ActividadDAO.post(actividad, actividad.fechaPublicacion);
+        
         console.log(`Actividad ${actividad.nombre}publicada`);
+        let notificacion = {
+            idActividad: actividad.id,
+            creacion: fecha,
+            emisor: actividad.responsables,
+            contenido: 'Se ha publicado la actividad: '+actividad.nombre,
+            recordatorio: null
+        }
+        return notificacion
     }
 }
 module.exports = PublicarActividadVisitor;

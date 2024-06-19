@@ -10,8 +10,16 @@ class RecordatorioActividadVisitor extends IVisitor{
         /**
          * Se llama a una SP que se encarga de generar los recordatorios de la actividad
         */
-        await ActividadDAO.reminder(actividad,fecha,fechaRecordatorio);
+        //await ActividadDAO.reminder(actividad,fecha,fechaRecordatorio);
         console.log(`Recordatorios de la actividad ${actividad.nombre} generados`);        
+        let notificacion = {
+            idActividad: actividad.id,
+            creacion: fecha,
+            emisor: actividad.responsables,
+            contenido: 'Se ha generado un recordatorio de la actividad: '+actividad.nombre,
+            recordatorio: null
+        }
+        return notificacion;
     }
 }
 module.exports = RecordatorioActividadVisitor;
