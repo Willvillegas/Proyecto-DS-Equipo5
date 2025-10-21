@@ -1,11 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import API_ROOT from '../../apiRoutes';
+import API_ROOT from '../../../apiRoutes';
 import axios from 'axios';
-import PopUpDescargarArchivo from '../components/PopUpDescargarArchivo';
+import PopUpDescargarArchivo from '../../components/PopUpDescargarArchivo';
 import { Link } from 'react-router-dom';
-import { useAuthContext } from '../context/AuthContext'; // Importar useAuthContext
-
+import { useAuthContext } from '../../context/AuthContext'; // Importar useAuthContext
+import { useEstudiantes } from './Hooks/useEstudiantes';
 function EstudiantesPage() {
+  //usando el hook useEstudiantes
+  const { data: estudiantes, isLoading, error } = useEstudiantes();
+
+  if (isLoading) {
+    return <div>Cargando...</div>;
+  }
+
+  if (error) {
+    return <div>Error al cargar los estudiantes</div>;
+  }
+
   const { currentUser } = useAuthContext(); // Obtener currentUser desde el contexto
 
   const [estudiantesInfo, setEstudiantesInfo] = useState([]);
