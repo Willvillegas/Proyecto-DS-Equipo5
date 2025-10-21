@@ -1,3 +1,17 @@
+# ALERTA !!!
+## Esta rama es de refactorización (aplicando las buenas practicas de programación web)
+
+* El objetivo es de siempre mantener su arquitectura de despliegue original (SPA + Backend API), pero con una refactorización interna en cómo se distribuye los archivos.
+* Se mantendrá con React, pero con cambios en el routing, sus estados y nuevas features como las query.
+* Tambien la idea es ir mudando gradualmente de javascript a typescript de forma en que no quede ningun archivo jsx y js.
+* Se busca tambien refactorizar el backend con aplicar ORM / Validaciones / Sistema de archivos en el servidor / factoring / seeding (no drivers sql)
+
+
+### Motivaciones
+* Mejorar el proyecto que fue realizado en el 1 semestre del 2024 en diseño de software y hasta si es posible agregar nuevas features. (analizando la vialidad de las features por medio de IA)
+
+
+
 # Proyecto DS Grupo #5
 ## Requerimientos funcionales
 | ID  | Descripción  |
