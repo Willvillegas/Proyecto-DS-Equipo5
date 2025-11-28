@@ -16,6 +16,9 @@ const RootLayout = () => (
             <Link to="/login" className="[&.active]:font-bold">
                 Login
             </Link>{' '}
+            <Link to="/recover-password" className="[&.active]:font-bold">
+                Recover Password
+            </Link>{' '}
         </div>
         <hr />
         <Outlet />

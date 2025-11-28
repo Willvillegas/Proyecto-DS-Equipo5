@@ -9,17 +9,11 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as RecoverPasswordRouteImport } from './routes/recover-password'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AppRouteImport } from './routes/App'
 import { Route as IndexRouteImport } from './routes/index'
 
-const RecoverPasswordRoute = RecoverPasswordRouteImport.update({
-  id: '/recover-password',
-  path: '/recover-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const LoginRoute = LoginRouteImport.update({
   id: '/login',
   path: '/login',
@@ -46,14 +40,12 @@ export interface FileRoutesByFullPath {
   '/App': typeof AppRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
-  '/recover-password': typeof RecoverPasswordRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/App': typeof AppRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
-  '/recover-password': typeof RecoverPasswordRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -61,14 +53,13 @@ export interface FileRoutesById {
   '/App': typeof AppRoute
   '/about': typeof AboutRoute
   '/login': typeof LoginRoute
-  '/recover-password': typeof RecoverPasswordRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/App' | '/about' | '/login' | '/recover-password'
+  fullPaths: '/' | '/App' | '/about' | '/login'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/App' | '/about' | '/login' | '/recover-password'
-  id: '__root__' | '/' | '/App' | '/about' | '/login' | '/recover-password'
+  to: '/' | '/App' | '/about' | '/login'
+  id: '__root__' | '/' | '/App' | '/about' | '/login'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -76,18 +67,10 @@ export interface RootRouteChildren {
   AppRoute: typeof AppRoute
   AboutRoute: typeof AboutRoute
   LoginRoute: typeof LoginRoute
-  RecoverPasswordRoute: typeof RecoverPasswordRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/recover-password': {
-      id: '/recover-password'
-      path: '/recover-password'
-      fullPath: '/recover-password'
-      preLoaderRoute: typeof RecoverPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -124,7 +107,6 @@ const rootRouteChildren: RootRouteChildren = {
   AppRoute: AppRoute,
   AboutRoute: AboutRoute,
   LoginRoute: LoginRoute,
-  RecoverPasswordRoute: RecoverPasswordRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

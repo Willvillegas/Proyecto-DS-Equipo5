@@ -4,33 +4,38 @@ import { Button } from "../components/ui/Button"; // Importación del componente
 import axios from 'axios';
 import API_ROOT from '../../apiRoutes';
 import { useNavigate } from 'react-router-dom';
-
+import { redirect } from '@tanstack/react-router';
 
 function RecuperarPassword() {
   const [codigo, setCodigo] = useState('');
   const [nuevaContrasenna, setNueva] = useState('');
   const [confirmar, setConfirmar] = useState('');
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    try{
-      if(codigo != '' && nuevaContrasenna != ''  && confirmar !=''){
-        if(nuevaContrasenna==confirmar){
+    try {
+      if (codigo != '' && nuevaContrasenna != '' && confirmar != '') {
+        if (nuevaContrasenna == confirmar) {
           const data = {
             token: codigo,
             contrasenna: confirmar
           }
           axios.post(`${API_ROOT}/api/usuario/resetpassword`, data)
-          .then(response => {
-            if('message' in response.data){
-              navigate('/')
-            }
-          })
+            .then(response => {
+              if ('message' in response.data) {
+                redirect({ to: '/dashboard' })
+              }
+            })
+            .catch(error => {
+              console.log(error)
+              // alert("Error al cambiar la contraseña: " + error.response.statusText);
+              redirect({ to: '/' })
+            })
         }
       }
-    }catch (error){
-
+    } catch (error) {
+      redirect({ to: '/' })
     }
   }
 
@@ -45,7 +50,7 @@ function RecuperarPassword() {
             <div>
               <div className="mt-2">
                 {/* Componente Input para el código */}
-                <Input 
+                <Input
                   id="codigo"
                   name="codigo"
                   required
@@ -56,7 +61,7 @@ function RecuperarPassword() {
               </div>
               <div className="mt-2">
                 {/* Componente Input para la contraseña nueva */}
-                <Input 
+                <Input
                   id="password"
                   name="password"
                   type="password"
@@ -68,7 +73,7 @@ function RecuperarPassword() {
               </div>
               <div className="mt-2">
                 {/* Componente Input para confirmar contraseña */}
-                <Input 
+                <Input
                   id="passwordC"
                   name="passwordC"
                   type="password"
