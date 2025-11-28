@@ -13,7 +13,7 @@ function LoginPage() {
   const { getLoginStatus, dispatch } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -24,29 +24,29 @@ function LoginPage() {
       correo: email,
       contrasenna: password
     }
-    try{
+    try {
       console.log(data)
       axios.post(`${API_ROOT}/api/usuario/login`, data)
         .then(response => {
           console.log(response.data)
-          if(response.data!=50000){
+          if (response.data != 50000) {
             dispatch({ type: 'LOGIN', payload: response.data });
             navigate(`/menu`);
           }
         })
         .catch(error => {
           console.log(error)
-          alert("Usuario o contraseña incorrecta: "+error.response.statusText);
+          alert("Usuario o contraseña incorrecta: " + error.response.statusText);
         })
-    }catch (error){
+    } catch (error) {
       console.log(error)
     }
     // Después de autenticar al usuario, podrías redirigirlo a otra página
-    };
+  };
 
-    const forgot = () => {
-      navigate('/forgot-password')
-    }
+  const forgot = () => {
+    navigate('/forgot-password')
+  }
 
   return (
     <>
@@ -69,7 +69,7 @@ function LoginPage() {
                 </label>
                 <div className="mt-2">
                   {/* Componente Input para el correo electrónico */}
-                  <Input 
+                  <Input
                     id="email"
                     name="email"
                     type="email"
