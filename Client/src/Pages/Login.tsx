@@ -7,15 +7,13 @@ import API_ROOT from "../../apiRoutes";
 import { data } from "autoprefixer";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-
-
+import { Link } from "@tanstack/react-router";
 function LoginPage() {
-  const { getLoginStatus, dispatch } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   // const navigate = useNavigate();
 
-  const handleLogin = (e) => {
+  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Aquí puedes agregar la lógica para autenticar al usuario
     // Por ejemplo, puedes enviar una solicitud al servidor para verificar las credenciales
@@ -44,9 +42,6 @@ function LoginPage() {
     // Después de autenticar al usuario, podrías redirigirlo a otra página
   };
 
-  const forgot = () => {
-    navigate('/forgot-password')
-  }
 
   return (
     <>
@@ -75,7 +70,7 @@ function LoginPage() {
                     type="email"
                     placeholder="Ingrese su correo"
                     value={email}
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
                   />
                 </div>
               </div>
@@ -87,9 +82,9 @@ function LoginPage() {
                   </label>
                   <div className="text-sm">
                     {/* Enlace para recuperar contraseña */}
-                    <a onClick={forgot} className="font-semibold text-indigo-600 hover:text-indigo-500">
+                    <Link to="/recover-password" className="font-semibold text-indigo-600 hover:text-indigo-500">
                       ¿Olvidó su contraseña?
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="mt-2">
@@ -102,7 +97,7 @@ function LoginPage() {
                     autoComplete="current-password"
                     placeholder="Contraseña"
                     value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
                   />
                 </div>
               </div>

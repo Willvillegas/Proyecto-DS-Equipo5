@@ -1,6 +1,6 @@
 import { Routes, Route } from "react-router-dom";
-import LoginPage from "./Pages/LoginPage";
-import ForgotPasswordPage from "./Pages/ForgotPasswordPage";
+import LoginPage from "./pages/Login";
+import ForgotPasswordPage from "./pages/ForgotPassword";
 import Menu from "./Pages/Menu";
 import EquipoGuiaAssistentPage from "./Pages/EquipoGuiaAssistentPage";
 import PlanTrabajoPage from "./Pages/PlanTrabajoPage";
@@ -11,7 +11,7 @@ import MostrarProfesorSede from "./Pages/MostrarProfesorSede";
 import DetallesActividad from "./Pages/DetallesActividad";
 import Comentarios from "./Pages/Comentarios";
 import ModificarProfesor from "./Pages/ModificarProfesor";
-import RecuperarPassword from "./Pages/RecuperarPassword";
+import RecuperarPassword from "./pages/SetPassword";
 import DetallesEstudiante from "./Pages/DetallesEstudiante";
 import ModificarEstudiante from "./Pages/ModificarEstudiante";
 import RegistrarProfesor from "./Pages/RegistrarProfesor";

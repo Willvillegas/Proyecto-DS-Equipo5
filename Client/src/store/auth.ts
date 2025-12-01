@@ -8,14 +8,10 @@ interface User {
     userType: number
 };
 
-interface AuthState {
-    user: User | null;
-    loggedIn: boolean;
-}
-
 interface CurrentUser {
     user: User;
     loggedIn: boolean;
+    token: string;
 }
 
 interface AuthStore {
@@ -76,3 +72,11 @@ export const useAuthStore = create<AuthStore>()(
         }
     )
 );
+export const waitForHydration = () => {
+    return new Promise<void>((resolve) => {
+        const unsubscribe = useAuthStore.persist.onFinishHydration(() => {
+            unsubscribe();
+            resolve();
+        });
+    });
+};
